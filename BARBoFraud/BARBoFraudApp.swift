@@ -11,7 +11,7 @@ import SwiftUI
 struct BARBoFraudApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LandingScreen()
         }
     }
 }
