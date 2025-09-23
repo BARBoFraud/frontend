@@ -2,7 +2,7 @@
 //  ReverseLandingWaves.swift
 //  BARBoFraud
 //
-//  Created by Usuario on 22/09/25.
+//  Created by Barbie on 22/09/25.
 //
 
 import SwiftUI
