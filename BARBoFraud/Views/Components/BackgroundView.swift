@@ -21,7 +21,7 @@ struct BackgroundView<Content: View>: View {
                            endPoint: .bottom)
                 .ignoresSafeArea()
             
-            CustomWaveBackground()
+            LandingWaves()
             
             content
         }
