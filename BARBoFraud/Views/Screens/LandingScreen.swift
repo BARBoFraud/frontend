@@ -10,7 +10,14 @@ import SwiftUI
 struct LandingScreen: View {
     var body: some View {
         NavigationStack {
-            BackgroundView {
+            ZStack {
+                // Background gradient color
+                LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
+                
+                // Background waves
+                LandingWaves()
+                
                 VStack {
                     Spacer()
                     Text("oFraud")

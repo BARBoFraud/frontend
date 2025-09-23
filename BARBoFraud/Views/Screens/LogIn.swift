@@ -12,7 +12,13 @@ struct LogIn: View {
     @State private var password: String = ""
     
     var body: some View {
-        BackgroundView {
+        ZStack {
+            // Background gradient color
+            LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
+            
+            // Background waves
+            LandingWaves()
             
             VStack{
                 HStack {
