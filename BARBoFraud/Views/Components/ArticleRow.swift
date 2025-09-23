@@ -15,7 +15,7 @@ struct ArticleRow: View {
             ArticleCardView(article: article) {
                 navigate = true
             }
-            NavigationLink(destination: ArticleDetailView(article: article), isActive: $navigate) {
+            NavigationLink(destination: ArticleDetail(article: article), isActive: $navigate) {
                 EmptyView()
             }
             .hidden()

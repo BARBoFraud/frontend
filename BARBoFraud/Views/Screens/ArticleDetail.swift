@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ArticleDetailView: View {
+struct ArticleDetail: View {
     let article: ArticleDTO
     
     var body: some View {
@@ -87,5 +87,5 @@ struct ArticleDetailView: View {
 
 
 #Preview {
-    ArticleDetailView(article: sampleArticles[0])
+    ArticleDetail(article: sampleArticles[0])
 }
