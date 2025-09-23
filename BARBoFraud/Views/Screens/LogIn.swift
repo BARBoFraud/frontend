@@ -17,7 +17,7 @@ struct LogIn: View {
             VStack{
                 HStack {
                     Spacer()
-                    BackArrowBtn(destination: Inicial())
+                    BackArrowBtn(destination: LandingScreen())
                         .frame(width: 40, height: 40)
                         .bold(true)
                     Spacer().frame(width: 325)
