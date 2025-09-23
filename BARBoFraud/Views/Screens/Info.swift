@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Info: View {
+    @State private var showSideMenu = false
     let articles: [ArticleDTO] = sampleArticles
     
     var body: some View {
@@ -17,7 +18,7 @@ struct Info: View {
                 
                 VStack(spacing: 0) {
                     TopBarView(title: "oFraud") {
-                        print("menu tapped")
+                        showSideMenu.toggle()
                     }
                     
                     ScrollView() {
@@ -49,6 +50,25 @@ struct Info: View {
                     
                 }
             }
+        }
+        
+        if showSideMenu {
+            HStack(spacing: 0){
+                SideMenuView(showMenu: $showSideMenu)
+                    .frame(width: 250)
+                    .transition(.move(edge: .leading))
+                
+                
+                Spacer()
+            }
+            .background(
+                Color.appBg
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        showSideMenu.toggle()
+                    }
+                )
+            .zIndex(1)
         }
     }
 }

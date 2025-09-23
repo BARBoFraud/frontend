@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct SideMenuItem: View {
+    var icon: String
+    var label: String
+    var action: () -> Void
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: {
+            action()
+        }) {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(.gray)
+                    .frame(width: 24)
+                
+                Text(label)
+                    .foregroundColor(.text)
+            }
+        }
     }
 }
 
 #Preview {
-    SideMenuItem()
+    SideMenuItem(icon: "clock.arrow.circlepath", label: "Historial de reportes") {}
 }
