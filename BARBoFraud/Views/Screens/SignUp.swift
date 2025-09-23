@@ -144,9 +144,6 @@ struct SignUp: View {
                                 .background(Color("BlueAccent"))
                                 .cornerRadius(12)
                         }
-                        
-                        Text("¿Olvidaste tu contraseña?")
-                            .foregroundColor(Color("BlueAccent"))
                     }
                     .padding(.horizontal)
                     .frame(maxWidth: 300)

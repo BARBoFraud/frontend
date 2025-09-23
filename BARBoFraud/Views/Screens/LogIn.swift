@@ -68,14 +68,12 @@ struct LogIn: View {
                         }) {
                             Text("Iniciar Sesión")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundColor(.text)
                                 .padding()
-                                .background(Color("BlueAccent"))
+                                .background(Color("BtnColor"))
                                 .cornerRadius(12)
                         }
                         
-                        Text("¿Olvidaste tu contraseña?")
-                            .foregroundColor(Color("BlueAccent"))
                     }
                     .padding(.horizontal)
                 }
