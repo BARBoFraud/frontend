@@ -9,58 +9,50 @@ import SwiftUI
 
 struct LandingScreen: View {
     var body: some View {
-        ZStack {
-            // Background gradient color
-            LinearGradient(colors: [Color.landingBg2, Color.landingBg1],
-                           startPoint: .top,
-                           endPoint: .bottom)
-            .ignoresSafeArea()
-            // Background waves
-            LandingWaves()
-            
-            VStack {
-            Spacer()
-            Text("oFraud")
-                .font(.largeTitle)
-                .foregroundColor(.primary)
-                .padding(30)
-                .frame(width: 300)
-                .background(.landingBg2)
-                .cornerRadius(15)
+        NavigationStack {
+            ZStack {
+                // Background gradient color
+                LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
+                
+                // Background waves
+                LandingWaves()
+                
+                VStack {
+                    Spacer()
+                    Text("oFraud")
+                        .font(.largeTitle.bold())
+                        .foregroundColor(.text)
+                        .padding(30)
+                        .frame(width: 300)
+                        .background(Color("BgText"))
+                        .cornerRadius(15)
                     
-            Spacer()
-            
-            // Buttons HStack
-            HStack(spacing: 20) {
-                // Login Button
-                Button(action: {
-                    print("Login")
-                }) {
-                    Text("Login")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(.blueAccent)
-                        .cornerRadius(12)
-                }
+                    Spacer()
+                    HStack(spacing: 20) {
+                        NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true)) {
+                            Text("Iniciar Sesión")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color("BlueAccent"))
+                                .cornerRadius(12)
+                        }
                         
-                // Signup Button
-                Button(action: {
-                    print("Signup")
-                }) {
-                    Text("Signup")
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(.landingBg2)
-                        .cornerRadius(12)
+                        NavigationLink(destination: SignUp().navigationBarBackButtonHidden(true)) {
+                            Text("Registrarse")
+                                .font(.headline)
+                                .foregroundColor(.text)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color("BgText"))
+                                .cornerRadius(12)
+                        }
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 50)
                 }
-            }
-            .padding(.horizontal, 30)
-            .padding(.bottom, 50)
             }
         }
     }
