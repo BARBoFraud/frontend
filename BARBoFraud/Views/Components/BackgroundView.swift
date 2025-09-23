@@ -16,11 +16,10 @@ struct BackgroundView<Content: View>: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Color("Waves"), Color("AppBg")],
-                           startPoint: .top,
-                           endPoint: .bottom)
+            // Background gradient color
+            LinearGradient(colors: [Color.landingBg2, Color.landingBg1],startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
-            
+            // Background waves
             LandingWaves()
             
             content

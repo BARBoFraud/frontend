@@ -15,10 +15,10 @@ struct LandingScreen: View {
                     Spacer()
                     Text("oFraud")
                         .font(.largeTitle.bold())
-                        .foregroundColor(.white)
+                        .foregroundColor(.text)
                         .padding(30)
                         .frame(width: 300)
-                        .background(Color("Waves"))
+                        .background(Color("BgText"))
                         .cornerRadius(15)
                     
                     Spacer()
@@ -36,10 +36,10 @@ struct LandingScreen: View {
                         NavigationLink(destination: SignUp().navigationBarBackButtonHidden(true)) {
                             Text("Registrarse")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundColor(.text)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color("Waves"))
+                                .background(Color("BgText"))
                                 .cornerRadius(12)
                         }
                     }
