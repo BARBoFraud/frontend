@@ -18,7 +18,7 @@ struct Info: View {
                 
                 VStack(spacing: 0) {
                     TopBarView(title: "oFraud") {
-                        withAnimation{
+                        withAnimation(.interactiveSpring(response: 0.35, dampingFraction: 0.8, blendDuration: 0.25)){
                             showSideMenu.toggle( )
                         }
                     }
@@ -63,11 +63,12 @@ struct Info: View {
                         Color.appBg.opacity(0.35)
                             .ignoresSafeArea()
                             .onTapGesture {
-                                withAnimation {
+                                withAnimation(.easeInOut) {
                                     showSideMenu.toggle()
                                 }
                             }
                         )
+                    .transition(.move(edge: .leading))
                 }
             }
         }
