@@ -18,7 +18,9 @@ struct Info: View {
                 
                 VStack(spacing: 0) {
                     TopBarView(title: "oFraud") {
-                        showSideMenu.toggle()
+                        withAnimation{
+                            showSideMenu.toggle( )
+                        }
                     }
                     
                     ScrollView() {
@@ -47,28 +49,27 @@ struct Info: View {
                         }
                         .padding(.top, 12)
                     }
-                    
+                }
+                if showSideMenu {
+                    HStack(spacing: 0){
+                        SideMenuView(showMenu: $showSideMenu)
+                            .frame(width: 350)
+                            .transition(.move(edge: .leading))
+                           
+                        
+                        Spacer()
+                    }
+                    .background(
+                        Color.appBg.opacity(0.35)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                withAnimation {
+                                    showSideMenu.toggle()
+                                }
+                            }
+                        )
                 }
             }
-        }
-        
-        if showSideMenu {
-            HStack(spacing: 0){
-                SideMenuView(showMenu: $showSideMenu)
-                    .frame(width: 250)
-                    .transition(.move(edge: .leading))
-                
-                
-                Spacer()
-            }
-            .background(
-                Color.appBg
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        showSideMenu.toggle()
-                    }
-                )
-            .zIndex(1)
         }
     }
 }

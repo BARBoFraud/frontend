@@ -18,7 +18,7 @@ struct SideMenuItem: View {
         }) {
             HStack {
                 Image(systemName: icon)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.black.opacity(0.7))
                     .frame(width: 24)
                 
                 Text(label)
@@ -30,4 +30,5 @@ struct SideMenuItem: View {
 
 #Preview {
     SideMenuItem(icon: "clock.arrow.circlepath", label: "Historial de reportes") {}
+        .background(Color.secondary)
 }
