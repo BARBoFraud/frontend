@@ -20,6 +20,7 @@ struct LandingScreen: View {
                 
                 VStack {
                     Spacer()
+                    // "oFraud" container
                     Text("oFraud")
                         .font(.largeTitle.bold())
                         .foregroundColor(.text)
@@ -29,26 +30,22 @@ struct LandingScreen: View {
                         .cornerRadius(15)
                     
                     Spacer()
+                    // Buttons Container
                     HStack(spacing: 20) {
-                        NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true)) {
-                            Text("Iniciar Sesión")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color("BlueAccent"))
-                                .cornerRadius(12)
-                        }
-                        
-                        NavigationLink(destination: SignUp().navigationBarBackButtonHidden(true)) {
-                            Text("Registrarse")
-                                .font(.headline)
-                                .foregroundColor(.text)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color("BgText"))
-                                .cornerRadius(12)
-                        }
+                        // Login button
+                        NavigationButton(
+                            destinationScreen: LogIn(),
+                            text: "Iniciar Sesión",
+                            fgColor: .white,
+                            bgColor: .blueAccent
+                        )
+                        // Signup button
+                        NavigationButton(
+                            destinationScreen: SignUp(),
+                            text: "Registrarse",
+                            fgColor: .text,
+                            bgColor: .bgText
+                        )
                     }
                     .padding(.horizontal, 30)
                     .padding(.bottom, 50)
