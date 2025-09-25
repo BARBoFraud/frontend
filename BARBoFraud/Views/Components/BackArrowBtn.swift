@@ -7,14 +7,18 @@
 
 import SwiftUI
 
-struct BackArrowBtn<Destination: View>: View {
-    let destination: Destination
+struct BackArrowBtn: View {
+    // Call router for programmatic navigation
+    @EnvironmentObject var router: Router
     
     var body: some View {
-        NavigationLink(destination: destination.navigationBarBackButtonHidden(true)) {
+        Button(action: {
+            router.pop()
+        }) {
             Image(systemName: "arrow.left")
+                .resizable()
                 .foregroundColor(.primary)
-                .frame(width: 60, height: 60)
+                .frame(width: 35, height: 35)
         }
     }
 }
