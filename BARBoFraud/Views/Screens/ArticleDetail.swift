@@ -45,7 +45,7 @@ struct ArticleDetail: View {
                 
                 VStack(alignment: .leading, spacing: 12) {
                     HStack(spacing: 12) {
-                        Text("Por autor")
+                        Text("Por \(article.author)")
                             .font(.caption)
                             .foregroundColor(Color("Text").opacity(0.8))
                         
@@ -53,7 +53,7 @@ struct ArticleDetail: View {
                             .font(.caption)
                             .foregroundColor(Color("Text").opacity(0.6))
                         
-                        Text("22 Sep 2025")
+                        Text(article.date)
                             .font(.caption)
                             .foregroundColor(Color("Text").opacity(0.6))
                         
