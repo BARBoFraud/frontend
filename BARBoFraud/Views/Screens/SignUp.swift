@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct SignUp: View {
-    @State private var name = ""
-    @State private var lastNameP = ""
-    @State private var lastNameM = ""
-    @State private var email = ""
-    @State private var password = ""
-    @State private var passwordConfirmation = ""
+    @Environment(\.authController) var authController
+    
     @State private var acceptedPrivacy = false
     @State private var showResultAlert = false
     private let privacyText = """
@@ -21,6 +17,19 @@ struct SignUp: View {
         
         KKJBEWFEDIFHCDJFHYRJHJVGCDGDVGVYTYFEHFIH9HIU
         """
+    
+    @State var registrationForm = UserRegistrationForm()
+    @State var errorMessages: [String] = []
+    
+    func register() async {
+        do {
+            try await authController.registerUser(name: registrationForm.name, lastName1: registrationForm.lastNameP, lastName2: registrationForm.lastNameM, email: registrationForm.email, password: registrationForm.password)
+            print("Usuario registrado con éxito")
+        }
+        catch {
+            print("Error al intentar registrarse")
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -60,10 +69,10 @@ struct SignUp: View {
                                 .font(.headline)
                                 .bold()
                             
-                            TextField("Nombre:", text: $name)
+                            TextField("Nombre:", text: $registrationForm.name)
                                 .background(.white)
                                 .cornerRadius(10)
-                                .padding()
+                                .padding(.vertical)
                                 .foregroundColor(.black)
                             
                             
@@ -73,10 +82,10 @@ struct SignUp: View {
                                 .font(.headline)
                                 .bold()
                             
-                            TextField("Apellido Paterno", text: $lastNameP)
+                            TextField("Apellido Paterno", text: $registrationForm.lastNameP)
                                 .background(.white)
                                 .cornerRadius(10)
-                                .padding()
+                                .padding(.vertical)
                                 .foregroundColor(.black)
                             
                             Text("Apellido Materno:")
@@ -85,10 +94,10 @@ struct SignUp: View {
                                 .font(.headline)
                                 .bold()
                             
-                            TextField("Apellido Materno", text: $lastNameM)
+                            TextField("Apellido Materno", text: $registrationForm.lastNameM)
                                 .background(.white)
                                 .cornerRadius(10)
-                                .padding()
+                                .padding(.vertical)
                                 .foregroundColor(.black)                    }
                         
                         Group {
@@ -98,13 +107,13 @@ struct SignUp: View {
                                 .font(.headline)
                                 .bold()
                             
-                            TextField("Correo", text: $email)
+                            TextField("Correo", text: $registrationForm.email)
                                 .background(.white)
                                 .cornerRadius(10)
-                                .padding()
                                 .autocorrectionDisabled(true)
                                 .textInputAutocapitalization(.never)
-                                .keyboardType(.emailAddress)
+                                // .keyboardType(.emailAddress)
+                                .padding(.vertical)
                                 .foregroundColor(.black)
                             
                             Text("Contraseña:")
@@ -113,10 +122,10 @@ struct SignUp: View {
                                 .font(.headline)
                                 .bold()
                             
-                            SecureField("Contraseña", text: $password)
+                            SecureField("Contraseña", text: $registrationForm.password)
                                 .background(.white)
                                 .cornerRadius(10)
-                                .padding()
+                                .padding(.vertical)
                                 .autocorrectionDisabled(true)
                                 .foregroundColor(.black)
                             
@@ -126,10 +135,10 @@ struct SignUp: View {
                                 .font(.headline)
                                 .bold()
                             
-                            SecureField("Verificar Contraseña", text: $passwordConfirmation)
+                            SecureField("Verificar Contraseña", text: $registrationForm.passwordConfirmation)
                                 .background(.white)
                                 .cornerRadius(10)
-                                .padding()
+                                .padding(.vertical)
                                 .autocorrectionDisabled(true)
                                 .foregroundColor(.black)
                         }
@@ -139,11 +148,17 @@ struct SignUp: View {
                         PrivacyView(accepted: $acceptedPrivacy, privacyText: privacyText)
                         
                         Button {
-                            guard acceptedPrivacy else {
-                                showResultAlert = true
-                                return
+                            errorMessages = registrationForm.validate()
+                            if errorMessages.isEmpty {
+                                if !acceptedPrivacy {
+                                    showResultAlert = true
+                                } else {
+                                    Task {
+                                        await register()
+                                        print("signed up")
+                                    }
+                                }
                             }
-                            print("SignUp")
                         } label: {
                             Text("Crear cuenta")
                                 .font(.headline)
@@ -165,14 +180,22 @@ struct SignUp: View {
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, 30)
             }
+            if !errorMessages.isEmpty {
+                VStack {
+                    ValidationSummary(errors: $errorMessages)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 60)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .animation(.spring(response: 0.45, dampingFraction: 0.8), value: errorMessages)
+            }
         }
-        
         .alert(isPresented: $showResultAlert) {
             Alert(title: Text("Aviso"), message: Text("Debes aceptar el aviso de privacidad"), dismissButton: .default(Text("OK")))
         }
     }
 }
-
 
 
 #Preview {
