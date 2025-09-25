@@ -42,143 +42,145 @@ struct SignUp: View {
             LandingWaves()
             
             
-            ScrollView(.vertical) {
-                VStack {
-                    HStack {
-                        Spacer()
-                        BackArrowBtn(destination: LandingScreen())
-                            .frame(width: 40, height: 40)
-                            .bold(true)
-                        Spacer().frame(width: 325)
-                    }
-                    
-                    Spacer().frame(height: 30)
-                    
-                    Text("Crea tu cuenta")
-                        .foregroundColor(Color("Text"))
-                        .font(.title)
-                        .bold()
-                    
-                    Spacer().frame(height: 40)
-                    
+            NavigationStack {
+                ScrollView(.vertical) {
                     VStack {
-                        Group {
-                            Text("Nombre:")
-                                .foregroundColor(Color("Text"))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.headline)
-                                .bold()
-                            
-                            TextField("Nombre:", text: $registrationForm.name)
-                                .background(.white)
-                                .cornerRadius(10)
-                                .padding(.vertical)
-                                .foregroundColor(.black)
-                            
-                            
-                            Text("Apellido Paterno:")
-                                .foregroundColor(Color("Text"))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.headline)
-                                .bold()
-                            
-                            TextField("Apellido Paterno", text: $registrationForm.lastNameP)
-                                .background(.white)
-                                .cornerRadius(10)
-                                .padding(.vertical)
-                                .foregroundColor(.black)
-                            
-                            Text("Apellido Materno:")
-                                .foregroundColor(Color("Text"))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.headline)
-                                .bold()
-                            
-                            TextField("Apellido Materno", text: $registrationForm.lastNameM)
-                                .background(.white)
-                                .cornerRadius(10)
-                                .padding(.vertical)
-                                .foregroundColor(.black)                    }
-                        
-                        Group {
-                            Text("Correo electrónico:")
-                                .foregroundColor(Color("Text"))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.headline)
-                                .bold()
-                            
-                            TextField("Correo", text: $registrationForm.email)
-                                .background(.white)
-                                .cornerRadius(10)
-                                .autocorrectionDisabled(true)
-                                .textInputAutocapitalization(.never)
-                                // .keyboardType(.emailAddress)
-                                .padding(.vertical)
-                                .foregroundColor(.black)
-                            
-                            Text("Contraseña:")
-                                .foregroundColor(Color("Text"))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.headline)
-                                .bold()
-                            
-                            SecureField("Contraseña", text: $registrationForm.password)
-                                .background(.white)
-                                .cornerRadius(10)
-                                .padding(.vertical)
-                                .autocorrectionDisabled(true)
-                                .foregroundColor(.black)
-                            
-                            Text("Verificar Contraseña:")
-                                .foregroundColor(Color("Text"))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.headline)
-                                .bold()
-                            
-                            SecureField("Verificar Contraseña", text: $registrationForm.passwordConfirmation)
-                                .background(.white)
-                                .cornerRadius(10)
-                                .padding(.vertical)
-                                .autocorrectionDisabled(true)
-                                .foregroundColor(.black)
+                        HStack {
+                            Spacer()
+                            BackArrowBtn(destination: LandingScreen())
+                                .frame(width: 40, height: 40)
+                                .bold(true)
+                            Spacer().frame(width: 325)
                         }
                         
-                        Spacer().frame(height: 10)
+                        Spacer().frame(height: 30)
                         
-                        PrivacyView(accepted: $acceptedPrivacy, privacyText: privacyText)
+                        Text("Crea tu cuenta")
+                            .foregroundColor(Color("Text"))
+                            .font(.title)
+                            .bold()
                         
-                        Button {
-                            errorMessages = registrationForm.validate()
-                            if errorMessages.isEmpty {
-                                if !acceptedPrivacy {
-                                    showResultAlert = true
-                                } else {
-                                    Task {
-                                        await register()
-                                        print("signed up")
+                        Spacer().frame(height: 40)
+                        
+                        VStack {
+                            Group {
+                                Text("Nombre:")
+                                    .foregroundColor(Color("Text"))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.headline)
+                                    .bold()
+                                
+                                TextField("Nombre:", text: $registrationForm.name)
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .padding(.vertical)
+                                    .foregroundColor(.black)
+                                
+                                
+                                Text("Apellido Paterno:")
+                                    .foregroundColor(Color("Text"))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.headline)
+                                    .bold()
+                                
+                                TextField("Apellido Paterno", text: $registrationForm.lastNameP)
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .padding(.vertical)
+                                    .foregroundColor(.black)
+                                
+                                Text("Apellido Materno:")
+                                    .foregroundColor(Color("Text"))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.headline)
+                                    .bold()
+                                
+                                TextField("Apellido Materno", text: $registrationForm.lastNameM)
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .padding(.vertical)
+                                .foregroundColor(.black)                    }
+                            
+                            Group {
+                                Text("Correo electrónico:")
+                                    .foregroundColor(Color("Text"))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.headline)
+                                    .bold()
+                                
+                                TextField("Correo", text: $registrationForm.email)
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .autocorrectionDisabled(true)
+                                    .textInputAutocapitalization(.never)
+                                // .keyboardType(.emailAddress)
+                                    .padding(.vertical)
+                                    .foregroundColor(.black)
+                                
+                                Text("Contraseña:")
+                                    .foregroundColor(Color("Text"))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.headline)
+                                    .bold()
+                                
+                                SecureField("Contraseña", text: $registrationForm.password)
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .padding(.vertical)
+                                    .autocorrectionDisabled(true)
+                                    .foregroundColor(.black)
+                                
+                                Text("Verificar Contraseña:")
+                                    .foregroundColor(Color("Text"))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.headline)
+                                    .bold()
+                                
+                                SecureField("Verificar Contraseña", text: $registrationForm.passwordConfirmation)
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .padding(.vertical)
+                                    .autocorrectionDisabled(true)
+                                    .foregroundColor(.black)
+                            }
+                            
+                            Spacer().frame(height: 10)
+                            
+                            PrivacyView(accepted: $acceptedPrivacy, privacyText: privacyText)
+                            
+                            Button {
+                                errorMessages = registrationForm.validate()
+                                if errorMessages.isEmpty {
+                                    if !acceptedPrivacy {
+                                        showResultAlert = true
+                                    } else {
+                                        Task {
+                                            await register()
+                                            print("signed up")
+                                        }
                                     }
                                 }
+                            } label: {
+                                Text("Crear cuenta")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color("BlueAccent"))
+                                    .cornerRadius(12)
                             }
-                        } label: {
-                            Text("Crear cuenta")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color("BlueAccent"))
-                                .cornerRadius(12)
                         }
+                        .padding(.horizontal)
+                        .frame(maxWidth: 300)
+                        .padding(.vertical, 30)
+                        .background(Color("Tarjeta"))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        
+                        Spacer().frame(height: 40)
                     }
-                    .padding(.horizontal)
-                    .frame(maxWidth: 300)
-                    .padding(.vertical, 30)
-                    .background(Color("Tarjeta"))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    
-                    Spacer().frame(height: 40)
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 30)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 30)
             }
             if !errorMessages.isEmpty {
                 VStack {
