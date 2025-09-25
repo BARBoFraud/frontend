@@ -8,8 +8,20 @@
 import SwiftUI
 
 struct LogIn: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @Environment(\.authController) var authController
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    
+    @State var loginForm = LoginForm()
+    @State var errorMessages: [String] = []
+    
+    private func login() async {
+        do {
+            isLoggedIn = try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
+            print("Login exitoso")
+        } catch {
+            print("Error: \(error)")
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -44,10 +56,10 @@ struct LogIn: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.headline.bold())
                         
-                        TextField("Correo", text: $email)
+                        TextField("Correo", text: $loginForm.email)
                             .background(.white)
                             .cornerRadius(10)
-                            .padding()
+                            .padding(.vertical)
                             .autocorrectionDisabled(true)
                             .textInputAutocapitalization(.never)
                             .keyboardType(.emailAddress)
@@ -59,10 +71,10 @@ struct LogIn: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.headline.bold())
                         
-                        SecureField("Contraseña", text: $password)
+                        SecureField("Contraseña", text: $loginForm.pass)
                             .background(.white)
                             .cornerRadius(10)
-                            .padding()
+                            .padding(.vertical)
                             .autocorrectionDisabled(true)
                             .textInputAutocapitalization(.never)
                             .foregroundColor(.black)
@@ -70,7 +82,12 @@ struct LogIn: View {
                         Spacer().frame(height: 8)
                         
                         Button(action: {
-                            print("Login")
+                            errorMessages = loginForm.validate()
+                            if errorMessages.isEmpty {
+                                Task {
+                                    await login()
+                                }
+                            }
                         }) {
                             Text("Iniciar Sesión")
                                 .font(.headline)
@@ -93,6 +110,16 @@ struct LogIn: View {
                 Spacer()
                 Spacer()
                 Spacer()
+            }
+            if !errorMessages.isEmpty {
+                VStack {
+                    ValidationSummary(errors: $errorMessages)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 60)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .animation(.spring(response: 0.45, dampingFraction: 0.8), value: errorMessages)
             }
         }
     }
