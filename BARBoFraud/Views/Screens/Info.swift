@@ -53,14 +53,14 @@ struct Info: View {
                 if showSideMenu {
                     HStack(spacing: 0){
                         SideMenuView(showMenu: $showSideMenu)
-                            .frame(width: 350)
+                            .frame(width: 300)
                             .transition(.move(edge: .leading))
                            
                         
                         Spacer()
                     }
                     .background(
-                        Color.appBg.opacity(0.35)
+                        Color.appBg.opacity(0.80)
                             .ignoresSafeArea()
                             .onTapGesture {
                                 withAnimation(.easeInOut) {

@@ -53,7 +53,7 @@ struct SideMenuView: View {
                 
                 Spacer()
             }
-            .frame(width: 350, height: UIScreen.main.bounds.height, alignment: .leading)
+            .frame(width: 300, height: UIScreen.main.bounds.height, alignment: .leading)
             .background(.appBg)
             .edgesIgnoringSafeArea(.vertical)
     }
