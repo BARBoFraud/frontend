@@ -7,14 +7,17 @@
 
 import SwiftUI
 
-struct NavigationButton<Destination: View>: View {
-    let destinationScreen: Destination
+struct NavigationButton: View {
+    // Call router for programmatic navigation
+    @EnvironmentObject var router: Router
+    
+    let action: () -> Void
     let text: String
     let fgColor: Color
     let bgColor: Color
     
     var body: some View {
-        NavigationLink(destination: destinationScreen.navigationBarBackButtonHidden(true)) {
+        Button(action: action) {
             Text(text)
                 .font(.headline)
                 .foregroundColor(fgColor)
@@ -27,5 +30,5 @@ struct NavigationButton<Destination: View>: View {
 }
 
 #Preview {
-    NavigationButton(destinationScreen: LogIn(), text: "Iniciar sesión", fgColor: .white, bgColor: .blueAccent)
+    NavigationButton(action: {print("Barbo")}, text: "Iniciar sesión", fgColor: .white, bgColor: .blueAccent)
 }
