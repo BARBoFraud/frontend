@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SignUp: View {
+    // Call router for programmatic navigation
+    @EnvironmentObject var router: Router
+    
     @State private var name = ""
     @State private var lastNameP = ""
     @State private var lastNameM = ""
@@ -37,9 +40,7 @@ struct SignUp: View {
                 VStack {
                     HStack {
                         Spacer()
-                        BackArrowBtn(destination: LandingScreen())
-                            .frame(width: 40, height: 40)
-                            .bold(true)
+                        BackArrowBtn()
                         Spacer().frame(width: 325)
                     }
                     
@@ -138,21 +139,19 @@ struct SignUp: View {
                         
                         PrivacyView(accepted: $acceptedPrivacy, privacyText: privacyText)
                         
-                        Button {
-                            guard acceptedPrivacy else {
-                                showResultAlert = true
-                                return
-                            }
-                            print("SignUp")
-                        } label: {
-                            Text("Crear cuenta")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color("BlueAccent"))
-                                .cornerRadius(12)
-                        }
+                        // "Crear cuenta" button
+                        NavigationButton(
+                            action: {
+                                guard acceptedPrivacy else {
+                                    showResultAlert = true
+                                    return
+                                }
+                                router.push(.login)
+                            },
+                            text: "Crear cuenta",
+                            fgColor: .white,
+                            bgColor: .blueAccent
+                        )
                     }
                     .padding(.horizontal)
                     .frame(maxWidth: 300)
@@ -170,13 +169,10 @@ struct SignUp: View {
         .alert(isPresented: $showResultAlert) {
             Alert(title: Text("Aviso"), message: Text("Debes aceptar el aviso de privacidad"), dismissButton: .default(Text("OK")))
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
-
-
 #Preview {
-    NavigationStack {
-        SignUp()
-    }
+    RootView()
 }
