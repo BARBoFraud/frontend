@@ -16,7 +16,7 @@ struct LoginResponse: Decodable {
     let accessToken, refreshToken: String
 
     enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case refreshToken = "refresh_token"
+        case accessToken = "accessToken"
+        case refreshToken = "refreshToken"
     }
 }
