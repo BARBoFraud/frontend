@@ -42,7 +42,7 @@ struct SignUp: View {
             LandingWaves()
             
             
-            ScrollView(.vertical, showsIndicators: false) {
+            ScrollView(.vertical) {
                 VStack {
                     HStack {
                         Spacer()
