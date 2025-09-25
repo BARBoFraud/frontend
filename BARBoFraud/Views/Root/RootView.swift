@@ -1,32 +1,15 @@
 //
-//  SearchScreen.swift
+//  RootView.swift
 //  BARBoFraud
 //
-//  Created by Jorge Cadena on 17/09/25.
+//  Created by Jorge Cadena on 25/09/25.
 //
 
 import SwiftUI
 
 struct RootView: View {
-    @State private var selectedScreen: RootScreen = .home
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color(.landingBg1)
-                    .ignoresSafeArea()
-                switch selectedScreen {
-                case .info:
-                    InfoScreen()
-                case .home:
-                    HomeScreen()
-                case .search:
-                    SearchScreen()
-                }
-                    
-                
-                NavigationBar(selectedScreen: $selectedScreen)
-            }
-        }
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
