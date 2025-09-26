@@ -8,39 +8,34 @@
 import SwiftUI
 
 struct NavigationBar: View {
-    @Binding var selectedScreen: RootScreen
-    
     var body: some View {
         ZStack {
             Color(.navBar)
             HStack {
                 Spacer()
-                Button {
-                    selectedScreen = .info
-                } label: {
-                    Image(systemName: "info.circle")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                        .foregroundStyle(.blueAccent)
-                }
+                NavigationIcon(
+                    route: .info,
+                    iconName: "info.circle",
+                    width: 32,
+                    height: 32,
+                    fgColor: .blueAccent
+                )
                 Spacer()
-                Button {
-                    selectedScreen = .home
-                } label: {
-                    Image(systemName: "house")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                        .foregroundStyle(.blueAccent)
-                }
+                NavigationIcon(
+                    route: .home,
+                    iconName: "house",
+                    width: 32,
+                    height: 32,
+                    fgColor: .blueAccent
+                )
                 Spacer()
-                Button {
-                    selectedScreen = .search
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                        .foregroundStyle(.blueAccent)
-                }
+                NavigationIcon(
+                    route: .search,
+                    iconName: "magnifyingglass",
+                    width: 32,
+                    height: 32,
+                    fgColor: .blueAccent
+                )
                 Spacer()
             }
         }
@@ -48,4 +43,8 @@ struct NavigationBar: View {
         .offset(y: 392.5)
         .shadow(color: .black, radius: 1)
     }
+}
+
+#Preview {
+    RootView()
 }
