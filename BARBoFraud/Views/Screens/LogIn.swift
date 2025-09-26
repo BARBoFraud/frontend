@@ -22,6 +22,7 @@ struct LogIn: View {
     private func login() async {
         do {
             let success = try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
+            
             if success {
                 showAlert = true
                 alertTitle = "Inicio de sesión exitoso"
@@ -31,7 +32,6 @@ struct LogIn: View {
                 showAlert = true
                 alertTitle = "Error"
                 errorMessages.append("Usuario o contraseña incorrectos")
-                
             }
         } catch {
             print("Error: \(error)")

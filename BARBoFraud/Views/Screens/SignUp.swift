@@ -21,12 +21,21 @@ struct SignUp: View {
     @State var registrationForm = UserRegistrationForm()
     @State var errorMessages: [String] = []
     
+    @State var navLogin: Bool = false
+    @State var showAlert: Bool = false
+    @State var alertTitle: String = ""
+    
     func register() async {
         do {
             try await authController.registerUser(name: registrationForm.name, lastName1: registrationForm.lastNameP, lastName2: registrationForm.lastNameM, email: registrationForm.email, password: registrationForm.password)
-            print("Usuario registrado con éxito")
+            showAlert = true
+            alertTitle = "Se ha creado su cuenta exitosamente"
+            navLogin = true
         }
         catch {
+            showAlert = true
+            alertTitle = "Error"
+            errorMessages.append("No se ha podido realizar su cuenta")
             print("Error al intentar registrarse")
         }
     }
@@ -169,6 +178,11 @@ struct SignUp: View {
                                     .background(Color("BlueAccent"))
                                     .cornerRadius(12)
                             }
+                            
+                            NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true), isActive: $navLogin) {
+                                EmptyView()
+                            }
+                        
                         }
                         .padding(.horizontal)
                         .frame(maxWidth: 300)
