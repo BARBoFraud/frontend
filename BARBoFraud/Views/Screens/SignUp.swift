@@ -146,7 +146,7 @@ struct SignUp: View {
                                     showResultAlert = true
                                     return
                                 }
-                                router.push(.login)
+                                router.reset(to: .login)
                             },
                             text: "Crear cuenta",
                             fgColor: .white,
