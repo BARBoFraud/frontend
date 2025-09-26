@@ -15,30 +15,41 @@ struct NewComment: View {
 
         var body: some View {
             VStack {
-                // Post preview at top
+                
+                HStack(){
+                    Button("Cancelar"){
+                        print("Comentario cancelado")
+                    }
+                    Spacer()
+                    
+                    Button("Comentar"){
+                        print("Postear comentario")
+                    }
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .center)
+                
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(post.username)
-                        .font(.subheadline)
-                    Text(post.title)
-                        .font(.headline)
-                    Text(post.postText)
-                        .font(.body)
+                    PostCommentView()
                 }
                 .padding()
 
                 Spacer()
-
-                //Nuevo comentario
+                Divider()
+                
+                
                 VStack(spacing: 0) {
                     Divider()
                     TextEditor(text: $commentText)
                         .focused($isInputFocused)
-                        .frame(minHeight: 80)
-                        .padding(8)
+                        .frame(maxHeight: 40)
+                        .cornerRadius(10)
+                        .padding(10)
                 }
                 .background(Color("LandingBg1"))
+
+                
             }
-            .navigationTitle("Comment")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

@@ -37,7 +37,7 @@ struct PostDetailView: View {
                     Text(title)
                         .font(.system(size: 22, weight: .bold))
                         .frame(maxWidth: .infinity, alignment: .center)
-
+                    
                     if let postImage = postImage {
                         postImage
                             .resizable()
@@ -60,9 +60,10 @@ struct PostDetailView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     .font(.subheadline)
-
-                    Divider().padding(.vertical, 8)
-
+                }
+                .padding()
+                
+                VStack{
                     // Comments Section
                     ForEach(0..<10, id: \.self) { index in
                         VStack(alignment: .leading, spacing: 4) {
