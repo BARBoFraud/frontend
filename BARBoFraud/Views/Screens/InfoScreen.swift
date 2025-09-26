@@ -9,10 +9,14 @@ import SwiftUI
 
 struct InfoScreen: View {
     var body: some View {
-        Text("Info")
+        ZStack {
+            NavigationBar()
+            Text("Info")
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    InfoScreen()
+    RootView()
 }

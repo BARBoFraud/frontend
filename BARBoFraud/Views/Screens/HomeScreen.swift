@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct HomeScreen: View {
+    @EnvironmentObject var router: Router
+    
     var body: some View {
-        VStack {
+        ZStack {
+            NavigationBar()
             Text("Home")
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    HomeScreen()
+    RootView()
 }

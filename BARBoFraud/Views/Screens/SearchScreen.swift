@@ -9,10 +9,14 @@ import SwiftUI
 
 struct SearchScreen: View {
     var body: some View {
-        Text("Search")
+        ZStack {
+            NavigationBar()
+            Text("Search")
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    SearchScreen()
+    RootView()
 }
