@@ -13,6 +13,10 @@ struct PostView: View {
     var postImage: Image? = Image("PostImage")
     var postText : String = "Este es el texto de una publicación"
     var date: String = "2025-09-12"
+    var likeCount : Int = 0
+    var commentCount : Int = 0
+    
+    @State private var showingDetail = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -38,26 +42,31 @@ struct PostView: View {
                 .foregroundColor(.gray)
             
             //Comentarios y likes
-           /* HStack(spacing: 100) {
-                NavigationLink {
-                    NewComment() }
-                label: {
-                    Label("Comment", systemImage: "bubble.right")
-                }
-                
-                Button(action: {}) {
-                    Label("12", systemImage: "heart")
-                }
+            HStack(spacing: 100) {
+                CommentButton(initialCount: 0)
+                LikeButton(initialCount: 15, initiallyLiked: true)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .foregroundColor(Color("BlueAccent"))
-            .font(.subheadline)*/
+            .font(.subheadline)
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(Color("LandingBg1"))
         .cornerRadius(10)
         .shadow(radius: 2)
         .padding(.horizontal)
+        .contentShape(Rectangle()) // makes entire card tappable
+        .onTapGesture {
+            showingDetail = true
+        }
+        .sheet(isPresented: $showingDetail) {
+            PostDetailView(
+                username: username,
+                title: title,
+                postImage: postImage,
+                postText: postText,
+                date: date
+            )
+        }
     }
 }
 
