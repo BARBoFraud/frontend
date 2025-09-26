@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct LogIn: View {
+    // Call router for programmatic navigation
+    @EnvironmentObject var router: Router
+    
     @State private var email: String = ""
     @State private var password: String = ""
     
@@ -23,9 +26,7 @@ struct LogIn: View {
             VStack{
                 HStack {
                     Spacer()
-                    BackArrowBtn(destination: LandingScreen())
-                        .frame(width: 40, height: 40)
-                        .bold(true)
+                    BackArrowBtn()
                     Spacer().frame(width: 325)
                 }
                 .padding(.top)
@@ -69,16 +70,18 @@ struct LogIn: View {
                         
                         Spacer().frame(height: 8)
                         
-                        Button(action: {
-                            print("Login")
-                        }) {
-                            Text("Iniciar Sesión")
-                                .font(.headline)
-                                .foregroundColor(.text)
-                                .padding()
-                                .background(Color("BtnColor"))
-                                .cornerRadius(12)
-                        }
+                        // Login button
+                        NavigationButton(
+                            action: {
+                                if (ValidateLogin()) {
+                                    router.reset(to: .home)
+                                }
+                            },
+                            text: "Iniciar Sesión",
+                            fgColor: .text,
+                            bgColor: .btn
+                        )
+                        .padding(.horizontal)
                         
                     }
                     .padding(.horizontal)
@@ -95,6 +98,99 @@ struct LogIn: View {
                 Spacer()
             }
         }
+        .navigationBarBackButtonHidden(true)
+//        ZStack {
+//            // Background gradient color
+//            LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
+//                .ignoresSafeArea()
+//            
+//            // Background waves
+//            LandingWaves()
+//            
+//            VStack{
+//                HStack {
+//                    Spacer()
+//                    NavigationIcon(
+//                        destinationScreen: LandingScreen(),
+//                        iconName: "arrow.left",
+//                        width: 28,
+//                        height: 28,
+//                        fgColor: .backArrow
+//                    )
+//                    Spacer().frame(width: 325)
+//                }
+//                .padding(.top)
+//
+//                Spacer()
+//                
+//                Text("Iniciar Sesión")
+//                    .foregroundColor(Color("Text"))
+//                    .font(.largeTitle.bold())
+//                Spacer()
+//                
+//                VStack{
+//                    Section{
+//                        Text("Correo electrónico")
+//                            .foregroundColor(Color("Text"))
+//                            .frame(maxWidth: .infinity, alignment: .leading)
+//                            .font(.system(size: 24))
+//                            .padding(.leading)
+//                        
+//                        TextField("Correo", text: $email)
+//                            .frame(height: 49)
+//                            .background(.white)
+//                            .cornerRadius(19)
+//                            .padding(.horizontal)
+//                            .autocorrectionDisabled(true)
+//                            .textInputAutocapitalization(.never)
+//                            .keyboardType(.emailAddress)
+//                            .foregroundColor(.black)
+//                        
+//                        Spacer().frame(height: 20)
+//                        
+//                        Text("Contraseña")
+//                            .foregroundColor(Color("Text"))
+//                            .frame(maxWidth: .infinity, alignment: .leading)
+//                            .font(.system(size: 24))
+//                            .padding(.leading)
+//                        
+//                        SecureField("Contraseña", text: $password)
+//                            .frame(height: 49)
+//                            .background(.white)
+//                            .cornerRadius(19)
+//                            .padding(.horizontal)
+//                            .autocorrectionDisabled(true)
+//                            .textInputAutocapitalization(.never)
+//                            .foregroundColor(.black)
+//                        
+//                        Spacer().frame(height: 30)
+//                        
+//                        Button(action: {
+//                            print("Login")
+//                        }) {
+//                            Text("Iniciar Sesión")
+//                                .font(.headline)
+//                                .foregroundColor(.text)
+//                                .padding(.vertical)
+//                                .padding(.horizontal, 65)
+//                                .background(Color("BtnColor"))
+//                                .cornerRadius(12)
+//                        }
+//                    }
+//                    .padding(.horizontal)
+//                }
+//                .frame(maxWidth: 300, maxHeight: 350)
+//                .padding(.vertical, 30)
+//                .background(Color("Tarjeta"))
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
+//                
+//                Spacer()
+//                Spacer()
+//                Spacer()
+//                Spacer()
+//                Spacer()
+//            }
+//        }
     }
 }
 
@@ -103,7 +199,7 @@ struct LogIn: View {
 
 
 #Preview {
-    NavigationStack {
-        LogIn()
-    }
+    RootView()
+//    LogIn()
+//        .environmentObject(Router())
 }
