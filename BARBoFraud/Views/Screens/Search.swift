@@ -1,5 +1,5 @@
 //
-//  InfoScreen.swift
+//  SearchScreen.swift
 //  BARBoFraud
 //
 //  Created by Jorge Cadena on 22/09/25.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct InfoScreen: View {
+struct Search: View {
     var body: some View {
         ZStack {
             NavigationBar()
-            Text("Info")
+            Text("Search")
         }
         .navigationBarBackButtonHidden(true)
     }

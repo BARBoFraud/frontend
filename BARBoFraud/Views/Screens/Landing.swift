@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LandingScreen: View {
+struct Landing: View {
     // Call router for programmatic navigation
     @EnvironmentObject var router: Router
     

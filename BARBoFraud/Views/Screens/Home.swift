@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeScreen: View {
+struct Home: View {
     @EnvironmentObject var router: Router
     
     var body: some View {

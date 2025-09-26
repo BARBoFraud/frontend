@@ -14,15 +14,15 @@ struct RootView: View {
     var body: some View {
         // Check router path to change screens
         NavigationStack(path: $router.path) {
-            LandingScreen()
+            Landing()
                 .navigationDestination(for: Route.self) { route in
                     switch route {
-                    case .landing: LandingScreen()
+                    case .landing: Landing()
                     case .login: LogIn()
                     case .signup: SignUp()
-                    case .info: InfoScreen()
-                    case .home: HomeScreen()
-                    case .search: SearchScreen()
+                    case .info: Info()
+                    case .home: Home()
+                    case .search: Search()
                     }
                 }
         }
