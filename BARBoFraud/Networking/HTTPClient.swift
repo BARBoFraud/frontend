@@ -11,7 +11,7 @@ struct HTTPClient {
     
     func UserRegistration(name:String, lastName1:String, lastName2:String,email:String, password:String) async throws {
         let requestForm = RegistrationFormRequest(name:name, lastName1: lastName1, lastName2: lastName2,email:email, password:password)
-        let url = URL(string: "http://10.48.234.212:3000/v1/users/register")!
+        let url = URL(string: "http://10.48.232.208:3000/v1/users/register")!
         var httpRequest = URLRequest(url: url)
         httpRequest.httpMethod = "POST"
         httpRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -32,7 +32,7 @@ struct HTTPClient {
     func UserLogin(email:String, password:String) async throws -> LoginResponse{
         let loginRequest = LoginRequest(email:email, password:password)
         //let url = URL(string: "http://localhost:3000/auth/login")!
-        guard let url = URL(string: "http://10.48.234.212:3000/v1/auth/users/login") else {
+        guard let url = URL(string: "http://10.48.232.208:3000/v1/auth/users/login") else {
             fatalError("Invalid URL" + "http://localhost:3000/auth/users/login")
         }
         var urlRequest = URLRequest(url: url)
