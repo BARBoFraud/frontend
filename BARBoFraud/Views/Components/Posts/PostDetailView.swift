@@ -76,7 +76,7 @@ struct PostDetailView: View {
                 .padding()
             }
         }
-        .background(Color(.systemBackground))
+        .background(Color("LandingBg2"))
         .ignoresSafeArea(edges: .bottom)
     }
 }
