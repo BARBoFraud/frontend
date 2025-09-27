@@ -19,7 +19,7 @@ struct NavigationIcon: View {
     
     var body: some View {
         Button(action: {
-            router.push(route)
+            router.reset(to: route)
         }) {
             Image(systemName: iconName)
                 .resizable()
