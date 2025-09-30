@@ -27,18 +27,24 @@ struct SignUp: View {
     
     func register() async {
         do {
-            try await authController.registerUser(name: registrationForm.name, lastName1: registrationForm.lastName1, lastName2: registrationForm.lastName2, email: registrationForm.email, password: registrationForm.password)
+            try await authController.registerUser(
+                name: registrationForm.name,
+                lastName1: registrationForm.lastName1,
+                lastName2: registrationForm.lastName2,
+                email: registrationForm.email,
+                password: registrationForm.password
+            )
             showAlert = true
             alertTitle = "Se ha creado su cuenta exitosamente"
             navLogin = true
-        }
-        catch {
-            showAlert = true
-            alertTitle = "Error"
+        } catch RegistrationError.emailExists {
+            errorMessages.append("El correo ya está registrado")
+        } catch {
             errorMessages.append("No se ha podido realizar su cuenta")
-            print("Error al intentar registrarse")
+            print("Error al intentar registrarse: \(error)")
         }
     }
+
     
     var body: some View {
         ZStack {

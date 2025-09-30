@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum RegistrationError: Error {
+    case emailExists
+    case serverError(statusCode: Int)
+}
+
 struct HTTPClient {
     
     func UserRegistration(name:String, lastName1:String, lastName2:String,email:String, password:String) async throws {
@@ -23,11 +28,16 @@ struct HTTPClient {
             throw URLError(.badServerResponse)
         }
         
-        guard 200..<300 ~= httpResponse.statusCode else {
-            throw URLError(.badServerResponse)
-        }
-        
-        print("Usuario registrado correctamente")
+        switch httpResponse.statusCode {
+            case 201:
+                print("Usuario registrado correctamente")
+                return
+            case 409:
+                throw RegistrationError.emailExists
+            default:
+                throw RegistrationError.serverError(statusCode: httpResponse.statusCode)
+            }
+
     }
     func UserLogin(email:String, password:String) async throws -> LoginResponse{
         let loginRequest = LoginRequest(email:email, password:password)
