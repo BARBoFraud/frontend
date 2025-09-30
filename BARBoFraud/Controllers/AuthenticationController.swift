@@ -17,6 +17,11 @@ struct AuthenticationController{
         TokenStorage.set(identifier: "accessToken", value: loginResponse.accessToken)
         TokenStorage.set(identifier: "refreshToken", value: loginResponse.refreshToken)
         return loginResponse.accessToken != nil
-
     }
+    
+    func logout() async {
+            TokenStorage.delete(identifier: "accessToken")
+            TokenStorage.delete(identifier: "refreshToken")
+        }
+
 }
