@@ -27,7 +27,7 @@ struct SignUp: View {
     
     func register() async {
         do {
-            try await authController.registerUser(name: registrationForm.name, lastName1: registrationForm.lastNameP, lastName2: registrationForm.lastNameM, email: registrationForm.email, password: registrationForm.password)
+            try await authController.registerUser(name: registrationForm.name, lastName1: registrationForm.lastName1, lastName2: registrationForm.lastName2, email: registrationForm.email, password: registrationForm.password)
             showAlert = true
             alertTitle = "Se ha creado su cuenta exitosamente"
             navLogin = true
@@ -73,45 +73,45 @@ struct SignUp: View {
                         
                         VStack {
                             Group {
-                                Text("Nombre:")
+                                Text("Nombre")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.headline)
                                     .bold()
                                 
-                                TextField("Nombre:", text: $registrationForm.name)
+                                TextField("Nombre", text: $registrationForm.name)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
                                     .foregroundColor(.black)
                                 
                                 
-                                Text("Apellido Paterno:")
+                                Text("Apellido Paterno")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.headline)
                                     .bold()
                                 
-                                TextField("Apellido Paterno", text: $registrationForm.lastNameP)
+                                TextField("Apellido Paterno", text: $registrationForm.lastName1)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
                                     .foregroundColor(.black)
                                 
-                                Text("Apellido Materno:")
+                                Text("Apellido Materno")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.headline)
                                     .bold()
                                 
-                                TextField("Apellido Materno", text: $registrationForm.lastNameM)
+                                TextField("Apellido Materno", text: $registrationForm.lastName2)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
                                 .foregroundColor(.black)                    }
                             
                             Group {
-                                Text("Correo electrónico:")
+                                Text("Correo electrónico")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.headline)
@@ -126,7 +126,7 @@ struct SignUp: View {
                                     .padding(.vertical)
                                     .foregroundColor(.black)
                                 
-                                Text("Contraseña:")
+                                Text("Contraseña")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.headline)
@@ -139,7 +139,7 @@ struct SignUp: View {
                                     .autocorrectionDisabled(true)
                                     .foregroundColor(.black)
                                 
-                                Text("Verificar Contraseña:")
+                                Text("Verificar Contraseña")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.headline)

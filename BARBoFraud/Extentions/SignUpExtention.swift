@@ -10,8 +10,8 @@ import Foundation
 extension SignUp {
     struct UserRegistrationForm{
         var name: String = ""
-        var lastNameP: String = ""
-        var lastNameM: String = ""
+        var lastName1: String = ""
+        var lastName2: String = ""
         var email: String = ""
         var password: String = ""
         var passwordConfirmation: String = ""
@@ -21,10 +21,10 @@ extension SignUp {
             if name.esVacio{
                 errors.append("El nombre es requerido")
             }
-            if lastNameP.esVacio{
+            if lastName1.esVacio{
                 errors.append("El apellido paterno es requerido")
             }
-            if lastNameM.esVacio{
+            if lastName2.esVacio{
                 errors.append( "El apellido materno es requerido")
             }
             if email.esVacio{

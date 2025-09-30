@@ -11,15 +11,40 @@ struct SideMenuView: View {
     @Binding var showMenu: Bool
     let width = 300
     
+    @State private var name: String = ""
+    @State private var lastName2: String = ""
+    @State private var lastName1: String = ""
+    @State private var email: String = ""
+    
+    private func loadProfile() async {
+        print("bfrkfbrfb")
+        do {
+            let response = try await ProfileController().getProfile()
+            
+            name = response.name
+            lastName2 = response.lastName2
+            lastName1 = response.lastName1
+            email = response.email
+        } catch {
+            print("Error al cargar el perfil: \(error)")
+        }
+        
+    }
+    
     var body: some View {
             VStack(alignment: .leading, spacing: 20) {
                 Spacer().frame(height: 30)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Quevedo el mejor")
-                        .font(.title2)
-                        .foregroundColor(.text)
+                    HStack {
+                        Text(name)
+                            .font(.title2)
+                            .foregroundColor(.text)
+                        Text("\(lastName1) \(lastName2)")
+                            .font(.title2)
+                            .foregroundColor(.text.opacity(0.7))
+                    }
                     
-                    Text(verbatim: "quevedito@tec.mx")
+                    Text(verbatim: "\(email)")
                         .foregroundColor(.text.opacity(0.5))
                         .font(.title3)
                         
@@ -29,8 +54,7 @@ struct SideMenuView: View {
 
                 Rectangle()
                     .fill(.black.opacity(0.7))
-                    .frame(height: 2)
-                    .frame(width: .infinity, alignment: .leading)
+                    .frame(height: 2, alignment: .leading)
 
                 
                 Group {
@@ -41,8 +65,7 @@ struct SideMenuView: View {
                 
                 Rectangle()
                     .fill(.black.opacity(0.7))
-                    .frame(height: 2)
-                    .frame(width: .infinity, alignment: .leading)
+                    .frame(height: 2, alignment: .leading)
 
                 
                 Group {
@@ -56,6 +79,9 @@ struct SideMenuView: View {
             .frame(width: 300, height: UIScreen.main.bounds.height, alignment: .leading)
             .background(.appBg)
             .edgesIgnoringSafeArea(.vertical)
+            .task {
+                await loadProfile()
+            }
     }
 }
 

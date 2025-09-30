@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Info: View {
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     @State private var showSideMenu = false
     let articles: [ArticleDTO] = sampleArticles
     

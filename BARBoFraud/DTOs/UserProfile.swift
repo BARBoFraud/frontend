@@ -7,17 +7,11 @@
 
 import Foundation
 
-struct UserProfileResponse: Decodable {
-    let profile: Profile
-}
-
 struct Profile: Decodable {
     let id: Int
-    let email, name, passwordHash, salt: String
+    let email, name, lastName1, lastName2: String
     
     enum CodingKeys: String, CodingKey {
-        case id, email, name
-        case passwordHash = "password_hash"
-        case salt
+        case id, email, name, lastName1, lastName2
     }
 }

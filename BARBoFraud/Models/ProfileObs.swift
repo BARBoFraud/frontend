@@ -11,6 +11,7 @@ import Observation
 @Observable
 class ProfileObs {
     var name: String = ""
+    var lastNameP: String = ""
+    var lastNameM: String = ""
     var email: String = ""
-    var password: String = ""
-}
+} 

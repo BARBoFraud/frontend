@@ -13,9 +13,7 @@ struct LogIn: View {
     
     @State var loginForm = LoginForm()
     @State var errorMessages: [String] = []
-    
-    @State var showAlert: Bool = false
-    @State var alertTitle: String = ""
+
     @State var navInfo: Bool = false
     
     
@@ -24,13 +22,9 @@ struct LogIn: View {
             let success = try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
             
             if success {
-                showAlert = true
-                alertTitle = "Inicio de sesión exitoso"
                 isLoggedIn = true
                 navInfo = true
             } else {
-                showAlert = true
-                alertTitle = "Error"
                 errorMessages.append("Usuario o contraseña incorrectos")
             }
         } catch {
@@ -67,7 +61,7 @@ struct LogIn: View {
                     
                     VStack{
                         Section{
-                            Text("Correo electrónico:")
+                            Text("Correo electrónico")
                                 .foregroundColor(Color("Text"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.headline.bold())
@@ -82,7 +76,7 @@ struct LogIn: View {
                                 .foregroundColor(.black)
                             
                             
-                            Text("Contraseña:")
+                            Text("Contraseña")
                                 .foregroundColor(Color("Text"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.headline.bold())
@@ -119,9 +113,6 @@ struct LogIn: View {
                             
                         }
                         .padding(.horizontal)
-                        .alert(isPresented: $showAlert) {
-                            Alert(title: Text("Aviso"), message: Text(alertTitle))
-                        }
                     }
                     .frame(maxWidth: 300, maxHeight: 300)
                     .padding(.vertical, 30)

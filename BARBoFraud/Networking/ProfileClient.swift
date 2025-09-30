@@ -6,16 +6,35 @@
 //
 import Foundation
 
-class ProfileClient{
-    
-    func getUserProfile(token:String) async throws -> UserProfileResponse{
-        guard let url = URL(string: "http://localhost:3000/auth/profile") else {
-            fatalError("Invalid URL" + "http://localhost:3000/auth/profile")
+enum ProfileClientError: Error {
+    case missingToken
+    case invalidURL
+    case serverError(String)
+}
+
+class ProfileClient {
+    func userProfileNet() async throws -> Profile {
+        guard let url = URL(string: "http://10.48.235.0:3000/v1/users/profile") else {
+            throw ProfileClientError.invalidURL
         }
-        var urlRequest = URLRequest(url: url)
-        urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        let (data, response) = try await URLSession.shared.data(for:urlRequest)
-        let userProfileResponse = try JSONDecoder().decode(UserProfileResponse.self, from: data)
-        return userProfileResponse
+
+        guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
+            throw ProfileClientError.missingToken
+        }
+
+        var httpRequest = URLRequest(url: url)
+        httpRequest.httpMethod = "GET"
+        httpRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        let (data, response) = try await URLSession.shared.data(for: httpRequest)
+
+        if let bodyString = String(data: data, encoding: .utf8) {
+            print("Profile response body: \(bodyString)")
+        }
+
+        let decoder = JSONDecoder()
+        let profile = try decoder.decode(Profile.self, from: data)
+        return profile
     }
 }
+

@@ -5,24 +5,13 @@
 //  Created by Barbie on 12/09/25.
 //
 
-import Foundation
-import Combine
+@MainActor
 
 struct ProfileController{
+    private let client = ProfileClient()
     
-    private var profileClient = ProfileClient()
-    
-    
-    init(profileClient: ProfileClient)  {
-        self.profileClient = profileClient
+    func getProfile() async throws -> Profile {
+        let profileResponse = try await client.userProfileNet()
+        return profileResponse
     }
-    
-   func getProfile() async throws->Profile{
-        let accessToken=TokenStorage.get(identifier: "accessToken")
-        
-       let response = try await profileClient.getUserProfile(token: accessToken!)
-        return response.profile
-    }
-    
-    
 }
