@@ -14,7 +14,7 @@ enum ProfileClientError: Error {
 
 class ProfileClient {
     func userProfileNet() async throws -> Profile {
-        guard let url = URL(string: "http://10.48.235.0:3000/v1/users/profile") else {
+        guard let url = URL(string: "http://10.48.233.141:3000/v1/users/profile") else {
             throw ProfileClientError.invalidURL
         }
 
@@ -26,11 +26,7 @@ class ProfileClient {
         httpRequest.httpMethod = "GET"
         httpRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-        let (data, response) = try await URLSession.shared.data(for: httpRequest)
-
-        if let bodyString = String(data: data, encoding: .utf8) {
-            print("Profile response body: \(bodyString)")
-        }
+        let (data, _) = try await URLSession.shared.data(for: httpRequest)
 
         let decoder = JSONDecoder()
         let profile = try decoder.decode(Profile.self, from: data)

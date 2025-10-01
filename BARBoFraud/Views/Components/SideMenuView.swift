@@ -16,8 +16,10 @@ struct SideMenuView: View {
     @State private var lastName1: String = ""
     @State private var email: String = ""
     
+    @State private var showingLogoutCard = false
+    @Environment(\.authController) var authController
+    
     private func loadProfile() async {
-        print("bfrkfbrfb")
         do {
             let response = try await ProfileController().getProfile()
             
