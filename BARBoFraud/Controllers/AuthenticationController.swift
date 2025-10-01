@@ -20,8 +20,9 @@ struct AuthenticationController{
     }
     
     func logout() async {
-            TokenStorage.delete(identifier: "accessToken")
-            TokenStorage.delete(identifier: "refreshToken")
-        }
+        print("LogOut")
+        TokenStorage.delete(identifier: "accessToken")
+        TokenStorage.delete(identifier: "refreshToken")
+    }
 
 }
