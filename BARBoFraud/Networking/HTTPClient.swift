@@ -12,6 +12,11 @@ enum RegistrationError: Error {
     case serverError(statusCode: Int)
 }
 
+enum LoginError: Error {
+    case invalidCredentials
+    case serverError(statusCode: Int)
+}
+
 struct HTTPClient {
     
     func UserRegistration(name:String, lastName1:String, lastName2:String,email:String, password:String) async throws {
@@ -50,8 +55,21 @@ struct HTTPClient {
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = try? JSONEncoder().encode(loginRequest)
         let (data, response) = try await URLSession.shared.data(for:urlRequest)
-        let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-        return loginResponse
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            fatalError("Invalid HTTP response")
+        }
+        
+        switch httpResponse.statusCode {
+            case 201:
+                let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+                return loginResponse
+            case 401:
+                throw LoginError.invalidCredentials
+            default :
+                throw LoginError.serverError(statusCode: httpResponse.statusCode)
+            
+        }
     }
     
     

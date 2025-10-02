@@ -19,18 +19,17 @@ struct LogIn: View {
     
     private func login() async {
         do {
-            let success = try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
+            try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
+            isLoggedIn = true
+            navInfo = true
             
-            if success {
-                isLoggedIn = true
-                navInfo = true
-            } else {
-                errorMessages.append("Usuario o contraseña incorrectos")
-            }
+        } catch LoginError.invalidCredentials {
+            errorMessages.append("Credenciales inválidas. Inténtalo de nuevo.")
         } catch {
-            print("Error: \(error)")
+            print("Error al intentar registrarse: \(error)")
         }
     }
+    
     
     var body: some View {
         ZStack {
@@ -75,7 +74,7 @@ struct LogIn: View {
                                 .keyboardType(.emailAddress)
                                 .foregroundColor(.black)
                             
-                            
+                             
                             Text("Contraseña")
                                 .foregroundColor(Color("Text"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -119,22 +118,25 @@ struct LogIn: View {
                     .background(Color("Tarjeta"))
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     
+                    
+                    
                     Spacer()
                     Spacer()
                     Spacer()
                     Spacer()
                     Spacer()
                 }
-                if !errorMessages.isEmpty {
-                    VStack {
-                        ValidationSummary(errors: $errorMessages)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                            .padding(.top, 60)
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity)
-                    .animation(.spring(response: 0.45, dampingFraction: 0.8), value: errorMessages)
+
+            }
+            if !errorMessages.isEmpty {
+                VStack {
+                    ValidationSummary(errors: $errorMessages)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 60)
+                    Spacer()
                 }
+                .frame(maxWidth: .infinity)
+                .animation(.spring(response: 0.45, dampingFraction: 0.8), value: errorMessages)
             }
         }
     }
