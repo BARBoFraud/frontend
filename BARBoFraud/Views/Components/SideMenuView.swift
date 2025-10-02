@@ -24,7 +24,7 @@ struct SideMenuView: View {
     
     @Environment(\.openURL) var openUrl
     @State private var showingPoliceCard: Bool = false
-    let policeNumber = 5611773689
+    let policeNumber = "5611773689"
     
     private func loadProfile() async {
         do {
@@ -40,7 +40,8 @@ struct SideMenuView: View {
     }
     
     private func callPolice() async {
-        guard let url = URL(string: "tel://\(policeNumber)") else { return }
+        guard let url = URL(string: "tel://\(policeNumber)")  else { return }
+        openUrl(url)
     }
     
     private func logOutBtnTapped() async {
@@ -89,7 +90,9 @@ struct SideMenuView: View {
                     
                     
                     Group {
-                        SideMenuItem(icon: "phone.fill", label: "Contacto ciber policía") {}
+                        SideMenuItem(icon: "phone.fill", label: "Contacto ciber policía") {
+                            showingPoliceCard = true
+                        }
                         SideMenuItem(icon: "iphone.and.arrow.forward", label: "Cerrar sesión") {
                             showingLogoutCard = true
                         }
@@ -108,6 +111,10 @@ struct SideMenuView: View {
                 }
                 NavigationLink(destination: LandingScreen().navigationBarBackButtonHidden(true), isActive: $navLanging) {
                     EmptyView()
+                }
+                
+                if showingPoliceCard {
+                    ConfirmationCard(isPresented: $showingPoliceCard, title: "¿Seguro que deseas contactar con la policía cibernética?", confirmAction: callPolice)
                 }
 
             }
