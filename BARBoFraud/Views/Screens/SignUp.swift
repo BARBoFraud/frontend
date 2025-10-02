@@ -188,6 +188,13 @@ struct SignUp: View {
                             NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true), isActive: $navLogin) {
                                 EmptyView()
                             }
+                            Spacer().frame(height: 15)
+                            
+                            NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true)) {
+                                Text("¿Ya tienes cuenta?")
+                                    .foregroundColor(.blueAccent)
+                                    .font(.caption)
+                            }
                         
                         }
                         .padding(.horizontal)
