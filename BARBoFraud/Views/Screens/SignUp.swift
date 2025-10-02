@@ -72,7 +72,7 @@ struct SignUp: View {
                         
                         Text("Crea tu cuenta")
                             .foregroundColor(Color("Text"))
-                            .font(.title)
+                            .font(.largeTitle)
                             .bold()
                         
                         Spacer().frame(height: 40)
@@ -82,10 +82,12 @@ struct SignUp: View {
                                 Text("Nombre")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .font(.headline)
+                                    .font(.title3)
                                     .bold()
                                 
                                 TextField("Nombre", text: $registrationForm.name)
+                                    .padding(.vertical, 6)
+                                    .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
@@ -95,10 +97,12 @@ struct SignUp: View {
                                 Text("Apellido Paterno")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .font(.headline)
+                                    .font(.title3)
                                     .bold()
                                 
                                 TextField("Apellido Paterno", text: $registrationForm.lastName1)
+                                    .padding(.vertical, 6)
+                                    .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
@@ -107,23 +111,28 @@ struct SignUp: View {
                                 Text("Apellido Materno")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .font(.headline)
+                                    .font(.title3)
                                     .bold()
                                 
                                 TextField("Apellido Materno", text: $registrationForm.lastName2)
+                                    .padding(.vertical, 6)
+                                    .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
-                                .foregroundColor(.black)                    }
+                                    .foregroundColor(.black)
+                            }
                             
                             Group {
                                 Text("Correo electrónico")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .font(.headline)
+                                    .font(.title3)
                                     .bold()
                                 
                                 TextField("Correo", text: $registrationForm.email)
+                                    .padding(.vertical, 6)
+                                    .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .autocorrectionDisabled(true)
@@ -135,10 +144,12 @@ struct SignUp: View {
                                 Text("Contraseña")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .font(.headline)
+                                    .font(.title3)
                                     .bold()
                                 
                                 SecureField("Contraseña", text: $registrationForm.password)
+                                    .padding(.vertical, 6)
+                                    .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
@@ -148,10 +159,12 @@ struct SignUp: View {
                                 Text("Verificar Contraseña")
                                     .foregroundColor(Color("Text"))
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .font(.headline)
+                                    .font(.title3)
                                     .bold()
                                 
                                 SecureField("Verificar Contraseña", text: $registrationForm.passwordConfirmation)
+                                    .padding(.vertical, 6)
+                                    .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
@@ -193,7 +206,7 @@ struct SignUp: View {
                             NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true)) {
                                 Text("¿Ya tienes cuenta?")
                                     .foregroundColor(.blueAccent)
-                                    .font(.caption)
+                                    .font(.subheadline)
                             }
                         
                         }

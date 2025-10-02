@@ -55,7 +55,7 @@ struct LogIn: View {
                     
                     Text("Iniciar Sesión")
                         .foregroundColor(Color("Text"))
-                        .font(.title.bold())
+                        .font(.largeTitle.bold())
                     Spacer()
                     
                     VStack{
@@ -63,9 +63,11 @@ struct LogIn: View {
                             Text("Correo electrónico")
                                 .foregroundColor(Color("Text"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.headline.bold())
+                                .font(.title3.bold())
                             
                             TextField("Correo", text: $loginForm.email)
+                                .padding(.vertical, 6)
+                                .padding(.leading, 10)
                                 .background(.white)
                                 .cornerRadius(10)
                                 .padding(.vertical)
@@ -78,9 +80,11 @@ struct LogIn: View {
                             Text("Contraseña")
                                 .foregroundColor(Color("Text"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.headline.bold())
+                                .font(.title3.bold())
                             
                             SecureField("Contraseña", text: $loginForm.pass)
+                                .padding(.vertical, 6)
+                                .padding(.leading, 10)
                                 .background(.white)
                                 .cornerRadius(10)
                                 .padding(.vertical)
