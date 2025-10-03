@@ -22,6 +22,13 @@ enum LogOutError: Error {
     case invalidToken
 }
 
+enum DeactivateUserError: Error {
+    case serverError(statusCode: Int)
+    case invalidJWT
+    case userNotFound
+    case missingToken
+}
+
 struct HTTPClient {
     
     func UserRegistration(name:String, lastName1:String, lastName2:String,email:String, password:String) async throws {
@@ -95,12 +102,44 @@ struct HTTPClient {
         
         switch httpResponse.statusCode {
             case 201:
-                print("LogOut")
                 return
             case 401:
                 throw LogOutError.invalidToken
             default:
                 throw LogOutError.serverError(statusCode: httpResponse.statusCode)
+        }
+    }
+    
+    func DeactivateUser() async throws {
+        guard let url = URL(string: "http://10.48.234.109:3000/v1/users/deactivate") else {
+            fatalError("Invalid URL" + "http://10.48.234.109:3000/v1/auth/users/deactivate")
+        }
+        
+        guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
+            throw DeactivateUserError.missingToken
+        }
+        
+        var httpRequest = URLRequest(url: url)
+        httpRequest.httpMethod = "PATCH"
+        httpRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        httpRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let (_, response) = try await URLSession.shared.data(for: httpRequest)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        switch httpResponse.statusCode {
+        case 200:
+            print("Se ha desactivado la cuenta del usuario")
+            return
+        case 401:
+            throw DeactivateUserError.invalidJWT
+        case 404:
+            throw DeactivateUserError.userNotFound
+        default:
+            throw URLError(.badServerResponse)
         }
     }
     

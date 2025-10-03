@@ -26,6 +26,8 @@ struct SideMenuView: View {
     @State private var showingPoliceCard: Bool = false
     let policeNumber = "5611773689"
     
+    @State private var showingDeactivateCard: Bool = false
+    
     private func loadProfile() async {
         do {
             let response = try await ProfileController().getProfile()
@@ -46,6 +48,12 @@ struct SideMenuView: View {
     
     private func logOutBtnTapped() async throws {
         try await authController.logout()
+        isLoggedIn = false
+        navLanging = true
+    }
+    
+    private func deactivateBtnTapped() async throws {
+        try await authController.deactivateUser()
         isLoggedIn = false
         navLanging = true
     }
@@ -101,6 +109,20 @@ struct SideMenuView: View {
                     
                     Spacer()
                     
+                    HStack{
+                        Spacer()
+                        Text("Desactivar cuenta")
+                            .foregroundColor(.red)
+                            .font(.headline.bold())
+                            .onTapGesture {
+                                showingDeactivateCard = true
+                            }
+                        Spacer()
+                    }
+                    .padding(.bottom, 40)
+                    
+                    
+                    
                 }
                 .frame(width: 300, height: UIScreen.main.bounds.height, alignment: .leading)
                 .background(.appBg)
@@ -111,7 +133,17 @@ struct SideMenuView: View {
                         do {
                             try await logOutBtnTapped()
                         } catch {
-                            print("Error al cerrar sesion.")
+                            print("Error al cerrar sesion: \(error)")
+                        }
+                    })
+                }
+                
+                if showingDeactivateCard {
+                    ConfirmationCard(isPresented: $showingDeactivateCard, title: "¿Seguro que deseas desactivar tu cuenta?", confirmAction: {
+                        do {
+                            try await deactivateBtnTapped()
+                        } catch {
+                            print("Error al desactivar la cuenta. \(error)")
                         }
                     })
                 }
