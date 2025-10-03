@@ -44,8 +44,8 @@ struct SideMenuView: View {
         openUrl(url)
     }
     
-    private func logOutBtnTapped() async {
-        await authController.logout()
+    private func logOutBtnTapped() async throws {
+        try await authController.logout()
         isLoggedIn = false
         navLanging = true
     }

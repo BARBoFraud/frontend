@@ -17,6 +17,11 @@ enum LoginError: Error {
     case serverError(statusCode: Int)
 }
 
+enum LogOutError: Error {
+    case serverError(statusCode: Int)
+    case invalidToken
+}
+
 struct HTTPClient {
     
     func UserRegistration(name:String, lastName1:String, lastName2:String,email:String, password:String) async throws {
@@ -73,5 +78,30 @@ struct HTTPClient {
         }
     }
     
+    func UserLogOut(refreshToken: String) async throws {
+        let logoutRequest = LogOutRequest(refreshToken: refreshToken)
+        guard let url = URL(string: "http://10.48.234.206:3000/v1/auth/users/logout") else {
+            fatalError("Invalid URL" + "http://10.48.234.206:3000/v1/auth/users/logout")
+        }
+        var httpRequest = URLRequest(url: url)
+        httpRequest.httpMethod = "POST"
+        httpRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let jsonData = try JSONEncoder().encode(logoutRequest)
+        httpRequest.httpBody = jsonData
+        let (_, response) = try await URLSession.shared.data(for: httpRequest)
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        switch httpResponse.statusCode {
+            case 201:
+                print("LogOut")
+                return
+            case 401:
+                throw LogOutError.invalidToken
+            default:
+                throw LogOutError.serverError(statusCode: httpResponse.statusCode)
+        }
+    }
     
 }
