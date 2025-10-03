@@ -107,7 +107,13 @@ struct SideMenuView: View {
                 .edgesIgnoringSafeArea(.vertical)
                 
                 if showingLogoutCard {
-                    ConfirmationCard(isPresented: $showingLogoutCard, title: "¿Seguro que deseas cerrar sesión?", confirmAction: logOutBtnTapped)
+                    ConfirmationCard(isPresented: $showingLogoutCard, title: "¿Seguro que deseas cerrar sesión?", confirmAction: {
+                        do {
+                            try await logOutBtnTapped()
+                        } catch {
+                            print("Error al cerrar sesion.")
+                        }
+                    })
                 }
                 NavigationLink(destination: LandingScreen().navigationBarBackButtonHidden(true), isActive: $navLanging) {
                     EmptyView()

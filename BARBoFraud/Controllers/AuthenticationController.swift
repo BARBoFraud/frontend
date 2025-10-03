@@ -20,8 +20,8 @@ struct AuthenticationController{
     }
     
     func logout() async throws {
-        print("LogOut")
         try await httpClient.UserLogOut(refreshToken: TokenStorage.get(identifier: "refreshToken")!)
+        print("Logout exitoso")
         TokenStorage.delete(identifier: "accessToken")
         TokenStorage.delete(identifier: "refreshToken")
     }
