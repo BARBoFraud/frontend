@@ -26,8 +26,8 @@ struct HTTPClient {
     
     func UserRegistration(name:String, lastName1:String, lastName2:String,email:String, password:String) async throws {
         let requestForm = RegistrationFormRequest(name:name, lastName1: lastName1, lastName2: lastName2,email:email, password:password)
-        guard let url = URL(string: "http://10.48.234.206:3000/v1/users/register") else {
-            fatalError("Invalid URL" + "http://10.48.234.206:3000/v1/users/register")
+        guard let url = URL(string: "http://10.48.234.109:3000/v1/users/register") else {
+            fatalError("Invalid URL" + "http://10.48.234.109:3000/v1/users/register")
         }
         var httpRequest = URLRequest(url: url)
         httpRequest.httpMethod = "POST"
@@ -53,8 +53,8 @@ struct HTTPClient {
     }
     func UserLogin(email:String, password:String) async throws -> LoginResponse{
         let loginRequest = LoginRequest(email:email, password:password)
-        guard let url = URL(string: "http://10.48.234.206:3000/v1/auth/users/login") else {
-            fatalError("Invalid URL" + "http://localhost:3000/auth/users/login")
+        guard let url = URL(string: "http://10.48.234.109:3000/v1/auth/users/login") else {
+            fatalError("Invalid URL" + "http://10.48.234.109:3000/auth/users/login")
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -80,8 +80,8 @@ struct HTTPClient {
     
     func UserLogOut(refreshToken: String) async throws {
         let logoutRequest = LogOutRequest(refreshToken: refreshToken)
-        guard let url = URL(string: "http://10.48.234.206:3000/v1/auth/users/logout") else {
-            fatalError("Invalid URL" + "http://10.48.234.206:3000/v1/auth/users/logout")
+        guard let url = URL(string: "http://10.48.234.109:3000/v1/auth/users/logout") else {
+            fatalError("Invalid URL" + "http://10.48.234.109:3000/v1/auth/users/logout")
         }
         var httpRequest = URLRequest(url: url)
         httpRequest.httpMethod = "POST"

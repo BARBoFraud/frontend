@@ -2,7 +2,7 @@
 //  SideMenuView.swift
 //  BARBoFraud
 //
-//  Created by Usuario on 23/09/25.
+//  Created by Barbie on 23/09/25.
 //
 
 import SwiftUI

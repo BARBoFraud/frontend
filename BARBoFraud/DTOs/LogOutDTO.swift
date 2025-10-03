@@ -2,7 +2,7 @@
 //  LogOutDTO.swift
 //  BARBoFraud
 //
-//  Created by Usuario on 02/10/25.
+//  Created by Barbie on 02/10/25.
 //
 
 import Foundation

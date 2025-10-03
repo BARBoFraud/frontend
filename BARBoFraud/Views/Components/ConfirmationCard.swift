@@ -2,7 +2,7 @@
 //  ConfirmationCard.swift
 //  BARBoFraud
 //
-//  Created by Usuario on 30/09/25.
+//  Created by Barbie on 30/09/25.
 //
 
 import SwiftUI
