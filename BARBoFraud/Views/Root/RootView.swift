@@ -14,7 +14,8 @@ struct RootView: View {
     var body: some View {
         // Check router path to change screens
         NavigationStack(path: $router.path) {
-            Landing()
+//            Landing()
+            Info()
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .landing: Landing()
@@ -23,6 +24,8 @@ struct RootView: View {
                     case .info: Info()
                     case .home: Home()
                     case .search: Search()
+                    case .emptyView: EmptyView()
+                    case .articleDetail(let article): ArticleDetail(article: article)
                     }
                 }
         }
