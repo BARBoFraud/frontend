@@ -38,7 +38,7 @@ struct PageName: View {
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(0.3))
                     .cornerRadius(10)
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 0.1)
                 HStack {
                     Spacer()
                     Button("Siguiente", action: {

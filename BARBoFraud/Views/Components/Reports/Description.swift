@@ -34,8 +34,8 @@ struct Description: View {
             }
             
             if expanded {
-                TextField("Desciproción corta del fraude", text: $description)
-                    .font(.system(size: 18, weight: .medium))
+                TextField("Desciproción del fraude", text: $description)
+                    .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(0.3))
                     .cornerRadius(10)
