@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ReportSelector: View {
-    //let fraudTypes: [String]
     @Binding var selectedType: String
-    
+    @Binding var nextStep: Bool
     @State private var expanded: Bool = true
     
     let options = ["Página de internet", "Red social", "Mensaje", "Llamada", "Correo electrónico"]
@@ -43,6 +42,7 @@ struct ReportSelector: View {
                             selectedType = type
                             withAnimation {
                                 expanded = false
+                                nextStep = true
                             }
                         }) {
                             HStack() {
@@ -75,5 +75,13 @@ struct ReportSelector: View {
 }
 
 #Preview {
-    ReportSelector(selectedType: .constant("Pagina de Internet"))
+    struct prev: View {
+        @State var nextStep: Bool = false
+        @State var selectedType: String = ""
+        
+        var body: some View {
+            ReportSelector(selectedType: $selectedType, nextStep: $nextStep)
+        }
+    }
+    return prev()
 }

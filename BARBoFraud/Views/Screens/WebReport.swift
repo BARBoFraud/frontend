@@ -25,15 +25,15 @@ struct WebReport: View {
                     .foregroundColor(.text)
                 Spacer().frame(height: 40)
                 VStack {
-                    ReportSelector(selectedType: $Report.ReportType)
+                    ReportSelector(selectedType: $Report.ReportType, nextStep: $showNextCom)
                     
                     if(Report.ReportType == "Página de internet"){
                         EnterURL(url: $Report.WebUrl, nextStep: $showNextCom)
                     }
-                    if showNextCom {
+                    if (showNextCom && Report.ReportType == "Página de internet") {
                         PageName(pageName: $Report.WebPageName, nextStep: $showNextCom)
                     }
-                    if showNextCom {
+                    if (showNextCom && Report.ReportType == "Página de internet") {
                         Description(description: $Report.Description, nextStep: $showNextCom)
                             
                     }
