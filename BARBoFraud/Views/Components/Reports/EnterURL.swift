@@ -34,7 +34,7 @@ struct EnterURL: View {
             }
             
             if expanded {
-                TextField("Nombre", text: $url)
+                TextField("URL", text: $url)
                     .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(0.3))
