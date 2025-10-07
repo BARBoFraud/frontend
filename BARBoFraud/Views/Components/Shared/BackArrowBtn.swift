@@ -18,7 +18,7 @@ struct BackArrowBtn: View {
             Image(systemName: "arrow.left")
                 .resizable()
                 .foregroundColor(.primary)
-                .frame(width: 35, height: 35)
+                .frame(width: 20, height: 20)
         }
     }
 }

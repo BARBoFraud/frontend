@@ -23,6 +23,8 @@ struct RootView: View {
                     case .info: Info()
                     case .home: Home()
                     case .search: Search()
+                    case .emptyView: EmptyView()
+                    case .articleDetail(let article): ArticleDetail(article: article)
                     }
                 }
         }

@@ -10,6 +10,7 @@ enum NetworkError: Error, LocalizedError {
     case invalidURL
     case noInternet
     case requestFailed(Int)
+    case noToken
     case unauthorized // Error 401
     case decodingFailed
     case noData
@@ -21,6 +22,8 @@ enum NetworkError: Error, LocalizedError {
             return "The URL provided was invalid."
         case .noInternet:
             return "No internet connection. Please try again later."
+        case .noToken:
+            return "No token was found."
         case .unauthorized:
             return "You are not authorized. Please log in again."
         case .requestFailed(let statusCode):
