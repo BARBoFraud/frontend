@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SignUp: View {
+    // Call router for programmatic navigation
+    @EnvironmentObject var router: Router
     @Environment(\.authController) var authController
     
     @State private var acceptedPrivacy = false
@@ -21,7 +23,6 @@ struct SignUp: View {
     @State var registrationForm = UserRegistrationForm()
     @State var errorMessages: [String] = []
     
-    @State var navLogin: Bool = false
     @State var showAlert: Bool = false
     @State var alertTitle: String = ""
     
@@ -34,9 +35,11 @@ struct SignUp: View {
                 email: registrationForm.email,
                 password: registrationForm.password
             )
+            
             showAlert = true
             alertTitle = "Se ha creado su cuenta exitosamente"
-            navLogin = true
+            router.reset(to: .login)
+            
         } catch RegistrationError.emailExists {
             errorMessages.append("El correo ya está registrado")
         } catch {
@@ -45,7 +48,7 @@ struct SignUp: View {
         }
     }
 
-    
+
     var body: some View {
         ZStack {
             // Background gradient color
@@ -56,13 +59,11 @@ struct SignUp: View {
             ReverseLandingWaves()
             LandingWaves()
             
-            
-            NavigationStack {
                 ScrollView(.vertical) {
                     VStack {
                         HStack {
                             Spacer()
-                            BackArrowBtn(destination: LandingScreen())
+                            BackArrowBtn()
                                 .frame(width: 40, height: 40)
                                 .bold(true)
                             Spacer().frame(width: 325)
@@ -174,41 +175,64 @@ struct SignUp: View {
                             
                             Spacer().frame(height: 10)
                             
-                            PrivacyView(accepted: $acceptedPrivacy, privacyText: privacyText)
-                            
-                            Button {
-                                errorMessages = registrationForm.validate()
-                                if errorMessages.isEmpty {
-                                    if !acceptedPrivacy {
-                                        showResultAlert = true
-                                    } else {
-                                        Task {
-                                            await register()
-                                            print("signed up")
+                            Group {
+                                PrivacyView(accepted: $acceptedPrivacy, privacyText: privacyText)
+                                
+                                //                            Button {
+                                //                                errorMessages = registrationForm.validate()
+                                //                                if errorMessages.isEmpty {
+                                //                                    if !acceptedPrivacy {
+                                //                                        showResultAlert = true
+                                //                                    } else {
+                                //                                        Task {
+                                //                                            await register()
+                                //                                            print("signed up")
+                                //                                        }
+                                //                                    }
+                                //                                }
+                                //                            } label: {
+                                //                                Text("Crear cuenta")
+                                //                                    .font(.headline)
+                                //                                    .foregroundColor(.white)
+                                //                                    .padding()
+                                //                                    .frame(maxWidth: .infinity)
+                                //                                    .background(Color("BlueAccent"))
+                                //                                    .cornerRadius(12)
+                                //                            }
+                                //
+                                //                            NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true), isActive: $navLogin) {
+                                //                                EmptyView()
+                                //                            }
+                                
+                                NavigationButton(
+                                    action: {
+                                        errorMessages = registrationForm.validate()
+                                        if errorMessages.isEmpty {
+                                            if !acceptedPrivacy {
+                                                showResultAlert = true
+                                            } else {
+                                                Task {
+                                                    await register()
+                                                    print("signed up")
+                                                }
+                                            }
                                         }
-                                    }
-                                }
-                            } label: {
-                                Text("Crear cuenta")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .background(Color("BlueAccent"))
-                                    .cornerRadius(12)
+                                    },
+                                    text: "Crear cuenta",
+                                    fgColor: .white,
+                                    bgColor: .blueAccent
+                                )
+                                Spacer().frame(height: 15)
+                                
+                                NavigationButton(
+                                    action: {
+                                        router.reset(to: .login)
+                                    },
+                                    text: "¿Ya tienes cuenta?",
+                                    fgColor: .blueAccent,
+                                    bgColor: .tarjeta
+                                )
                             }
-                            
-                            NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true), isActive: $navLogin) {
-                                EmptyView()
-                            }
-                            Spacer().frame(height: 15)
-                            
-                            NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true)) {
-                                Text("¿Ya tienes cuenta?")
-                                    .foregroundColor(.blueAccent)
-                                    .font(.subheadline)
-                            }
-                        
                         }
                         .padding(.horizontal)
                         .frame(maxWidth: 300)
@@ -221,7 +245,7 @@ struct SignUp: View {
                     .frame(maxWidth: .infinity)
                     .padding(.bottom, 30)
                 }
-            }
+            
             if !errorMessages.isEmpty {
                 VStack {
                     ValidationSummary(errors: $errorMessages)
@@ -241,7 +265,5 @@ struct SignUp: View {
 
 
 #Preview {
-    NavigationStack {
-        SignUp()
-    }
+    RootView()
 }

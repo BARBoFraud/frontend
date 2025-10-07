@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct LogIn: View {
+    @EnvironmentObject var router: Router
+        
     @Environment(\.authController) var authController
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     
     @State var loginForm = LoginForm()
     @State var errorMessages: [String] = []
-
-    @State var navInfo: Bool = false
     
     
     private func login() async {
         do {
             try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
             isLoggedIn = true
-            navInfo = true
+            router.reset(to: .home)
             
         } catch LoginError.invalidCredentials {
             errorMessages.append("Credenciales inválidas. Inténtalo de nuevo.")
@@ -39,12 +39,11 @@ struct LogIn: View {
                 
                 // Background waves
                 LandingWaves()
-                
-            NavigationStack{
+
                 VStack{
                     HStack {
                         Spacer()
-                        BackArrowBtn(destination: LandingScreen())
+                        BackArrowBtn()
                             .frame(width: 40, height: 40)
                             .bold(true)
                         Spacer().frame(width: 325)
@@ -94,25 +93,41 @@ struct LogIn: View {
                             
                             Spacer().frame(height: 8)
                             
-                            Button(action: {
-                                errorMessages = loginForm.validate()
-                                if errorMessages.isEmpty {
-                                    Task {
-                                        await login()
-                                    }
-                                }
-                            }) {
-                                Text("Iniciar Sesión")
-                                    .font(.headline)
-                                    .foregroundColor(.text)
-                                    .padding()
-                                    .background(Color("BtnColor"))
-                                    .cornerRadius(12)
-                            }
+//                            Button(action: {
+//                                errorMessages = loginForm.validate()
+//                                if errorMessages.isEmpty {
+//                                    Task {
+//                                        await login()
+//                                    }
+//                                }
+//                            }) {
+//                                Text("Iniciar Sesión")
+//                                    .font(.headline)
+//                                    .foregroundColor(.text)
+//                                    .padding()
+//                                    .background(Color("BtnColor"))
+//                                    .cornerRadius(12)
+//                            }
                             
-                            NavigationLink(destination: Info().navigationBarBackButtonHidden(true), isActive: $navInfo) {
-                                EmptyView()
-                            }
+                            NavigationButton(
+                                action: {
+                                    errorMessages = loginForm.validate()
+                                    if errorMessages.isEmpty {
+                                        Task {
+                                            await login()
+                                        }
+                                    }
+                                    
+                                },
+                                text: "Iniciar Sesión",
+                                fgColor: .text,
+                                bgColor: .btn
+                            )
+                            .padding(.horizontal)
+                            
+//                            NavigationLink(destination: Info().navigationBarBackButtonHidden(true), isActive: $navInfo) {
+//                                EmptyView()
+//                            }
                             
                         }
                         .padding(.horizontal)
@@ -131,7 +146,7 @@ struct LogIn: View {
                     Spacer()
                 }
 
-            }
+            
             if !errorMessages.isEmpty {
                 VStack {
                     ValidationSummary(errors: $errorMessages)
@@ -151,7 +166,7 @@ struct LogIn: View {
 
 
 #Preview {
-    NavigationStack {
-        LogIn()
-    }
+    RootView()
+//    LogIn()
+//        .environmentObject(Router())
 }

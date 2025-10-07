@@ -13,7 +13,6 @@ struct Info: View {
     let articles: [ArticleDTO] = sampleArticles
     
     var body: some View {
-        NavigationStack{
             ZStack {
                 Color("AppBg").ignoresSafeArea()
                 
@@ -71,7 +70,6 @@ struct Info: View {
                         )
                     .transition(.move(edge: .leading))
                 }
-            }
         }
     }
 }
@@ -81,5 +79,6 @@ struct Info: View {
 
 
 #Preview {
-    Info()
+//    Info()
+    RootView()
 }

@@ -9,13 +9,14 @@ import SwiftUI
 
 struct ArticleDetail: View {
     let article: ArticleDTO
+    let articles: [ArticleDTO] = sampleArticles
     
     var body: some View {
         ScrollView {
             VStack(spacing: 18) {
-                if let name = article.imageName {
+                if let imageName = article.imageName {
                     ZStack(alignment: .bottom) {
-                        Image(name)
+                        Image(imageName)
                             .resizable()
                             .scaledToFill()
                             .frame(height: 210)
