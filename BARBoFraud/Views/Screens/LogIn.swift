@@ -8,189 +8,136 @@
 import SwiftUI
 
 struct LogIn: View {
-    // Call router for programmatic navigation
     @EnvironmentObject var router: Router
+        
+    @Environment(\.authController) var authController
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State var loginForm = LoginForm()
+    @State var errorMessages: [String] = []
+    
+    
+    private func login() async {
+        do {
+            try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
+            isLoggedIn = true
+            router.reset(to: .home)
+            
+        } catch LoginError.invalidCredentials {
+            errorMessages.append("Credenciales inválidas. Inténtalo de nuevo.")
+        } catch {
+            print("Error al intentar registrarse: \(error)")
+        }
+    }
+    
     
     var body: some View {
         ZStack {
-            // Background gradient color
-            LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
-            
-            // Background waves
-            LandingWaves()
-            
-            VStack{
-                HStack {
-                    Spacer()
-                    BackArrowBtn()
-                    Spacer().frame(width: 325)
-                }
-                .padding(.top)
+                // Background gradient color
+                LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
+                
+                // Background waves
+                LandingWaves()
 
-                Spacer()
-                
-                Text("Iniciar Sesión")
-                    .foregroundColor(Color("Text"))
-                    .font(.title.bold())
-                Spacer()
-                
                 VStack{
-                    Section{
-                        Text("Correo electrónico:")
-                            .foregroundColor(Color("Text"))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.headline.bold())
-                        
-                        TextField("Correo", text: $email)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .padding()
-                            .autocorrectionDisabled(true)
-                            .textInputAutocapitalization(.never)
-                            .keyboardType(.emailAddress)
-                            .foregroundColor(.black)
-                        
-                        
-                        Text("Contraseña:")
-                            .foregroundColor(Color("Text"))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.headline.bold())
-                        
-                        SecureField("Contraseña", text: $password)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .padding()
-                            .autocorrectionDisabled(true)
-                            .textInputAutocapitalization(.never)
-                            .foregroundColor(.black)
-                        
-                        Spacer().frame(height: 8)
-                        
-                        // Login button
-                        NavigationButton(
-                            action: {
-                                if (ValidateLogin()) {
-                                    router.reset(to: .home)
-                                }
-                            },
-                            text: "Iniciar Sesión",
-                            fgColor: .text,
-                            bgColor: .btn
-                        )
-                        .padding(.horizontal)
-                        
+                    HStack {
+                        Spacer()
+                        BackArrowBtn()
+                            .frame(width: 40, height: 40)
+                            .bold(true)
+                        Spacer().frame(width: 325)
                     }
-                    .padding(.horizontal)
+                    .padding(.top)
+                    
+                    Spacer()
+                    
+                    Text("Iniciar Sesión")
+                        .foregroundColor(Color("Text"))
+                        .font(.largeTitle.bold())
+                    Spacer()
+                    
+                    VStack{
+                        Section{
+                            Text("Correo electrónico")
+                                .foregroundColor(Color("Text"))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .font(.title3.bold())
+                            
+                            TextField("Correo", text: $loginForm.email)
+                                .padding(.vertical, 6)
+                                .padding(.leading, 10)
+                                .background(.white)
+                                .cornerRadius(10)
+                                .padding(.vertical)
+                                .autocorrectionDisabled(true)
+                                .textInputAutocapitalization(.never)
+                                .keyboardType(.emailAddress)
+                                .foregroundColor(.black)
+                            
+                             
+                            Text("Contraseña")
+                                .foregroundColor(Color("Text"))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .font(.title3.bold())
+                            
+                            SecureField("Contraseña", text: $loginForm.pass)
+                                .padding(.vertical, 6)
+                                .padding(.leading, 10)
+                                .background(.white)
+                                .cornerRadius(10)
+                                .padding(.vertical)
+                                .autocorrectionDisabled(true)
+                                .textInputAutocapitalization(.never)
+                                .foregroundColor(.black)
+                            
+                            Spacer().frame(height: 8)
+                            
+                            NavigationButton(
+                                action: {
+                                    errorMessages = loginForm.validate()
+                                    if errorMessages.isEmpty {
+                                        Task {
+                                            await login()
+                                        }
+                                    }
+                                    
+                                },
+                                text: "Iniciar Sesión",
+                                fgColor: .text,
+                                bgColor: .btn
+                            )
+                            .padding(.horizontal)
+                        }
+                        .padding(.horizontal)
+                    }
+                    .frame(maxWidth: 300, maxHeight: 300)
+                    .padding(.vertical, 30)
+                    .background(Color("Tarjeta"))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
+                    
+                    
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
                 }
-                .frame(maxWidth: 300, maxHeight: 300)
-                .padding(.vertical, 30)
-                .background(Color("Tarjeta"))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
+
+            
+            if !errorMessages.isEmpty {
+                VStack {
+                    ValidationSummary(errors: $errorMessages)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 60)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .animation(.spring(response: 0.45, dampingFraction: 0.8), value: errorMessages)
             }
         }
         .navigationBarBackButtonHidden(true)
-//        ZStack {
-//            // Background gradient color
-//            LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
-//                .ignoresSafeArea()
-//            
-//            // Background waves
-//            LandingWaves()
-//            
-//            VStack{
-//                HStack {
-//                    Spacer()
-//                    NavigationIcon(
-//                        destinationScreen: LandingScreen(),
-//                        iconName: "arrow.left",
-//                        width: 28,
-//                        height: 28,
-//                        fgColor: .backArrow
-//                    )
-//                    Spacer().frame(width: 325)
-//                }
-//                .padding(.top)
-//
-//                Spacer()
-//                
-//                Text("Iniciar Sesión")
-//                    .foregroundColor(Color("Text"))
-//                    .font(.largeTitle.bold())
-//                Spacer()
-//                
-//                VStack{
-//                    Section{
-//                        Text("Correo electrónico")
-//                            .foregroundColor(Color("Text"))
-//                            .frame(maxWidth: .infinity, alignment: .leading)
-//                            .font(.system(size: 24))
-//                            .padding(.leading)
-//                        
-//                        TextField("Correo", text: $email)
-//                            .frame(height: 49)
-//                            .background(.white)
-//                            .cornerRadius(19)
-//                            .padding(.horizontal)
-//                            .autocorrectionDisabled(true)
-//                            .textInputAutocapitalization(.never)
-//                            .keyboardType(.emailAddress)
-//                            .foregroundColor(.black)
-//                        
-//                        Spacer().frame(height: 20)
-//                        
-//                        Text("Contraseña")
-//                            .foregroundColor(Color("Text"))
-//                            .frame(maxWidth: .infinity, alignment: .leading)
-//                            .font(.system(size: 24))
-//                            .padding(.leading)
-//                        
-//                        SecureField("Contraseña", text: $password)
-//                            .frame(height: 49)
-//                            .background(.white)
-//                            .cornerRadius(19)
-//                            .padding(.horizontal)
-//                            .autocorrectionDisabled(true)
-//                            .textInputAutocapitalization(.never)
-//                            .foregroundColor(.black)
-//                        
-//                        Spacer().frame(height: 30)
-//                        
-//                        Button(action: {
-//                            print("Login")
-//                        }) {
-//                            Text("Iniciar Sesión")
-//                                .font(.headline)
-//                                .foregroundColor(.text)
-//                                .padding(.vertical)
-//                                .padding(.horizontal, 65)
-//                                .background(Color("BtnColor"))
-//                                .cornerRadius(12)
-//                        }
-//                    }
-//                    .padding(.horizontal)
-//                }
-//                .frame(maxWidth: 300, maxHeight: 350)
-//                .padding(.vertical, 30)
-//                .background(Color("Tarjeta"))
-//                .clipShape(RoundedRectangle(cornerRadius: 20))
-//                
-//                Spacer()
-//                Spacer()
-//                Spacer()
-//                Spacer()
-//                Spacer()
-//            }
-//        }
     }
 }
 
@@ -200,6 +147,4 @@ struct LogIn: View {
 
 #Preview {
     RootView()
-//    LogIn()
-//        .environmentObject(Router())
 }
