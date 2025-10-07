@@ -10,7 +10,11 @@ import SwiftUI
 struct Info: View {
     var body: some View {
         ZStack {
-            NavigationBar()
+            VStack {
+                Spacer()
+                NavigationBar()
+            }
+            .edgesIgnoringSafeArea(.bottom)
             Text("Info")
         }
         .navigationBarBackButtonHidden(true)

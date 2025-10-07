@@ -12,7 +12,11 @@ struct Home: View {
     
     var body: some View {
         ZStack {
-            NavigationBar()
+            VStack {
+                Spacer()
+                NavigationBar()
+            }
+            .edgesIgnoringSafeArea(.bottom)
             Text("Home")
         }
         .navigationBarBackButtonHidden(true)

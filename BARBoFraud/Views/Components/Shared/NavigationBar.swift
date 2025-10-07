@@ -40,7 +40,6 @@ struct NavigationBar: View {
             }
         }
         .frame(height: 60)
-        .offset(y: 392.5)
         .shadow(color: .black, radius: 1)
     }
 }

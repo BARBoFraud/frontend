@@ -8,10 +8,20 @@
 import SwiftUI
 
 struct Search: View {
+    @State private var searchText = ""
+    
     var body: some View {
         ZStack {
-            NavigationBar()
-            Text("Search")
+            Color(.landingBg1)
+            SearchWaves()
+            
+            // Navigation bar positioning
+            VStack {
+                SearchBar()
+                Spacer()
+                NavigationBar()
+            }
+            .edgesIgnoringSafeArea(.bottom)
         }
         .navigationBarBackButtonHidden(true)
     }

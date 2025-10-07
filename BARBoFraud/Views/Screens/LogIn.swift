@@ -200,6 +200,4 @@ struct LogIn: View {
 
 #Preview {
     RootView()
-//    LogIn()
-//        .environmentObject(Router())
 }
