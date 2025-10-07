@@ -119,13 +119,10 @@ struct SideMenuView: View {
                         Spacer()
                     }
                     .padding(.bottom, 40)
-                    
-                    
-                    
                 }
                 .frame(width: 300, height: UIScreen.main.bounds.height, alignment: .leading)
                 .background(.appBg)
-                .edgesIgnoringSafeArea(.vertical)
+                .edgesIgnoringSafeArea(.top)
                 
                 if showingLogoutCard {
                     ConfirmationCard(isPresented: $showingLogoutCard, title: "¿Seguro que deseas cerrar sesión?", confirmAction: {

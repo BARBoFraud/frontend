@@ -55,10 +55,6 @@ struct ArticleCardView: View {
     }
 }
 
-
-
-
-
 #Preview {
     ArticleCardView(article: sampleArticles[0]) {}
 }
