@@ -3,20 +3,10 @@
 //  BARBoFraud
 //
 //  Created by Diego Herrera on 2025/09/24.
-//
-
-import Foundation
-
-struct PostsService{
-    func GetPosts() async throws -> PostResponse{
-        return PostResponse(post: Post(id: 1, firstName: "Diego", lastName: "Herrera", title: "Nuevo post", postText: "sadfsdaf", image: nil, date: Date.now, likeCount: 1, commentCount: 0));
-    }
-    
-}
 /*
 func UserRegistration(name:String, email:String, password:String) async throws -> RegistrationFormResponse{
     let requestForm = RegistrationFormRequest(name:name, email:email, password:password)
-    let url = URL(string: "http://localhost:3000/users")!
+    let url = URL(string: "http://localhost:3000/reports/feed")!
     var httpRequest = URLRequest(url: url)
     httpRequest.httpMethod = "POST"
     httpRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")

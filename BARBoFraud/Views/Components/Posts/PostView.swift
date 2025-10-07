@@ -50,7 +50,7 @@ struct PostView: View {
             .font(.subheadline)
         }
         .padding()
-        .background(Color("LandingBg1"))
+        .background(.white)
         .cornerRadius(10)
         .shadow(radius: 2)
         .padding(.horizontal)

@@ -9,7 +9,35 @@ import SwiftUI
 
 struct TopBar: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 0) {
+            HStack {
+
+                Button(action: {
+                    print("Menu tapped")
+                }) {
+                    Image(systemName: "line.horizontal.3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(.primary)
+                }
+                
+                Spacer()
+                
+                Text("ofraud")
+                    .font(.headline)
+                    .foregroundStyle(.backArrow)
+                    .bold()
+                
+                Spacer()
+            
+                Spacer()
+                    .frame(width: 24)
+            }
+            .padding(.horizontal)
+            .frame(height: 60)
+            .background(.landingBg2)
+        }
     }
 }
 

@@ -11,14 +11,16 @@ struct Home: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        ZStack {
+        VStack (spacing: 0){
+            TopBar()
+            FeedView()
             NavigationBar()
-            Text("Home")
+                .frame(height: 0)
         }
         .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    RootView()
+    Home()
 }
