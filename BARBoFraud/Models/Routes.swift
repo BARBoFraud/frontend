@@ -12,4 +12,5 @@ enum Route : Hashable {
     case info
     case home
     case search
+    case postDetail(Post)
 }

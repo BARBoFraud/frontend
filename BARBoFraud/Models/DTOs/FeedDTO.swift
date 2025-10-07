@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct Post : Decodable, Identifiable {
+struct Post : Decodable, Identifiable, Hashable {
+    let name, lastName : String
     let id : Int
     let category, date, description, image, url, website, socialMedia, username, email, phoneNumber : String
     let likeCount, commentCount, userLiked : Int
     
     enum CodingKeys: String, CodingKey {
-        case id, category
+        case id, category, name, lastName
         case date = "createdAt"
         case description, image, url, website, socialMedia, username, email, phoneNumber
         case likeCount = "likesCount"

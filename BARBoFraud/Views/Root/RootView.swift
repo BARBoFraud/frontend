@@ -23,6 +23,7 @@ struct RootView: View {
                     case .info: Info()
                     case .home: Home()
                     case .search: Search()
+                    case .postDetail : PostDetailView(post: Post(name: "", lastName: "", id: 0, category: "", date: "", description: "", image: "", url: "", website: "", socialMedia: "", username: "", email: "", phoneNumber: "", likeCount: 1, commentCount: 1, userLiked: 1))
                     }
                 }
         }

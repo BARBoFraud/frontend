@@ -36,15 +36,7 @@ struct FeedView: View {
                 ScrollView {
                     LazyVStack(spacing: 16) {
                         ForEach(vm.posts) { post in
-                            PostView(
-                                username: "\(post.username)",
-                                title: post.website,
-                                postImage: Image("PostImage"),
-                                postText: post.description,
-                                date: post.date,
-                                likeCount: post.likeCount,
-                                commentCount: post.commentCount
-                            )
+                            PostView(post: post)
                         }
                     }
                     .padding()
