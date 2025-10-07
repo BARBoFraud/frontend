@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct PostResponse : Decodable {
-    let post : Post
-}
-
 struct Post : Decodable, Identifiable {
     let id : Int
     let firstName, lastName, title, postText : String
@@ -28,3 +24,5 @@ struct Post : Decodable, Identifiable {
         case commentCount = "comment_count"
     }
 }
+
+typealias Feed = [Post]

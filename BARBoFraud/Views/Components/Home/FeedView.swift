@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FeedView: View {
-    // Mocked posts for now
+    
     let posts: [Post] = [
         Post(
             id: 1,
@@ -63,5 +63,5 @@ struct FeedView: View {
 }
 
 #Preview {
-    FeedView()
+    Feed()
 }
