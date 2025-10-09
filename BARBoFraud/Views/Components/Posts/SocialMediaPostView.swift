@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SocialMediaPostView: View {
     @EnvironmentObject var router: Router
+    let imageLocaton = AppConfig.imageStorageUrl
+    
     var post: Post
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -30,7 +32,7 @@ struct SocialMediaPostView: View {
                 .font(.system(size: 22, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .center)
 
-            if let url = URL(string: post.image){
+            if let url = URL(string: imageLocaton + post.image){
                 AsyncImage(url: url){ image in
                     image
                         .image?.resizable()
@@ -56,7 +58,7 @@ struct SocialMediaPostView: View {
             .font(.subheadline)
         }
         .padding()
-        .background(.white)
+        .background(.appBg)
         .cornerRadius(10)
         .shadow(radius: 2)
         .padding(.horizontal)

@@ -46,7 +46,7 @@ struct PhonePostView: View {
             .font(.subheadline)
         }
         .padding()
-        .background(.white)
+        .background(.appBg)
         .cornerRadius(10)
         .shadow(radius: 2)
         .padding(.horizontal)

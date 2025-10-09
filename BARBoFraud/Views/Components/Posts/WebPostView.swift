@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WebPostView: View {
     @EnvironmentObject var router: Router
+    let imageLocation = AppConfig.imageStorageUrl
     
     var post: Post
     var body: some View {
@@ -34,7 +35,7 @@ struct WebPostView: View {
                 .font(.system(size: 20, weight: .regular))
                 .frame(maxWidth: .infinity, alignment: .center)
 
-            if let url = URL(string: post.image){
+            if let url = URL(string: imageLocation + post.image){
                 AsyncImage(url: url){ image in
                     image
                         .image?.resizable()
@@ -60,7 +61,7 @@ struct WebPostView: View {
             .font(.subheadline)
         }
         .padding()
-        .background(.white)
+        .background(.appBg)
         .cornerRadius(10)
         .shadow(radius: 2)
         .padding(.horizontal)

@@ -12,7 +12,20 @@ struct PostDetailView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-
+            HStack {
+                BackArrowBtn()
+                    .frame(width: 40, height: 40)
+                
+                Text("Post")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 4)
+            .background(Color("AppBg").ignoresSafeArea(edges: .top))
+            
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(post.username)
@@ -56,7 +69,8 @@ struct PostDetailView: View {
                 .padding()
             }
         }
-        .background(Color("LandingBg2"))
+        .background(Color("LandingBg1"))
+        .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)
     }
 }
