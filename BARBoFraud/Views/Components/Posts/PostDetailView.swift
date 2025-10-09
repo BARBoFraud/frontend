@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PostDetailView: View {
-    var post : Post
+    var post: Post
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
