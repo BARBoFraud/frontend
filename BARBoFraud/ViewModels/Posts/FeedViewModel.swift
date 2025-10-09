@@ -9,18 +9,21 @@ import Foundation
 
 @MainActor
 final class FeedViewModel: ObservableObject {
+    
+    private let baseUrl = AppConfig.apiBaseUrl
+    
     @Published var posts: Feed = []
-    @Published var isLoading = false
+    @Published var isLoading = true
     @Published var errorMessage: String?
 
-    //private let endpoint = URL(string: "http://localhost:4000/v1/reports/feed")!
-    private let endpoint = URL(string: "http://192.168.1.79:4000/v1/reports/feed")! //iphone
+    private lazy var endpoint = URL(string: "\(baseUrl)/reports/feed")!
+    //private let endpoint = URL(string: "http://192.168.1.79:4000/v1/reports/feed")! //iphone
     func fetch() async {
         isLoading = true
         errorMessage = nil
         do {
             guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
-                throw ProfileClientError.missingToken
+                throw NetworkError.noToken
             }
             
             var httpRequest = URLRequest(url: endpoint)
@@ -41,17 +44,3 @@ final class FeedViewModel: ObservableObject {
         isLoading = false
     }
 }
-/**
-        TODO:
- Like
- Dislike
- Commentario
- Arregar detalle de post
-     
-     httpRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-     httpRequest.httpBody = try? JSONEncoder().encode(requestForm)
-     let (data, _) = try await URLSession.shared.data(for: httpRequest)
-     let response = try JSONDecoder().decode(LoginResponse.self, from: data)
-     return response
- }
- */

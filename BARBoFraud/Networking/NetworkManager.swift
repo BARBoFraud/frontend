@@ -17,7 +17,7 @@ final class NetworkManager {
     private func request<Response: Decodable, Body: Encodable>(
         // Request parameters
         _ endpoint: String,
-        method: String = "GET",
+    method: String = "GET",
         token: String? = nil,
         body: Body? = nil
     ) async throws -> Response {
