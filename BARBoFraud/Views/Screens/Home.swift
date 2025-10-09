@@ -51,6 +51,7 @@ struct Home: View {
                 .edgesIgnoringSafeArea(.bottom)
             }
         }
+        .background(.appBg)
         .navigationBarBackButtonHidden(true)
     }
 }

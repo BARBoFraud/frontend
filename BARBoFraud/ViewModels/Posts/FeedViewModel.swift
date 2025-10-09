@@ -39,6 +39,6 @@ final class FeedViewModel: ObservableObject {
         } catch {
             errorMessage = "No se pudieron cargar las incidencias. \(error.localizedDescription)"
         }
-        //isLoading = false
+        isLoading = false
     }
 }
