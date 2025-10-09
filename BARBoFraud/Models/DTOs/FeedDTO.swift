@@ -8,7 +8,7 @@
 import Foundation
 
 struct Post : Decodable, Identifiable, Hashable {
-    let name, lastName : String
+    let name, lastName : String?
     let id : Int
     let category, date, description, image, url, website, socialMedia, username, email, phoneNumber : String
     let likeCount, commentCount, userLiked : Int
