@@ -28,9 +28,16 @@ struct SocialMediaPostView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
             
-            Text(post.username)
-                .font(.system(size: 22, weight: .bold))
-                .frame(maxWidth: .infinity, alignment: .center)
+            if post.username != "" {
+                Text(post.username)
+                    .font(.system(size: 22, weight: .bold))
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }else if post.phoneNumber != "" {
+                Text(post.phoneNumber)
+                    .font(.system(size: 22, weight: .bold))
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            
 
             if let url = URL(string: imageLocaton + post.image){
                 AsyncImage(url: url){ image in

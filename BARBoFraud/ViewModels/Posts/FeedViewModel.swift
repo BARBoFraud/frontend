@@ -36,11 +36,9 @@ final class FeedViewModel: ObservableObject {
             }
             let decoded = try JSONDecoder().decode(Feed.self, from: data)
             posts = decoded
-            print("Decoded response: \(decoded)")
         } catch {
             errorMessage = "No se pudieron cargar las incidencias. \(error.localizedDescription)"
-            print("Decoding failed: \(error)")
         }
-        isLoading = false
+        //isLoading = false
     }
 }

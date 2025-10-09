@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct PostDetailView: View {
-    var post: Post
+    
+    let imageLocaton = AppConfig.imageStorageUrl
+    
+    let post: Post
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -34,12 +37,16 @@ struct PostDetailView: View {
                         .font(.system(size: 22, weight: .bold))
                         .frame(maxWidth: .infinity, alignment: .center)
                     
-                    Image(post.image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxHeight: 300)
-                            .clipped()
-                            .cornerRadius(10)
+                    if let url = URL(string: imageLocaton + post.image){
+                        AsyncImage(url: url){ image in
+                            image
+                                .image?.resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(maxHeight: 200)
+                                .clipped()
+                                .cornerRadius(10)
+                        }
+                    }
                     
                     Text(post.description)
                         .font(.system(size: 16))
@@ -72,6 +79,23 @@ struct PostDetailView: View {
         .background(Color("LandingBg1"))
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)
+    }
+}
+
+func unwrapPost(post: Post){
+    switch post.category{
+    case "Página de internet":
+        print("1")
+    case "Red social":
+        print("2")
+    case "Llamada":
+        print("3")
+    case "Mensaje":
+        print("4")
+    case "Correo electrónico":
+        print("5")
+    default:
+        print("error")
     }
 }
 
