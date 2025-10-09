@@ -16,7 +16,9 @@ struct FeedView: View {
             if vm.isLoading {
                 VStack{
                     Spacer()
-                    Text("Cargando").padding()
+                    ProgressView("Cargando")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
                     Spacer()
                 }
                 
@@ -41,17 +43,14 @@ struct FeedView: View {
                     }
                     .padding()
                 }
+                .refreshable {
+                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                    await vm.fetch()
+                }
             }
         }.task {
             await vm.fetch()
         }
-    }
-
-    private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
     }
 }
 
