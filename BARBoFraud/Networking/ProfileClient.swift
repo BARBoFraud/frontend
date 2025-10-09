@@ -14,7 +14,7 @@ enum ProfileClientError: Error {
 
 class ProfileClient {
     func userProfileNet() async throws -> Profile {
-        guard let url = URL(string: "http://localhost:3000/v1/users/profile") else {
+        guard let url = URL(string: "http://localhost:4000/v1/users/profile") else {
             throw ProfileClientError.invalidURL
         }
 
