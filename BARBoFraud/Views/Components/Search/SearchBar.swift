@@ -52,12 +52,7 @@ struct SearchBar: View {
                 }
                 
                 do {
-                    // Get JWT
-                    guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
-                        throw NetworkError.noToken
-                    }
-                    
-                    let results = try await NetworkManager.shared.search(query: searchText.trimmingCharacters(in: .whitespaces), token: token)
+                    let results = try await NetworkManager.shared.search(query: searchText.trimmingCharacters(in: .whitespaces))
                     await MainActor.run {
                         print("Results: \(results)")
                     }
