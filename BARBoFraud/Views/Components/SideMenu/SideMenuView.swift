@@ -49,7 +49,7 @@ struct SideMenuView: View {
     private func logOutBtnTapped() async throws {
         try await authController.logout()
         isLoggedIn = false
-        router.push(.landing)
+        router.clear()
     }
     
     private func deactivateBtnTapped() async throws {

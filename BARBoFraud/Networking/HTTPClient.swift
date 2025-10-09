@@ -35,7 +35,7 @@ struct HTTPClient {
     
     func UserRegistration(name:String, lastName1:String, lastName2:String,email:String, password:String) async throws {
         let requestForm = RegistrationFormRequest(name:name, lastName1: lastName1, lastName2: lastName2,email:email, password:password)
-        guard let url = URL(string: "\(baseURL)/v1/users/register") else {
+        guard let url = URL(string: "\(baseURL)/users/register") else {
             fatalError("Invalid URL" + "http://localhost:3000/v1/users/register")
         }
         var httpRequest = URLRequest(url: url)
@@ -113,7 +113,7 @@ struct HTTPClient {
     }
     
     func DeactivateUser() async throws {
-        guard let url = URL(string: "\(baseURL)/v1/users/deactivate") else {
+        guard let url = URL(string: "\(baseURL)/users/deactivate") else {
             fatalError("Invalid URL" + "http://10.48.234.109:3000/v1/auth/users/deactivate")
         }
         
