@@ -41,6 +41,28 @@ struct WebReport: View {
                         PageName(pageName: $Report.WebPageName, nextStep: $showNextCom)
                         Description(description: $Report.Description, nextStep: $showNextCom)
                     }
+                    if(Report.ReportType == "Red social"){
+                        ImageField(imageKey: $Report.ImageRoute, nextStep: $showNextCom, onImageSelected: { image in
+                            selectedImage = image
+                        })
+                        SocialNetwork(socialNetwork: $Report.SocialNetwork)
+                        UserName(userName: $Report.userName)
+                        Description(description: $Report.Description, nextStep: $showNextCom)
+                    }
+                    if(Report.ReportType == "Mensaje de texto" || Report.ReportType == "Llamada telefónica"){
+                        ImageField(imageKey: $Report.ImageRoute, nextStep: $showNextCom, onImageSelected: { image in
+                            selectedImage = image
+                        })
+                        PhoneNumber(phoneNumber: $Report.Phone)
+                        Description(description: $Report.Description, nextStep: $showNextCom)
+                    }
+                    if(Report.ReportType == "Correo electrónico"){
+                        ImageField(imageKey: $Report.ImageRoute, nextStep: $showNextCom, onImageSelected: { image in
+                            selectedImage = image
+                        })
+                        Email(email: $Report.Email)
+                        Description(description: $Report.Description, nextStep: $showNextCom)
+                    }
                 }
                 .padding(.vertical, 24)
                 .background(
@@ -140,21 +162,19 @@ extension WebReport {
                     case "Red social":
                         return !SocialNetwork.isEmpty &&
                                !Description.isEmpty &&
-                               !ImageRoute.isEmpty
+                               !userName.isEmpty
                         
-                    case "Mensaje":
+                    case "Mensaje de texto":
                         return !Phone.isEmpty &&
-                               !Description.isEmpty &&
-                               !ImageRoute.isEmpty
+                               !Description.isEmpty
                         
-                    case "Llamada":
+                    case "Llamada telefónica":
                         return !Phone.isEmpty &&
                                !Description.isEmpty
                         
                     case "Correo electrónico":
                         return !Email.isEmpty &&
-                               !Description.isEmpty &&
-                               !ImageRoute.isEmpty
+                               !Description.isEmpty
                         
                     default:
                         return false
