@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct UpLoadImageDTO: Decodable {
+    let fileKey: String
+    let url: String
+}
