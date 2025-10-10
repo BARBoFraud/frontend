@@ -178,32 +178,6 @@ struct SignUp: View {
                             Group {
                                 PrivacyView(accepted: $acceptedPrivacy, privacyText: privacyText)
                                 
-                                //                            Button {
-                                //                                errorMessages = registrationForm.validate()
-                                //                                if errorMessages.isEmpty {
-                                //                                    if !acceptedPrivacy {
-                                //                                        showResultAlert = true
-                                //                                    } else {
-                                //                                        Task {
-                                //                                            await register()
-                                //                                            print("signed up")
-                                //                                        }
-                                //                                    }
-                                //                                }
-                                //                            } label: {
-                                //                                Text("Crear cuenta")
-                                //                                    .font(.headline)
-                                //                                    .foregroundColor(.white)
-                                //                                    .padding()
-                                //                                    .frame(maxWidth: .infinity)
-                                //                                    .background(Color("BlueAccent"))
-                                //                                    .cornerRadius(12)
-                                //                            }
-                                //
-                                //                            NavigationLink(destination: LogIn().navigationBarBackButtonHidden(true), isActive: $navLogin) {
-                                //                                EmptyView()
-                                //                            }
-                                
                                 NavigationButton(
                                     action: {
                                         errorMessages = registrationForm.validate()
@@ -260,6 +234,7 @@ struct SignUp: View {
         .alert(isPresented: $showResultAlert) {
             Alert(title: Text("Aviso"), message: Text("Debes aceptar el aviso de privacidad"), dismissButton: .default(Text("OK")))
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

@@ -93,22 +93,6 @@ struct LogIn: View {
                             
                             Spacer().frame(height: 8)
                             
-//                            Button(action: {
-//                                errorMessages = loginForm.validate()
-//                                if errorMessages.isEmpty {
-//                                    Task {
-//                                        await login()
-//                                    }
-//                                }
-//                            }) {
-//                                Text("Iniciar Sesión")
-//                                    .font(.headline)
-//                                    .foregroundColor(.text)
-//                                    .padding()
-//                                    .background(Color("BtnColor"))
-//                                    .cornerRadius(12)
-//                            }
-                            
                             NavigationButton(
                                 action: {
                                     errorMessages = loginForm.validate()
@@ -124,11 +108,6 @@ struct LogIn: View {
                                 bgColor: .btn
                             )
                             .padding(.horizontal)
-                            
-//                            NavigationLink(destination: Info().navigationBarBackButtonHidden(true), isActive: $navInfo) {
-//                                EmptyView()
-//                            }
-                            
                         }
                         .padding(.horizontal)
                     }
@@ -158,6 +137,7 @@ struct LogIn: View {
                 .animation(.spring(response: 0.45, dampingFraction: 0.8), value: errorMessages)
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -167,6 +147,4 @@ struct LogIn: View {
 
 #Preview {
     RootView()
-//    LogIn()
-//        .environmentObject(Router())
 }

@@ -13,72 +13,76 @@ struct Info: View {
     let articles: [ArticleDTO] = sampleArticles
     
     var body: some View {
-            ZStack {
-                Color("AppBg").ignoresSafeArea()
+        ZStack {
+            Color("AppBg").ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                TopBarView(title: "oFraud") {
+                    withAnimation(.interactiveSpring(response: 0.35, dampingFraction: 0.8, blendDuration: 0.25)){
+                        showSideMenu.toggle( )
+                    }
+                }
                 
-                VStack(spacing: 0) {
-                    TopBarView(title: "oFraud") {
-                        withAnimation(.interactiveSpring(response: 0.35, dampingFraction: 0.8, blendDuration: 0.25)){
-                            showSideMenu.toggle( )
-                        }
-                    }
-                    
-                    ScrollView() {
-                        VStack(spacing: 18) {
-                            VStack(alignment: .leading, spacing: 10) {
-                                Spacer().frame(height: 20)
-                                Text("En esta sección encontrarás una gran variedad de contenidos educativos y de actualidad sobre temas relacionados con la ciberseguridad.")
-                                    .foregroundColor(Color("Text"))
-                                    .font(.subheadline)
-                                    .bold()
-                                    .lineSpacing(4)
-                                
-                                Text("Estos artículos abordan desde noticias y tendencias en el ámbito de la ciberseguridad hasta guías prácticas y análisis de amenazas, con el objetivo de informar y educar a los lectores sobre cómo protegerse en el entorno digital.")
-                                    .foregroundColor(Color("Text"))
-                                    .font(.caption)
-                                    .lineSpacing(4)
-                            }
-                            .padding(.horizontal)
+                ScrollView() {
+                    VStack(spacing: 18) {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Spacer().frame(height: 20)
+                            Text("En esta sección encontrarás una gran variedad de contenidos educativos y de actualidad sobre temas relacionados con la ciberseguridad.")
+                                .foregroundColor(Color("Text"))
+                                .font(.subheadline)
+                                .bold()
+                                .lineSpacing(4)
                             
-                            ForEach(articles) { article in
-                                ArticleRow(article: article)
-                                    .padding(.horizontal)
-                            }
-                            
-                            Spacer(minLength: 24)
+                            Text("Estos artículos abordan desde noticias y tendencias en el ámbito de la ciberseguridad hasta guías prácticas y análisis de amenazas, con el objetivo de informar y educar a los lectores sobre cómo protegerse en el entorno digital.")
+                                .foregroundColor(Color("Text"))
+                                .font(.caption)
+                                .lineSpacing(4)
                         }
-                        .padding(.top, 12)
-                    }
-                }
-                if showSideMenu {
-                    HStack(spacing: 0){
-                        SideMenuView(showMenu: $showSideMenu)
-                            .frame(width: 300)
-                            .transition(.move(edge: .leading))
-                           
+                        .padding(.horizontal)
                         
-                        Spacer()
+                        ForEach(articles) { article in
+                            ArticleRow(article: article)
+                                .padding(.horizontal)
+                        }
+                        
+                        Spacer(minLength: 24)
                     }
-                    .background(
-                        Color.appBg.opacity(0.80)
-                            .ignoresSafeArea()
-                            .onTapGesture {
-                                withAnimation(.easeInOut) {
-                                    showSideMenu.toggle()
-                                }
-                            }
-                        )
-                    .transition(.move(edge: .leading))
+                    .padding(.top, 12)
                 }
+            }
+            if showSideMenu {
+                HStack(spacing: 0){
+                    SideMenuView(showMenu: $showSideMenu)
+                        .frame(width: 300)
+                        .transition(.move(edge: .leading))
+                       
+                    
+                    Spacer()
+                }
+                .background(
+                    Color.appBg.opacity(0.80)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                showSideMenu.toggle()
+                            }
+                        }
+                    )
+                .transition(.move(edge: .leading))
+            }
+            
+            if !showSideMenu {
+                VStack {
+                    Spacer()
+                    NavigationBar()
+                }
+                .edgesIgnoringSafeArea(.bottom)
+            }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
-
-
-
-
 #Preview {
-//    Info()
     RootView()
 }
