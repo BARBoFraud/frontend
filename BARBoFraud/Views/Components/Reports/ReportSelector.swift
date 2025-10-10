@@ -12,7 +12,7 @@ struct ReportSelector: View {
     @Binding var nextStep: Bool
     @State private var expanded: Bool = true
     
-    let options = ["Página de internet", "Red social", "Mensaje", "Llamada", "Correo electrónico"]
+    let options = ["Página de internet", "Red social", "Mensaje de texto", "Llamada telefónica", "Correo electrónico"]
     
     var body: some View {
         ZStack {
