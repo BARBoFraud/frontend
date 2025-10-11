@@ -8,7 +8,7 @@
 import Foundation
 
 struct ReportRequest: Codable {
-    var categoryID: Int
+    var categoryId: Int
     var description: String
     var url: String? = nil
     var website: String? = nil
