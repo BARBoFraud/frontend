@@ -25,7 +25,8 @@ struct RootView: View {
                     case .search: Search()
                     case .emptyView: EmptyView()
                     case .articleDetail(let article): ArticleDetail(article: article)
-                    case .postDetail : PostDetailView(post: Post(name: "", lastName: "", id: 0, category: "", date: "", description: "", image: "", url: "", website: "", socialMedia: "", username: "", email: "", phoneNumber: "", likeCount: 1, commentCount: 1, userLiked: 1))
+                    case .postDetail(let id): PostDetailView(postId: id)
+                    case .newComment(let post): NewCommentView(post: post)
                     }
                 }
         }
