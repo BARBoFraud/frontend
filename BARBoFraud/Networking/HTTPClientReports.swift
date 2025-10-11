@@ -14,14 +14,14 @@ enum postReportError: Error {
 }
 
 struct HTTPClientReports {
-    func PublishReport(categoryID: Int, description: String, url: String?, website: String?, socialMedia: String?, phoneNumber: String?, userName: String?, email: String?, anonymous: Bool, imageId: String) async throws {
-        let requestForm = ReportRequest(categoryID: categoryID, description:description, url:url, website: website, socialMedia: socialMedia, phoneNumber: phoneNumber, username: userName, email: email, anonymous: anonymous, imageId: imageId)
+    func PublishReport(categoryId: Int, description: String, url: String?, website: String?, socialMedia: String?, phoneNumber: String?, userName: String?, email: String?, anonymous: Bool, imageId: String) async throws {
+        let requestForm = ReportRequest(categoryId: categoryId, description:description, url:url, website: website, socialMedia: socialMedia, phoneNumber: phoneNumber, username: userName, email: email, anonymous: anonymous, imageId: imageId)
         guard let url = URL(string: "http://localhost:4000/v1/reports/create") else {
             fatalError("Invalid URL" + "http://localhost:4000/v1/reports/create")
         }
         
         var httpRequest = URLRequest(url: url)
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJhY3RvciI6InVzZXIiLCJpYXQiOjE3NjAwMzM4NzksImV4cCI6MTc2MDAzNzQ3OX0.o1DlEy7UGw9GTAYb4J3InUttmpbbWJXv3fGPdORAOoY"
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJhY3RvciI6InVzZXIiLCJpYXQiOjE3NjAyMTc1MzgsImV4cCI6MTc2MDIyMTEzOH0.vPUF9QJ9DVUU_wZvDqAvyYlb5gp-NlzB4mHpdZmkyC4"
         
         httpRequest.httpMethod = "POST"
         httpRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
