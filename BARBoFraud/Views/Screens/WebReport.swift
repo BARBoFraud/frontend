@@ -13,6 +13,7 @@ struct WebReport: View {
     @State var Report = ReportForm()
     @State var selectedImage: UIImage?
     @State private var uploadStatus: String?
+    @State private var selectedCategoryID: Int? = nil
     
     
     
@@ -31,7 +32,7 @@ struct WebReport: View {
                     .foregroundColor(.text)
                 Spacer().frame(height: 40)
                 VStack {
-                    ReportSelector(selectedType: $Report.ReportType, nextStep: $showNextCom)
+                    ReportSelector(selectedType: $Report.ReportType, selectedCategoryID: $selectedCategoryID, nextStep: $showNextCom)
                     
                     if(Report.ReportType == "Página de internet"){
                         ImageField(imageKey: $Report.ImageRoute, nextStep: $showNextCom, onImageSelected: { image in
@@ -49,7 +50,7 @@ struct WebReport: View {
                         UserName(userName: $Report.userName)
                         Description(description: $Report.Description, nextStep: $showNextCom)
                     }
-                    if(Report.ReportType == "Mensaje de texto" || Report.ReportType == "Llamada telefónica"){
+                    if(Report.ReportType == "Mensaje" || Report.ReportType == "Llamada"){
                         ImageField(imageKey: $Report.ImageRoute, nextStep: $showNextCom, onImageSelected: { image in
                             selectedImage = image
                         })
@@ -81,9 +82,14 @@ struct WebReport: View {
                                     let fileKey = try await uploadImage(image)
                                     Report.ImageRoute = fileKey
                                 }
+                                guard let categoryId = selectedCategoryID else {
+                                    print("No se ha seleccionado una categoría.")
+                                    return
+                                }
+                                print("✅ CategoryID seleccionado: \(categoryId)")
                                 let controller = ReportsController(httpClient: HTTPClientReports())
                                 try await controller.publishAReport(
-                                    categoryID: 1, //Tengo que hacer el fetch al endpoint /v1/categories/list
+                                    categoryId: categoryId,
                                     description: Report.Description,
                                     url: Report.WebUrl.isEmpty ? nil : Report.WebUrl,
                                     website: Report.WebPageName.isEmpty ? nil : Report.WebPageName,
@@ -95,6 +101,7 @@ struct WebReport: View {
                                     imageId: Report.ImageRoute)
                             }
                         }
+                        
                     } label: {
                         Label("Enviar reporte", systemImage: "paperplane.fill")
                             .frame(maxWidth: .infinity)
@@ -113,7 +120,7 @@ struct WebReport: View {
         }
         
         var request = URLRequest(url: url)
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJhY3RvciI6InVzZXIiLCJpYXQiOjE3NjAwMzM4NzksImV4cCI6MTc2MDAzNzQ3OX0.o1DlEy7UGw9GTAYb4J3InUttmpbbWJXv3fGPdORAOoY"
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJhY3RvciI6InVzZXIiLCJpYXQiOjE3NjAyMTc1MzgsImV4cCI6MTc2MDIyMTEzOH0.vPUF9QJ9DVUU_wZvDqAvyYlb5gp-NlzB4mHpdZmkyC4"
         
         request.httpMethod = "POST"
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -164,11 +171,11 @@ extension WebReport {
                                !Description.isEmpty &&
                                !userName.isEmpty
                         
-                    case "Mensaje de texto":
+                    case "Mensaje":
                         return !Phone.isEmpty &&
                                !Description.isEmpty
                         
-                    case "Llamada telefónica":
+                    case "Llamada":
                         return !Phone.isEmpty &&
                                !Description.isEmpty
                         
