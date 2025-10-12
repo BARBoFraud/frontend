@@ -12,11 +12,11 @@ struct Search: View {
     
     var body: some View {
         ZStack {
-            Color(.landingBg1)
+            Color(.appBg)
             SearchWaves()
             
             // Navigation bar positioning
-            VStack {
+            VStack(spacing: 0) {
                 SearchBar()
                 Spacer()
                 NavigationBar()
