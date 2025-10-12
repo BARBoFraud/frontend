@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CommentButton: View {
+    @EnvironmentObject var router: Router
     @State private var commentCount : Int = 0
     
     init(initialCount: Int = 0) {

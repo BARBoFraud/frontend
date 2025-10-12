@@ -63,7 +63,7 @@ struct HTTPClient {
     func UserLogin(email:String, password:String) async throws -> LoginResponse{
         let loginRequest = LoginRequest(email:email, password:password)
         guard let url = URL(string: "\(baseURL)/auth/users/login") else {
-            fatalError("Invalid URL" + "http://localhost:3000/auth/users/login")
+            fatalError("Invalid URL" + "http://localhost:4000/auth/users/login")
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"

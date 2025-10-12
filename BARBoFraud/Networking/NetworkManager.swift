@@ -29,6 +29,7 @@ final class NetworkManager {
         }
         
         var request = URLRequest(url: url)
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         request.httpMethod = method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
@@ -73,7 +74,7 @@ final class NetworkManager {
         }
     }
     
-    private func request<Response: Decodable>(
+    func request<Response: Decodable>(
         _ endpoint: String,
         method: String = "GET",
         token: String? = nil
@@ -81,8 +82,17 @@ final class NetworkManager {
         try await request(endpoint, method: method, token: token, body: Optional<Data>.none)
     }
     
-    
-    
+    func request(
+        _ endpoint: String,
+        token: String? = nil
+    ) async throws {
+        let _: EmptyResponse = try await request(
+            endpoint,
+            method: "POST",
+            token: token,
+            body: Optional<Data>.none
+        )
+    }
 }
 
 extension NetworkManager {
@@ -91,7 +101,6 @@ extension NetworkManager {
         guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
             throw NetworkError.noToken
         }
-        
         return try await request("/reports/search/\(query)", token: token)
     }
 }

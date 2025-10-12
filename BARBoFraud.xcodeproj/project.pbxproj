@@ -10,9 +10,22 @@
 		71F6E8BA2E73960F000B9B50 /* BARBoFraud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BARBoFraud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FA835D532E957F99001C7DA4 /* Exceptions for "BARBoFraud" folder in "BARBoFraud" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 71F6E8B92E73960F000B9B50 /* BARBoFraud */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		71F6E8BC2E73960F000B9B50 /* BARBoFraud */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FA835D532E957F99001C7DA4 /* Exceptions for "BARBoFraud" folder in "BARBoFraud" target */,
+			);
 			path = BARBoFraud;
 			sourceTree = "<group>";
 		};
@@ -251,8 +264,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4R92Y2Y5PP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BARBoFraud/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -278,8 +293,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4R92Y2Y5PP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BARBoFraud/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
