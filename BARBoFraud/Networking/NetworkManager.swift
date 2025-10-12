@@ -93,7 +93,6 @@ final class NetworkManager {
             body: Optional<Data>.none
         )
     }
-
 }
 
 extension NetworkManager {
