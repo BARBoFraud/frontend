@@ -40,7 +40,7 @@ struct PhonePostView: View {
             //Comentarios y likes
             HStack(spacing: 100) {
                 CommentButton(initialCount: post.commentCount)
-                LikeButton(initialCount: post.likeCount, initiallyLiked: post.userLiked == 1)
+                LikeButton(initialCount: post.likeCount, initiallyLiked: post.userLiked == 1, id: post.id)
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .font(.subheadline)
@@ -52,7 +52,7 @@ struct PhonePostView: View {
         .padding(.horizontal)
         .contentShape(Rectangle()) // Makes entire card tappable
         .onTapGesture {
-            router.push(.postDetail(post))
+            router.push(.postDetail(postId: post.id))
         }
     }
 }

@@ -41,7 +41,7 @@ struct PostCommentView: View {
             }
             .padding()
         }
-        .background(Color("LandingBg2"))
+        .background(.appBg)
     }
 }
 

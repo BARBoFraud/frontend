@@ -8,94 +8,106 @@
 import SwiftUI
 
 struct PostDetailView: View {
+    @StateObject var vm = PostViewModel()
     
-    let imageLocaton = AppConfig.imageStorageUrl
+    var postId: Int
     
-    let post: Post
+    @State private var title : String = ""
+    @State private var actor : String = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                BackArrowBtn()
-                    .frame(width: 40, height: 40)
-                
-                Text("Post")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 4)
-            .background(Color("AppBg").ignoresSafeArea(edges: .top))
-            
-            ScrollView {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(post.username)
-                        .font(.system(size: 16, weight: .semibold))
-                    Text(post.website)
-                        .font(.system(size: 22, weight: .bold))
-                        .frame(maxWidth: .infinity, alignment: .center)
+            PostHeader()
+            Group{
+                if vm.isLoading {
+                    VStack{
+                        Spacer()
+                        ProgressView("Cargando Post")
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding()
+                        Spacer()
+                    }
                     
-                    if let url = URL(string: imageLocaton + post.image){
-                        AsyncImage(url: url){ image in
-                            image
-                                .image?.resizable()
+                }else if let error = vm.errorMessage{
+                    VStack{
+                        Spacer()
+                        Text(error).padding()
+                        Spacer()
+                    }
+                }else{
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text(title)
+                            .font(.system(size: 20, weight: .semibold))
+                        if actor != "" {
+                            Text(actor)
+                                .font(.system(size: 18, weight: .bold))
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                        
+                        if let loadedImage = vm.image {
+                            loadedImage
+                                .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(maxHeight: 200)
                                 .clipped()
                                 .cornerRadius(10)
+                        } else if vm.isLoading {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: 200)
                         }
-                    }
-                    
-                    Text(post.description)
-                        .font(.system(size: 16))
-                    Text(post.date)
-                        .font(.system(size: 12))
-                        .foregroundColor(.gray)
-                    
-                    // Buttons
-                    HStack(spacing: 100) {
-                        CommentButton()
-                        LikeButton()
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.subheadline)
-                }
-                .padding()
-                
-                VStack{
-                    ForEach(0..<10, id: \.self) { index in
-                        VStack(alignment: .leading, spacing: 4) {
-                            CommentView(name : "\(index)", comment_text: "comentario", date: Date.now)
-                            Divider()
+                        
+                        Text(vm.post.description)
+                            .font(.system(size: 16))
+                        Text(vm.post.date)
+                            .font(.system(size: 12))
+                            .foregroundColor(.gray)
+                        
+                        // Buttons
+                        HStack(spacing: 100) {
+                            CommentButton(initialCount: vm.post.commentCount)
+                            LikeButton(initialCount: vm.post.likeCount, initiallyLiked: vm.post.userLiked == 1, id: vm.post.id)
                         }
-                        .padding(.vertical, 4)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .font(.subheadline)
                     }
+                    .padding()
+                    Divider()
+                    CommentSection(id: vm.postID)
                 }
-                .padding()
+            }.task {
+                do{
+                    try await vm.getPost(id: postId)
+                    unwrapPost()
+                    await vm.loadImage(from: vm.post.image)
+                } catch {
+                    print(error)
+                }
             }
         }
-        .background(Color("LandingBg1"))
+        .background(.appBg)
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)
+        
     }
-}
-
-func unwrapPost(post: Post){
-    switch post.category{
-    case "Página de internet":
-        print("1")
-    case "Red social":
-        print("2")
-    case "Llamada":
-        print("3")
-    case "Mensaje":
-        print("4")
-    case "Correo electrónico":
-        print("5")
-    default:
-        print("error")
+    
+    func unwrapPost(){
+        switch vm.post.category{
+        case "Página de internet":
+            title = vm.post.url
+        case "Red social":
+            if vm.post.socialMedia == "Whatsapp"{ title = "\(vm.post.socialMedia) \(vm.post.phoneNumber)"}
+            else if vm.post.socialMedia == "Facebook" {title = "\(vm.post.socialMedia) \(vm.post.username)"}
+            else{ title = "\(vm.post.socialMedia) @\(vm.post.username)"}
+                    
+            
+        case "Llamada":
+            title = vm.post.phoneNumber
+        case "Mensaje":
+            title = vm.post.phoneNumber
+        case "Correo electrónico":
+            title = vm.post.email
+        default:
+            print("Invalid Category")
+        }
     }
 }
 

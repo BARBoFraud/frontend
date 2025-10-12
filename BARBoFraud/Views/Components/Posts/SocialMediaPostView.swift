@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SocialMediaPostView: View {
     @EnvironmentObject var router: Router
-    let imageLocaton = AppConfig.imageStorageUrl
+    @StateObject var vm = PostViewModel()
     
     var post: Post
     var body: some View {
@@ -38,16 +38,16 @@ struct SocialMediaPostView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
             }
             
-
-            if let url = URL(string: imageLocaton + post.image){
-                AsyncImage(url: url){ image in
-                    image
-                        .image?.resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(maxHeight: 200)
-                        .clipped()
-                        .cornerRadius(10)
-                }
+            if let loadedImage = vm.image {
+                loadedImage
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxHeight: 200)
+                    .clipped()
+                    .cornerRadius(10)
+            } else if vm.isLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: 200)
             }
             
             Text(post.description)
@@ -59,7 +59,7 @@ struct SocialMediaPostView: View {
             //Comentarios y likes
             HStack(spacing: 100) {
                 CommentButton(initialCount: post.commentCount)
-                LikeButton(initialCount: post.likeCount, initiallyLiked: post.userLiked == 1)
+                LikeButton(initialCount: post.likeCount, initiallyLiked: post.userLiked == 1, id: post.id)
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .font(.subheadline)
@@ -71,7 +71,12 @@ struct SocialMediaPostView: View {
         .padding(.horizontal)
         .contentShape(Rectangle()) // Makes entire card tappable
         .onTapGesture {
-            router.push(.postDetail(post))
+            router.push(.postDetail(postId: post.id))
+        }
+        .onAppear {
+            Task {
+                await vm.loadImage(from: post.image)
+            }
         }
     }
 }
