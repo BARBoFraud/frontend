@@ -16,6 +16,7 @@ struct SearchBar: View {
             // Background with rounded corners
            Rectangle()
                 .fill(.appBg).ignoresSafeArea()
+                .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 4)
             // Custom search bar
             HStack {
                 Image(systemName: "magnifyingglass")
@@ -41,7 +42,6 @@ struct SearchBar: View {
             .padding(.vertical, 12)
         }
         .fixedSize(horizontal: false, vertical: true)
-        .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 4)
         .onChange(of: searchText) {
             debounceTask?.cancel()
             
