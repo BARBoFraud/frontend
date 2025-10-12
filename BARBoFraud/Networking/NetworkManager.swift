@@ -14,7 +14,9 @@ final class NetworkManager {
     // API base URL
     private let baseUrl = AppConfig.apiBaseUrl
     
-    private func request<Response: Decodable, Body: Encodable>(
+    struct EmptyResponse: Decodable {}
+    
+    func request<Response: Decodable, Body: Encodable>(
         // Request parameters
         _ endpoint: String,
         method: String = "GET",
@@ -78,6 +80,9 @@ final class NetworkManager {
     ) async throws -> Response {
         try await request(endpoint, method: method, token: token, body: Optional<Data>.none)
     }
+    
+    
+    
 }
 
 extension NetworkManager {

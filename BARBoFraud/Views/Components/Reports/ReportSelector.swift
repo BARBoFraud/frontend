@@ -12,13 +12,11 @@ struct ReportSelector: View {
     @Binding var selectedCategoryID: Int?
     @Binding var nextStep: Bool
     @State private var expanded: Bool = true
+    @State private var isLoading = true
+    @State private var errorMessage: String? = nil
     
-    @State private var categories: [IDCategoryRequest] = []
-        @State private var isLoading = true
-        @State private var errorMessage: String? = nil
+    @StateObject private var vm = ReportsController()
     
-    private let controller = CategoryIDController(httpClient: HTTPClientCategoryID())
-
     
     var body: some View {
         ZStack {
@@ -45,13 +43,13 @@ struct ReportSelector: View {
                 if expanded {
                     if isLoading {
                         ProgressView("Cargando categorías...")
-                        .padding()
+                            .padding()
                     } else if let errorMessage = errorMessage {
                         Text("Error: \(errorMessage)")
-                        .foregroundColor(.red)
-                        .padding()
+                            .foregroundColor(.red)
+                            .padding()
                     } else {
-                        ForEach(categories, id: \.id){ category in
+                        ForEach(vm.categories, id: \.id){ category in
                             Button(action: {
                                 selectedType = category.name
                                 selectedCategoryID = category.id
@@ -87,20 +85,10 @@ struct ReportSelector: View {
             )
             .frame(width: 300)
             .task {
-                await loadCategories( )
+                await vm.getCategories()
             }
         }
     }
-    private func loadCategories() async {
-            do {
-                isLoading = true
-                errorMessage = nil
-                categories = try await controller.getCategoryID()
-            } catch {
-                errorMessage = error.localizedDescription
-            }
-            isLoading = false
-        }
 }
 
 #Preview {

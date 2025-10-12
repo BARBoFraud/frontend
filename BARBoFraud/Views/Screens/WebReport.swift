@@ -15,6 +15,9 @@ struct WebReport: View {
     @State private var uploadStatus: String?
     @State private var selectedCategoryID: Int? = nil
     
+    @EnvironmentObject var router: Router
+    @StateObject private var vm = ReportsController()
+    
     var body: some View {
         ZStack{
             Color.landingBg1
@@ -24,6 +27,12 @@ struct WebReport: View {
 
             ScrollView(showsIndicators: false){
             VStack{
+                HStack{
+                    BackArrowBtn()
+                    Spacer()
+                }
+                .padding()
+                
                 Spacer().frame(height: 25)
                 Text("Nuevo reporte")
                     .font(.system(size: 32, weight: .bold, design: .default))
@@ -77,16 +86,14 @@ struct WebReport: View {
                         Task{
                             do{
                                 if let image = selectedImage {
-                                    let fileKey = try await uploadImage(image)
-                                    Report.ImageRoute = fileKey
+                                    await vm.uploadImage(image)
                                 }
                                 guard let categoryId = selectedCategoryID else {
                                     print("No se ha seleccionado una categoría.")
                                     return
                                 }
                                 print("✅ CategoryID seleccionado: \(categoryId)")
-                                let controller = ReportsController(httpClient: HTTPClientReports())
-                                try await controller.publishAReport(
+                                await vm.newReport(
                                     categoryId: categoryId,
                                     description: Report.Description,
                                     url: Report.WebUrl.isEmpty ? nil : Report.WebUrl,
@@ -95,8 +102,8 @@ struct WebReport: View {
                                     phoneNumber: Report.Phone.isEmpty ? nil : Report.Phone,
                                     userName: Report.userName.isEmpty ? nil : Report.userName,
                                     email: Report.Email.isEmpty ? nil : Report.Email,
-                                    anonymous: false,
-                                    imageId: Report.ImageRoute)
+                                    anonymous: false)
+                                router.push(.home)
                             }
                         }
                         
@@ -110,38 +117,6 @@ struct WebReport: View {
             }.frame(maxWidth: .infinity)
             
         }
-    }
-    func uploadImage(_ image: UIImage) async throws -> String{
-        guard let url = URL(string: "http://localhost:4000/v1/images/upload"),
-              let imageData = image.jpegData(compressionQuality: 0.8) else {
-            throw URLError(.badURL)
-        }
-        
-        var request = URLRequest(url: url)
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJhY3RvciI6InVzZXIiLCJpYXQiOjE3NjAyMTc1MzgsImV4cCI6MTc2MDIyMTEzOH0.vPUF9QJ9DVUU_wZvDqAvyYlb5gp-NlzB4mHpdZmkyC4"
-        
-        request.httpMethod = "POST"
-        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        // Límite del multipart
-        let boundary = UUID().uuidString
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        // Construcción del body
-        var body = Data()
-        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"foto.jpg\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
-        body.append(imageData)
-        body.append("\r\n".data(using: .utf8)!)
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        let (data, response) = try await URLSession.shared.upload(for: request, from: body)
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201 else {
-                throw URLError(.badServerResponse)
-            }
-        let decoded = try JSONDecoder().decode(UpLoadImageDTO.self, from: data)
-            return decoded.fileKey
-        
     }
 }
 
