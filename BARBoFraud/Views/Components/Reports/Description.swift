@@ -40,24 +40,6 @@ struct Description: View {
                     .background(Color.white.opacity(0.3))
                     .cornerRadius(10)
                     .padding(.horizontal, 0.1)
-                
-                HStack {
-                    Spacer()
-                    Button("Enviar reporte", action: {
-                        withAnimation{
-                            expanded = false
-                            nextStep = true
-                        }
-                    })                    .background(
-                        Rectangle()
-                            .foregroundColor(.blue)
-                            .cornerRadius(19)
-                            .frame(width: 120)
-                    )
-                    .foregroundStyle(.text)
-                    .padding(.top,8)
-                    Spacer()
-                }
             }
         }
         .padding()

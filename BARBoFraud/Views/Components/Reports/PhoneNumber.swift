@@ -1,16 +1,15 @@
 //
-//  PageName.swift
+//  PhoneNumber.swift
 //  BARBoFraud
 //
-//  Created by Daniel Esteban Hernández García on 28/09/25.
+//  Created by Daniel Esteban Hernández García on 10/10/25.
 //
 
 import SwiftUI
 
-struct PageName: View {
+struct PhoneNumber: View {
     @State private var expanded: Bool = true
-    @Binding var pageName: String
-    @Binding var nextStep: Bool
+    @Binding var phoneNumber: String
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -25,15 +24,16 @@ struct PageName: View {
                 }
                 .foregroundColor(.text)
                 Spacer()
-                Text("Nombre página")
+                Text("Número telefónico")
                     .font(.title2)
                     .bold()
                     .padding(.bottom, 8)
                     .padding(.horizontal, 20)
                 Spacer()
             }
+            
             if expanded {
-                TextField("Nombre", text: $pageName)
+                TextField("Número de 10 dígitos", text: $phoneNumber)
                     .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(0.3))
@@ -53,11 +53,10 @@ struct PageName: View {
 
 #Preview {
     struct prev: View {
-        @State var pageName: String = ""
-        @State var nextStep: Bool = false
+        @State var phoneNumber: String = ""
         
         var body: some View {
-            PageName(pageName: $pageName, nextStep: $nextStep)
+            PhoneNumber(phoneNumber: $phoneNumber)
             }
         }
     return prev()

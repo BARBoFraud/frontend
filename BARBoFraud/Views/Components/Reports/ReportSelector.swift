@@ -9,10 +9,16 @@ import SwiftUI
 
 struct ReportSelector: View {
     @Binding var selectedType: String
+    @Binding var selectedCategoryID: Int?
     @Binding var nextStep: Bool
     @State private var expanded: Bool = true
     
-    let options = ["Página de internet", "Red social", "Mensaje", "Llamada", "Correo electrónico"]
+    @State private var categories: [IDCategoryRequest] = []
+        @State private var isLoading = true
+        @State private var errorMessage: String? = nil
+    
+    private let controller = CategoryIDController(httpClient: HTTPClientCategoryID())
+
     
     var body: some View {
         ZStack {
@@ -37,27 +43,37 @@ struct ReportSelector: View {
                 }
                 
                 if expanded {
-                    ForEach(options, id: \.self) { type in
-                        Button(action: {
-                            selectedType = type
-                            withAnimation {
-                                expanded = false
-                                nextStep = true
+                    if isLoading {
+                        ProgressView("Cargando categorías...")
+                        .padding()
+                    } else if let errorMessage = errorMessage {
+                        Text("Error: \(errorMessage)")
+                        .foregroundColor(.red)
+                        .padding()
+                    } else {
+                        ForEach(categories, id: \.id){ category in
+                            Button(action: {
+                                selectedType = category.name
+                                selectedCategoryID = category.id
+                                withAnimation {
+                                    expanded = false
+                                    nextStep = true
+                                }
+                            }) {
+                                HStack() {
+                                    // Radio button simple
+                                    Image(systemName: selectedType == category.name ? "largecircle.fill.circle" : "circle")
+                                        .foregroundColor(selectedType == category.name ? .blue : .gray)
+                                        .font(.system(size: 20))
+                                    
+                                    Text(category.name)
+                                        .font(.body)
+                                        .foregroundColor(.primary)
+                                    
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 25)
                             }
-                        }) {
-                            HStack() {
-                                // Radio button simple
-                                Image(systemName: selectedType == type ? "largecircle.fill.circle" : "circle")
-                                    .foregroundColor(selectedType == type ? .blue : .gray)
-                                    .font(.system(size: 20))
-                                
-                                Text(type)
-                                    .font(.body)
-                                    .foregroundColor(.primary)
-                                
-                                Spacer()
-                            }
-                            .padding(.horizontal, 25)
                         }
                     }
                 }
@@ -70,17 +86,31 @@ struct ReportSelector: View {
                     .frame(width: 300)
             )
             .frame(width: 300)
+            .task {
+                await loadCategories( )
+            }
         }
     }
+    private func loadCategories() async {
+            do {
+                isLoading = true
+                errorMessage = nil
+                categories = try await controller.getCategoryID()
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+            isLoading = false
+        }
 }
 
 #Preview {
     struct prev: View {
         @State var nextStep: Bool = false
         @State var selectedType: String = ""
+        @State var selectedCategoryID: Int? = nil
         
         var body: some View {
-            ReportSelector(selectedType: $selectedType, nextStep: $nextStep)
+            ReportSelector(selectedType: $selectedType, selectedCategoryID: $selectedCategoryID, nextStep: $nextStep)
         }
     }
     return prev()
