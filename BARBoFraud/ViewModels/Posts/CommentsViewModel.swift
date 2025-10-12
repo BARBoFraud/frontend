@@ -27,7 +27,7 @@ final class CommentsViewModel: ObservableObject {
         do{
              comments = try await NetworkManager.shared.getComments(id: reportID)
         } catch {
-            print("No se pudierosn obtener los comentarios \(error.localizedDescription)")
+            print("No se pudieron obtener los comentarios \(reportID) + \(error.localizedDescription)")
             throw error
         }
         isLoading = false
