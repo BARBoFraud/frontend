@@ -8,8 +8,48 @@
 import SwiftUI
 
 struct CommentSection: View {
+    
+    @StateObject var vm = CommentsViewModel()
+    
+    var id : Int = 0
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group{
+            if vm.isLoading {
+                VStack{
+                    Spacer()
+                    ProgressView("Cargando")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                    Spacer()
+                }
+            }else if let error = vm.errorMessage{
+                VStack{
+                    Spacer()
+                    Text(error).padding()
+                    Spacer()
+                }
+            }else if vm.comments.isEmpty{
+                VStack{
+                    Spacer()
+                    Text("Aún no hay comentarios")
+                    Spacer()
+                }
+            }else{
+                ForEach(0..<vm.comments.count, id: \.self) { index in
+                    VStack(alignment: .leading, spacing: 4) {
+                        CommentView(comment: vm.comments[index])
+                    }
+                }
+            }
+        }.task{
+            do{
+                try await vm.getComments(id: id)
+            } catch {
+                print(error)
+            }
+            
+        }
     }
 }
 
