@@ -31,29 +31,40 @@ struct FeedView: View {
             }else if vm.posts.isEmpty{
                 VStack{
                     Spacer()
-                    Text("No hay posts")
+                    Text("Aún No hay posts")
                     Spacer()
                 }
             }else{
-                ScrollView {
-                    LazyVStack(spacing: 16) {
-                        ForEach(vm.posts) { post in
-                            PostView(post: post)
+                ZStack{
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            ForEach(vm.posts) { post in
+                                PostView(post: post)
+                            }
                         }
+                        .padding()
+                        .padding(.bottom, 50)
                     }
-                    .padding()
+                    .refreshable {
+                        try? await Task.sleep(nanoseconds: 1_000_000_000)
+                        do{
+                            try await vm.fetch()
+                        } catch { print(error)}
+                    }
+                    NewReportButton()
                 }
-                .refreshable {
-                    try? await Task.sleep(nanoseconds: 1_000_000_000)
-                    await vm.fetch()
-                }
+                
             }
         }.task {
-            await vm.fetch()
+            do{
+                try await vm.fetch()
+            } catch {
+                print(error)
+            }
         }
     }
 }
 
 #Preview {
-    FeedView()
+    RootView()
 }
