@@ -13,7 +13,7 @@ struct PostView: View {
     
     var post: Post
 
-    var body: some View {
+    var body: some View{
         switch post.category {
         case "Correo electrónico" :
             Text("\(post.category)")

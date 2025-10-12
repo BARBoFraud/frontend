@@ -8,25 +8,24 @@
 import SwiftUI
 
 struct CommentView: View {
-    let name : String
-    let comment_text : String
-    let date : Date
     
+    let comment : CommentResponse
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(name)
+            Text(comment.username)
                 .font(.subheadline)
                 .bold()
-            Text(comment_text)
+            Text(comment.text)
                 .font(.subheadline)
-            Text("\(date.formatted())")
+            Text("\(comment.date)")
                 .font(.footnote)
             Divider()
         }
-        .padding(.vertical, 4)
+        .padding(4)
     }
 }
 
 #Preview {
-    CommentView(name : "Esteban", comment_text: "Esto es un comentario", date: Date.now)
+    CommentView(comment: CommentResponse(id: 1, text: "Esto es un comentario", date: "\(Date.now)", username: "usuario"))
 }
