@@ -15,31 +15,33 @@ struct SearchBar: View {
         ZStack {
             // Background with rounded corners
            Rectangle()
-               .fill(Color.searchBg)
-               .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
+                .fill(.appBg).ignoresSafeArea()
             // Custom search bar
             HStack {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.gray)
+                    .padding(.leading)
                 TextField("Search...", text: $searchText)
                     .foregroundColor(.black)
+                    .padding(.vertical, 9.5)
                 
                 // Show X mark when text is typed
                 if (!searchText.isEmpty) {
                     Image(systemName: "xmark")
                         .foregroundColor(.gray)
+                        .padding(.trailing)
                         .onTapGesture {
                             searchText = ""
                         }
                 }
             }
-            .padding(8)
             .background(.searchBar)
             .cornerRadius(8)
             .padding(.horizontal)
-            .padding(.top, 10)
+            .padding(.vertical, 12)
         }
-        .frame(height: 70)
+        .fixedSize(horizontal: false, vertical: true)
+        .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 4)
         .onChange(of: searchText) {
             debounceTask?.cancel()
             
