@@ -18,8 +18,7 @@ struct PostCommentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            VStack(alignment: .leading, spacing: 12) {
-                // Post content
+            VStack(alignment: .leading, spacing: 8) {
                 Text(username)
                     .font(.system(size: 16, weight: .semibold))
                 Text(title)
@@ -30,9 +29,8 @@ struct PostCommentView: View {
                     postImage
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 300)
-                        .clipped()
                         .cornerRadius(10)
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
                 
                 Text(postText)
@@ -43,8 +41,7 @@ struct PostCommentView: View {
             }
             .padding()
         }
-        .background(Color(.systemBackground))
-        .ignoresSafeArea(edges: .bottom)
+        .background(.appBg)
     }
 }
 

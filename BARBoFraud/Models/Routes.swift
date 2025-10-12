@@ -1,11 +1,11 @@
 //
-//  Screens.swift
+//  Routes.swift
 //  BARBoFraud
 //
 //  Created by Jorge Cadena on 22/09/25.
 //
 
-enum Route : Hashable, Equatable {
+enum Route: Hashable, Equatable {
     case landing
     case login
     case signup
@@ -14,4 +14,6 @@ enum Route : Hashable, Equatable {
     case search
     case emptyView
     case articleDetail(article: ArticleDTO)
+    case postDetail(postId: Int)
+    case newComment(post: Post)
 }
