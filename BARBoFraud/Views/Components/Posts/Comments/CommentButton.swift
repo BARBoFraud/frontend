@@ -30,10 +30,10 @@ struct CommentButton: View {
                     .frame(width: 24, height: 24)
                     .foregroundColor(.gray)
             }
-        }.frame(width: 50, alignment: .leading)
+        }.frame(width: 70, alignment: .leading)
     }
 }
 
 #Preview {
-    CommentButton(initialCount: 0, id: 1)
+    CommentButton(initialCount: 1, id: 1)
 }

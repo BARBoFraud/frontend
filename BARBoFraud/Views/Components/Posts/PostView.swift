@@ -16,17 +16,17 @@ struct PostView: View {
     var body: some View{
         switch post.category {
         case "Correo electrónico" :
-            Text("\(post.category)")
+            EmailPostView(post: post)
         case "Llamada" :
             PhonePostView(post: post)
         case "Mensaje" :
-            Text("\(post.category)")
+            MessagePostView(post: post)
         case "Página de internet" :
             WebPostView(post: post)
         case "Red social" :
             SocialMediaPostView(post: post)
         default:
-            Text("Error al cargar el reporte")
+            Text("Categoría inválida, error al cargar el reporte")
         }
     }
 }
