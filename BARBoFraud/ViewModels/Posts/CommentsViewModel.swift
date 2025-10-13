@@ -13,6 +13,8 @@ final class CommentsViewModel: ObservableObject {
     @Published var comments: Comments = []
     @Published var isLoading = true
     @Published var errorMessage: String?
+    
+    private var lastID: Int?
 
     func comment(id reportID: Int, text: String) async {
         do{
@@ -23,11 +25,15 @@ final class CommentsViewModel: ObservableObject {
     }
     
     func getComments(id reportID: Int) async throws {
+        if lastID == reportID && !comments.isEmpty {
+            return
+        }
+        
+        lastID = reportID
         isLoading = true
         do{
              comments = try await NetworkManager.shared.getComments(id: reportID)
         } catch {
-            print("No se pudieron obtener los comentarios \(reportID) + \(error.localizedDescription)")
             throw error
         }
         isLoading = false

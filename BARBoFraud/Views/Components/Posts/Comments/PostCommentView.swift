@@ -8,43 +8,47 @@
 import SwiftUI
 
 struct PostCommentView: View {
-    var username: String = "Diego Herrera"
-    var title: String = "noesestafa.com"
-    var postImage: Image? = Image("PostImage")
-    var postText: String = "Este es el texto de una publicación larga con muchos detalles y más texto para probar el scroll."
-    var date: String = "2025-09-12"
+    @StateObject var vm = PostViewModel()
+    
+    var postId: Int
+    
+    @State private var title : String = ""
+    @State private var actor : String = ""
     
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(username)
-                    .font(.system(size: 16, weight: .semibold))
+                //Text("\(vm.post.name) \(vm.post.lastName)")
+                    //.font(.system(size: 16, weight: .semibold))
                 Text(title)
                     .font(.system(size: 22, weight: .bold))
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                if let postImage = postImage {
-                    postImage
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(10)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
+                //Imagen
                 
-                Text(postText)
+                Text(vm.post.description)
                     .font(.system(size: 16))
-                Text(date)
+                Text(DateUtils.formatDate(from: vm.post.date)) 
                     .font(.system(size: 12))
                     .foregroundColor(.gray)
             }
             .padding()
+        }
+        .task {
+            do{
+                try await vm.getPost(id: postId)
+                (title, actor) = PostUtils.unwrapPost(from: vm.post)
+                await vm.loadImage(from: vm.post.image)
+            } catch {
+                print(error)
+            }
         }
         .background(.appBg)
     }
 }
 
 #Preview {
-    PostCommentView()
+    PostCommentView(postId: 1)
 }

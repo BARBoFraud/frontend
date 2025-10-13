@@ -15,5 +15,5 @@ enum Route: Hashable, Equatable {
     case emptyView
     case articleDetail(article: ArticleDTO)
     case postDetail(postId: Int)
-    case newComment(post: Post)
+    case newComment(postId: Int)
 }
