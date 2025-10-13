@@ -33,13 +33,13 @@ struct PhonePostView: View {
             
             Text(post.description)
                 .font(.system(size: 16, weight: .regular))
-            Text(post.date)
+            Text(DateUtils.formatDate(from: post.date))
                 .font(.system(size: 12, weight: .light))
                 .foregroundColor(.gray)
             
             //Comentarios y likes
             HStack(spacing: 100) {
-                CommentButton(initialCount: post.commentCount)
+                CommentButton(initialCount: post.commentCount, id: post.id)
                 LikeButton(initialCount: post.likeCount, initiallyLiked: post.userLiked == 1, id: post.id)
             }
             .frame(maxWidth: .infinity, alignment: .center)

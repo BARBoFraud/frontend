@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WebPostView: View {
     @EnvironmentObject var router: Router
+    @StateObject var vm = PostViewModel()
     
     var post: Post
     var body: some View {
@@ -33,28 +34,28 @@ struct WebPostView: View {
             Text(post.url)
                 .font(.system(size: 20, weight: .regular))
                 .frame(maxWidth: .infinity, alignment: .center)
-            /*
-             if let url = URL(string: imageLocation + post.image){
-                 AsyncImage(url: url){ image in
-                     image
-                         .image?.resizable()
-                         .aspectRatio(contentMode: .fill)
-                         .frame(maxHeight: 200)
-                         .clipped()
-                         .cornerRadius(10)
-                 }
-             }
-             */
+            
+            if let loadedImage = vm.image {
+                loadedImage
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxHeight: 200)
+                    .clipped()
+                    .cornerRadius(10)
+            } else if vm.isLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: 200)
+            }
             
             Text(post.description)
                 .font(.system(size: 16, weight: .regular))
-            Text(post.date)
+            Text(DateUtils.formatDate(from: post.date))
                 .font(.system(size: 12, weight: .light))
                 .foregroundColor(.gray)
             
             //Comentarios y likes
             HStack(spacing: 100) {
-                CommentButton(initialCount: post.commentCount)
+                CommentButton(initialCount: post.commentCount, id: post.id)
                 LikeButton(initialCount: post.likeCount, initiallyLiked: post.userLiked == 1, id: post.id)
             }
             .frame(maxWidth: .infinity, alignment: .center)
