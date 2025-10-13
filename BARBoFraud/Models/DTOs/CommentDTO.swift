@@ -19,13 +19,13 @@ struct CommentRequest : Encodable {
 
 struct CommentResponse : Decodable {
     let id: Int
-    let text, date: String
-    let username: String
+    let text, name, lastName, date: String
     
     enum CodingKeys: String, CodingKey {
         case id
         case text = "content"
+        case name
+        case lastName
         case date = "createdAt"
-        case username
     }
 }

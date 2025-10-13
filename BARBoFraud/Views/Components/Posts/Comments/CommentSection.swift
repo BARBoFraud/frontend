@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CommentSection: View {
-    
     @StateObject var vm = CommentsViewModel()
     
     var id : Int = 0
