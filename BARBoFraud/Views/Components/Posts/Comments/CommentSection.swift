@@ -36,8 +36,9 @@ struct CommentSection: View {
                 }
             }else{
                 ForEach(0..<vm.comments.count, id: \.self) { index in
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading) {
                         CommentView(comment: vm.comments[index])
+                            .padding([.leading, .trailing])
                     }
                 }
             }
@@ -53,5 +54,5 @@ struct CommentSection: View {
 }
 
 #Preview {
-    CommentSection()
+    CommentSection(id: 5)
 }

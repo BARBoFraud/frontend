@@ -26,7 +26,16 @@ struct PostCommentView: View {
                     .font(.system(size: 22, weight: .bold))
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                //Imagen
+                if let loadedImage = vm.image {
+                    loadedImage
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .clipped()
+                        .cornerRadius(10)
+                } else if vm.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: 200)
+                }
                 
                 Text(vm.post.description)
                     .font(.system(size: 16))

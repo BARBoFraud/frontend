@@ -75,7 +75,6 @@ struct PostDetailView: View {
                         Divider()
                         
                         CommentSection(id: postId)
-                            .padding()
                             .padding(.bottom, 20)
                     }
                 }

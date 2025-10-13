@@ -12,17 +12,17 @@ struct CommentView: View {
     let comment : CommentResponse
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("\(comment.name) \(comment.lastName)")
+        VStack(alignment: .leading) {
+            Text("  \(comment.name) \(comment.lastName)")
                 .font(.subheadline)
                 .bold()
-            Text(comment.text)
+            Text("\t\(comment.text)")
                 .font(.subheadline)
-            Text(DateUtils.formatDate(from: comment.date, includeTime: true))
+            Text("\t\(DateUtils.formatDate(from: comment.date, includeTime: true))")
                 .font(.footnote)
+                .foregroundStyle(.gray)
             Divider()
         }
-        .padding(4)
     }
 }
 

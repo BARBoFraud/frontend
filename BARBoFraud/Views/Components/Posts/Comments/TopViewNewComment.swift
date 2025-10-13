@@ -11,6 +11,7 @@ struct TopViewNewComment: View {
     @EnvironmentObject var router: Router
     
     var comment : () -> Void
+    var isFieldEmpty: Bool
     
     var body: some View {
         ZStack(alignment: .top){
@@ -20,7 +21,17 @@ struct TopViewNewComment: View {
             HStack(spacing: 50){
                 NavigationButton(action: {router.pop()}, text: "Cancelar", fgColor: .white, bgColor: .landingBg1)
                 Spacer()
-                NavigationButton(action: {comment(); router.pop()}, text: "Comentar", fgColor: .white, bgColor: .blueAccent)
+                NavigationButton(
+                    action: {
+                        comment()
+                        router.pop()
+                    },
+                    text: "Comentar",
+                    fgColor: .white,
+                    bgColor: .blueAccent
+                )
+                .disabled(!isFieldEmpty)
+                .opacity(isFieldEmpty ? 1.0 : 0.5)
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -31,5 +42,5 @@ struct TopViewNewComment: View {
 }
 
 #Preview {
-    TopViewNewComment(comment: {print("comentado papu")})
+    TopViewNewComment(comment: {print("comentado papu")}, isFieldEmpty: true)
 }
