@@ -93,15 +93,4 @@ final class NetworkManager {
             body: Optional<Data>.none
         )
     }
-
-}
-
-extension NetworkManager {
-    func search(query: String) async throws -> [SearchResponse] {
-        // Get JWT
-        guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
-            throw NetworkError.noToken
-        }
-        return try await request("/reports/search/\(query)", token: token)
-    }
 }
