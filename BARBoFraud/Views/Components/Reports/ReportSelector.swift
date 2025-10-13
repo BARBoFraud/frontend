@@ -12,8 +12,6 @@ struct ReportSelector: View {
     @Binding var selectedCategoryID: Int?
     @Binding var nextStep: Bool
     @State private var expanded: Bool = true
-    @State private var isLoading = true
-    @State private var errorMessage: String? = nil
     
     @StateObject private var vm = ReportsController()
     
@@ -41,10 +39,10 @@ struct ReportSelector: View {
                 }
                 
                 if expanded {
-                    if isLoading {
+                    if vm.isLoading {
                         ProgressView("Cargando categorías...")
                             .padding()
-                    } else if let errorMessage = errorMessage {
+                    } else if let errorMessage = vm.errorMessage {
                         Text("Error: \(errorMessage)")
                             .foregroundColor(.red)
                             .padding()

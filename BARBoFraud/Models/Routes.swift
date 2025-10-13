@@ -13,6 +13,7 @@ enum Route: Hashable, Equatable {
     case home
     case search
     case emptyView
+    case newReport
     case articleDetail(article: ArticleDTO)
     case postDetail(postId: Int)
     case newComment(postId: Int)

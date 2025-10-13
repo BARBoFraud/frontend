@@ -10,7 +10,7 @@ import UIKit
 
 @MainActor
 final class ReportsController: ObservableObject {
-    @Published var isLoading = true
+    @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var categories: [IDCategoryRequest] = []
     private var fileKey: String = ""
@@ -37,11 +37,13 @@ final class ReportsController: ObservableObject {
     }
     
     func getCategories() async {
+        isLoading = true
         do{
             categories = try await NetworkManager.shared.getCategoryID()
+            
         }catch {
             errorMessage = "No se pudo obtener la categoria\(error)"
         }
-        
+        isLoading = false
     }
 }

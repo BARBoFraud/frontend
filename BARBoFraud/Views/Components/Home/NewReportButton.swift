@@ -16,7 +16,7 @@ struct NewReportButton: View {
             HStack() {
                 Spacer()
                 Button(action: {
-                    router.push(.info) // TODO cambiar ruta a crear nuevo reporte
+                    router.push(.newReport)
                 }){
                     Image(systemName: "plus")
                         .font(.system(size: 24, weight: .bold))
