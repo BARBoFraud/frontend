@@ -8,24 +8,21 @@
 import SwiftUI
 
 struct CommentButton: View {
+    @EnvironmentObject var router: Router
     @State private var commentCount : Int = 0
+    var postId : Int
     
-    init(initialCount: Int = 0) {
+    init(initialCount: Int, id: Int) {
             _commentCount = State(initialValue: initialCount)
+            postId = id
     }
-    
-    
-    func Comment() -> Void {
-        print("User comment")
-    }
-    
         
     var body: some View {
         HStack {
             Text("\(commentCount)")
             
             Button(action: {
-                Comment()
+                router.push(.newComment(postId: postId))
             }) {
                 Image(systemName: "bubble")
                     .resizable()
@@ -38,5 +35,5 @@ struct CommentButton: View {
 }
 
 #Preview {
-    CommentButton()
+    CommentButton(initialCount: 0, id: 1)
 }

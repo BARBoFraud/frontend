@@ -16,19 +16,16 @@ final class Router : ObservableObject {
             routes.append(route)
             path.append(route)
         }
-        print("\n\n\n\nCurrent path: \(path)")
     }
     
     func reset(to route: Route) {
         routes = [route]
         path = NavigationPath([route])
-        print("\n\n\n\nCurrent path: \(path)")
     }
     
     func pop() {
         routes.removeLast()
         path.removeLast()
-        print("\n\n\n\nCurrent path: \(path)")
     }
     
     func clear() {

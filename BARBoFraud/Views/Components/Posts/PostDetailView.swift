@@ -8,79 +8,94 @@
 import SwiftUI
 
 struct PostDetailView: View {
-    var username: String = "Diego Herrera"
-    var title: String = "noesestafa.com"
-    var postImage: Image? = Image("PostImage")
-    var postText: String = "Este es el texto de una publicación larga con muchos detalles y más texto para probar el scroll."
-    var date: String = "2025-09-12"
+    @StateObject var vm = PostViewModel()
     
-    @Environment(\.dismiss) private var dismiss
+    var postId: Int
+    
+    @State private var title : String = ""
+    @State private var actor : String = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Back Button
-            HStack {
-                Button(action: { dismiss() }) {
-                    Image(systemName: "arrow.left")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                }
-                Spacer()
-            }
-            .padding()
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 12) {
-                    // Post content
-                    Text(username)
-                        .font(.system(size: 16, weight: .semibold))
-                    Text(title)
-                        .font(.system(size: 22, weight: .bold))
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    
-                    if let postImage = postImage {
-                        postImage
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxHeight: 300)
-                            .clipped()
-                            .cornerRadius(10)
+            PostHeader()
+            Group{
+                if vm.isLoading {
+                    VStack{
+                        Spacer()
+                        ProgressView("Cargando Post")
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding()
+                        Spacer()
                     }
                     
-                    Text(postText)
-                        .font(.system(size: 16))
-                    Text(date)
-                        .font(.system(size: 12))
-                        .foregroundColor(.gray)
-                    
-                    // Buttons
-                    HStack(spacing: 100) {
-                        CommentButton()
-                        LikeButton()
+                }else if let error = vm.errorMessage{
+                    VStack{
+                        Spacer()
+                        Text(error).padding()
+                        Spacer()
                     }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.subheadline)
-                }
-                .padding()
-                
-                VStack{
-                    // Comments Section
-                    ForEach(0..<10, id: \.self) { index in
-                        VStack(alignment: .leading, spacing: 4) {
-                            CommentView(name : "\(index)", comment_text: "comentario", date: Date.now)
-                            Divider()
+                }else{
+                    ScrollView{
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text(title)
+                                .font(.system(size: 20, weight: .semibold))
+                            if actor != "" {
+                                Text(actor)
+                                    .font(.system(size: 18, weight: .bold))
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                            }
+                            
+                            if let loadedImage = vm.image {
+                                loadedImage
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipped()
+                                    .cornerRadius(10)
+                            } else if vm.isLoading {
+                                ProgressView()
+                                    .frame(maxWidth: .infinity, maxHeight: 200)
+                            }
+                            
+                            Text(vm.post.description)
+                                .font(.system(size: 16))
+                            Text(DateUtils.formatDate(from: vm.post.date))
+                                .font(.system(size: 12))
+                                .foregroundColor(.gray)
+                            
+                            // Buttons
+                            HStack(spacing: 100) {
+                                CommentButton(initialCount: vm.post.commentCount, id: vm.post.id)
+                                LikeButton(initialCount: vm.post.likeCount, initiallyLiked: vm.post.userLiked == 1, id: vm.post.id)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .font(.subheadline)
                         }
-                        .padding(.vertical, 4)
+                        .padding()
+                        
+                        Divider()
+                        
+                        CommentSection(id: postId)
+                            .padding()
+                            .padding(.bottom, 20)
                     }
                 }
-                .padding()
+            }.task {
+                do{
+                    try await vm.getPost(id: postId)
+                    (title, actor) = PostUtils.unwrapPost(from: vm.post)
+                    await vm.loadImage(from: vm.post.image)
+                } catch {
+                    print(error)
+                }
             }
         }
-        .background(Color(.systemBackground))
+        .background(.appBg)
+        .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)
+        
     }
 }
 
 #Preview {
-    PostDetailView()
+    RootView()
 }

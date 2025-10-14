@@ -7,19 +7,25 @@
 
 import Foundation
 
-struct CommentResponse : Decodable {
-    let comment : Comment
-}
+typealias Comments = [CommentResponse]
 
-struct Comment : Decodable, Identifiable {
-    let id : Int
-    let firstName, lastName, commentText: String
+struct CommentRequest : Encodable {
+    let text: String
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case commentText = "comment_text"
+        case text = "content"
     }
 }
 
+struct CommentResponse : Decodable {
+    let id: Int
+    let text, name, lastName, date: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case text = "content"
+        case name
+        case lastName
+        case date = "createdAt"
+    }
+}

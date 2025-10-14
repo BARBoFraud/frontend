@@ -12,26 +12,31 @@ struct TopBarView: View {
     var onMenuTap: () -> Void = {}
     
     var body: some View {
-        HStack(spacing: 16) {
-            Button(action: onMenuTap) {
-                Image(systemName: "line.horizontal.3")
-                    .font(.title2)
-                    .foregroundColor(Color("Text"))
+        ZStack(alignment: .top){
+            Color(Color(.topBarBg))
+                .ignoresSafeArea(edges: .top)
+                .shadow(color: Color.black.opacity(0.35), radius: 3, x: 0, y: 4)
+            HStack(spacing: 16) {
+                Button(action: onMenuTap) {
+                    Image(systemName: "line.horizontal.3")
+                        .font(.title2)
+                        .foregroundColor(.text)
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Text(title)
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.text)
+                
+                Spacer()
             }
-            .buttonStyle(PlainButtonStyle())
-            
-            Text(title)
-                .font(.largeTitle)
-                .fontWeight(.semibold)
-                .foregroundColor(Color("Text"))
+            .padding(.horizontal)
+            .padding(.vertical, 12)
             
             Spacer()
         }
-        .padding(.horizontal)
-        .padding(.vertical, 12)
-        .foregroundColor(.white)
-        .background(Color("TopBarBg"))
-        .shadow(color: Color.black.opacity(0.35), radius: 6, x: 0, y: 4)
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
 

@@ -8,63 +8,61 @@
 import SwiftUI
 
 struct SearchBar: View {
+    @ObservedObject var vm: SearchViewModel
     @State private var searchText = ""
     @State private var debounceTask: Task<Void, Never>?
+    @FocusState var isFocused: Bool
 
     var body: some View {
         ZStack {
             // Background with rounded corners
            Rectangle()
-               .fill(Color.searchBg)
-               .shadow(color: .black.opacity(0.1), radius: 3, x: 0, y: 2)
+                .fill(.appBg).ignoresSafeArea()
+                .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 4)
             // Custom search bar
             HStack {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.gray)
+                    .padding(.leading)
                 TextField("Search...", text: $searchText)
+                    .focused($isFocused)
                     .foregroundColor(.black)
+                    .padding(.vertical, 9.5)
                 
                 // Show X mark when text is typed
                 if (!searchText.isEmpty) {
                     Image(systemName: "xmark")
                         .foregroundColor(.gray)
+                        .padding(.trailing)
                         .onTapGesture {
                             searchText = ""
+                            vm.query = ""
+                            vm.results = []
                         }
                 }
             }
-            .padding(8)
             .background(.searchBar)
             .cornerRadius(8)
             .padding(.horizontal)
-            .padding(.top, 10)
+            .padding(.vertical, 12)
         }
-        .frame(height: 70)
+        .fixedSize(horizontal: false, vertical: true)
         .onChange(of: searchText) {
             debounceTask?.cancel()
             
             debounceTask = Task {
                 try? await Task.sleep(nanoseconds: 500_000_000)
                 
-                // Don't make API call if text is empty
-                guard !searchText.trimmingCharacters(in: .whitespaces).isEmpty else {
-                    return
-                }
-                
-                do {
-                    let results = try await NetworkManager.shared.search(query: searchText.trimmingCharacters(in: .whitespaces))
-                    await MainActor.run {
-                        print("Results: \(results)")
-                    }
-                       
-                } catch {
-                    print("Search error: \(error.localizedDescription)")
-                }
+                let trimmed = searchText.trimmingCharacters(in: .whitespaces)
+                await vm.search(query: trimmed)
+//                await MainActor.run {
+//                    print("Results: \(vm.results)")
+//                }
             }
         }
     }
 }
 
 #Preview {
-    SearchBar()
+    SearchBar(vm: SearchViewModel())
 }
