@@ -8,6 +8,8 @@
 import SwiftUI
 
 
+import SwiftUI
+
 struct ArticleDTO: Identifiable, Equatable, Hashable {
     let id = UUID()
     let title: String
@@ -15,7 +17,10 @@ struct ArticleDTO: Identifiable, Equatable, Hashable {
     let imageName: String?
     let author: String
     let date: String
+    let link: URL?
 }
+
+
 let sampleArticles: [ArticleDTO] = [
     ArticleDTO(
         title: "La importancia de la educación tecnológica",
@@ -24,7 +29,8 @@ let sampleArticles: [ArticleDTO] = [
         """,
         imageName: "art1",
         author: "Barbie",
-        date: "2/10/2025"
+        date: "2/10/2025",
+        link: URL(string: "https://www.friv.com")
     ),
     ArticleDTO(
         title: "¿A cuánto se venden los datos personales en internet?",
@@ -33,7 +39,8 @@ let sampleArticles: [ArticleDTO] = [
         """,
         imageName: "art2",
         author: "Quevedo",
-        date: "3/3/2025"
+        date: "3/3/2025",
+        link: URL(string: "https://www.friv.com")
     )
 ]
 
