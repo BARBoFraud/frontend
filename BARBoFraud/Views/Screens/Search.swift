@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct Search: View {
-    @State private var searchText = ""
+    @StateObject private var vm = SearchViewModel()
+    @FocusState private var isInputFocused: Bool
     
     var body: some View {
         ZStack {
             Color(.appBg)
+                .onTapGesture {
+                    isInputFocused = false
+                }
             SearchWaves()
             
             // Navigation bar positioning
             VStack(spacing: 0) {
-                SearchBar()
+                SearchBar(vm: vm)
+                    .focused($isInputFocused)
+                SearchResult(vm: vm)
                 Spacer()
                 NavigationBar()
             }
