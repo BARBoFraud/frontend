@@ -27,6 +27,8 @@ struct AuthenticationController{
     }
     
     func deactivateUser(password: String) async throws {
+        _ = try await ensureAccessToken()
+
         try await httpClient.DeactivateUser(password: password)
         print( "Usuario desactivado")
         TokenStorage.delete(identifier: "accessToken")
