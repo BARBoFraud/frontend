@@ -26,11 +26,29 @@ struct AuthenticationController{
         TokenStorage.delete(identifier: "refreshToken")
     }
     
-    func deactivateUser() async throws {
-        try await httpClient.DeactivateUser()
+    func deactivateUser(password: String) async throws {
+        try await httpClient.DeactivateUser(password: password)
         print( "Usuario desactivado")
         TokenStorage.delete(identifier: "accessToken")
         TokenStorage.delete(identifier: "refreshToken")
     }
+    
+    func refreshAccessToken() async throws -> String {
+           guard let refreshToken = TokenStorage.get(identifier: "refreshToken"),
+                 !refreshToken.isEmpty else {
+               throw RefreshError.invalidRefreshToken
+           }
 
+           let newAccessToken = try await httpClient.refreshAccessToken(refreshToken: refreshToken)
+           TokenStorage.set(identifier: "accessToken", value: newAccessToken)
+           return newAccessToken
+       }
+
+       func ensureAccessToken() async throws -> String {
+           if let access = TokenStorage.get(identifier: "accessToken"), !access.isEmpty {
+               return access
+           } else {
+               return try await refreshAccessToken()
+           }
+       }
 }

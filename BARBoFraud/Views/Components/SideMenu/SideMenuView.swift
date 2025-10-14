@@ -52,12 +52,6 @@ struct SideMenuView: View {
         router.clear()
     }
     
-    private func deactivateBtnTapped() async throws {
-        try await authController.deactivateUser()
-        isLoggedIn = false
-        router.push(.landing)
-    }
-    
     var body: some View {
             ZStack {
                 VStack(alignment: .leading, spacing: 20) {
@@ -135,13 +129,7 @@ struct SideMenuView: View {
                 }
                 
                 if showingDeactivateCard {
-                    ConfirmationCard(isPresented: $showingDeactivateCard, title: "¿Seguro que deseas desactivar tu cuenta?", confirmAction: {
-                        do {
-                            try await deactivateBtnTapped()
-                        } catch {
-                            print("Error al desactivar la cuenta. \(error)")
-                        }
-                    })
+                    DeactivatePasswordCard(isPresented: $showingDeactivateCard)
                 }
                 
                 
@@ -153,7 +141,7 @@ struct SideMenuView: View {
             .task {
                 await loadProfile()
             }
-        
+            .navigationBarHidden(true)
     }
 }
 
