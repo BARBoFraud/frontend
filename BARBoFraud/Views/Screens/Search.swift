@@ -28,5 +28,5 @@ struct Search: View {
 }
 
 #Preview {
-    RootView()
+    Search()
 }

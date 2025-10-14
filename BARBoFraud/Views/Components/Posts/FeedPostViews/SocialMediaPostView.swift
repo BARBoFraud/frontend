@@ -24,7 +24,7 @@ struct SocialMediaPostView: View {
                     .foregroundStyle(.white)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 4)
-                    .background(labelBackgroundColor(for: post.socialMedia))
+                    .background(PostUtils.getLabelBackgroundColor(for: post.socialMedia))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
             
@@ -80,24 +80,6 @@ struct SocialMediaPostView: View {
         }
     }
 }
-
-func labelBackgroundColor(for socialMedia: String) -> Color {
-    switch socialMedia {
-    case "Instagram":
-        return Color(red: 225/255, green: 48/255, blue: 108/255)
-    case "TikTok":
-        return .black
-    case "Twitter/X":
-        return .black
-    case "Whatsapp":
-        return Color(red: 37/255, green: 211/255, blue: 102/255)
-    case "Facebook":
-        return Color(red: 24/255, green: 119/255, blue: 242/255)
-    default:
-        return .gray
-    }
-}
-
 
 #Preview {
     SocialMediaPostView(post: Post(name: "", lastName: "", id: 1,

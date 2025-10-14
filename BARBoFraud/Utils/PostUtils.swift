@@ -6,30 +6,67 @@
 //
 
 import Foundation
+import SwiftUICore
 
 struct PostUtils{
 
-    static func unwrapPost(from post: Post) -> (title: String, actor: String){
-        var actor : String = ""
-        var title : String = ""
+    static func getActor(from post: Post) -> String{
+        print(post.category)
         switch post.category{
         case "Página de internet":
-            title = post.url
+            return post.website
         case "Red social":
-            if post.socialMedia == "Whatsapp"{ title = "\(post.socialMedia) \(post.phoneNumber)"}
-            else if post.socialMedia == "Facebook" {title = "\(post.socialMedia) \(post.username)"}
-            else{ title = "\(post.socialMedia) @\(post.username)"}
-                    
-            
+            return post.username
         case "Llamada":
-            title = post.phoneNumber
+            return post.phoneNumber
         case "Mensaje":
-            title = post.phoneNumber
-        case "Correo electrónico":
-            title = post.email
+            return post.phoneNumber
+        case "Correo Electrónico":
+            return post.email
         default:
-            print("Invalid Category")
+            return ""
         }
-        return (title, actor)
+    }
+    
+    static func getCategoryLabel(from category: String) -> String {
+        switch category{
+        case "Página de internet":
+            return "Página web"
+        case "Llamada":
+            return "Teléfono"
+        case "Mensaje":
+            return "Mensaje"
+        case "Correo Electrónico":
+            return "email"
+        default:
+            return "otro"
+        }
+    }
+    
+    static func getLabelBackgroundColor(for cateogry: String) -> Color {
+        switch cateogry {
+        case "Página de internet":
+            return Color(.teal)
+        case "Llamada":
+            return Color(.green)
+        case "Whatsapp":
+            return Color(red: 37/255, green: 211/255, blue: 102/255)
+        case "Telegram":
+            return Color(.cyan)
+        case "SMS":
+            return Color(.green)
+        case "Correo Electrónico":
+            return Color(.blue)
+        case "Instagram":
+            return Color(red: 225/255, green: 48/255, blue: 108/255)
+        case "TikTok":
+            return .black
+        case "Twitter/X":
+            return .teal
+        case "Facebook":
+            return Color(red: 24/255, green: 119/255, blue: 242/255)
+        default:
+            return .gray
+        }
     }
 }

@@ -35,5 +35,5 @@ struct CommentButton: View {
 }
 
 #Preview {
-    CommentButton(initialCount: 1, id: 1)
+    CommentButton(initialCount: 0, id: 1)
 }

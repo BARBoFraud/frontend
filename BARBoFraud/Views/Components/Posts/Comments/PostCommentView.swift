@@ -48,7 +48,7 @@ struct PostCommentView: View {
         .task {
             do{
                 try await vm.getPost(id: postId)
-                (title, actor) = PostUtils.unwrapPost(from: vm.post)
+                actor = PostUtils.getActor(from: vm.post)
                 await vm.loadImage(from: vm.post.image)
             } catch {
                 print(error)
