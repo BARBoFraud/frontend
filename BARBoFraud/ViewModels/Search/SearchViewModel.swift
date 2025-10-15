@@ -33,8 +33,17 @@ final class SearchViewModel : ObservableObject {
                 self.results = fetched
             }
         } catch {
-           print("Error al hacer el request al servidor: \(error)")
+            print("Error al hacer el request al servidor: \(error.localizedDescription)")
         }
         isLoading = false
+    }
+    
+    func fetch(_ id: Int) async -> SearchPost? {
+        do {
+            return try await NetworkManager.shared.fetchSearch(id)
+        } catch {
+            print("Error al solicitar el reporte con ID: \(id).\n\(error.localizedDescription)")
+            return nil
+        }
     }
 }

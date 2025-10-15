@@ -24,7 +24,7 @@ struct PostView: View {
                         .padding(.leading, 10)
                 }
                 Spacer()
-                if post.category == "Red Social" || post.category == "Mensaje"{
+                if post.category == "Red social" || post.category == "Mensaje"{
                     Text(post.application!)
                         .foregroundStyle(.white)
                         .padding(.horizontal, 10)
