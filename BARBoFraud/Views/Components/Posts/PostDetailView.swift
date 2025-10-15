@@ -17,7 +17,7 @@ struct PostDetailView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            PostHeader()
+            ViewHeader(title: "Post")
             Group{
                 if vm.isLoading {
                     VStack{
@@ -89,12 +89,6 @@ struct PostDetailView: View {
                 } catch {
                     print(error)
                 }
-                /*
-                 if (commentCount == 0){
-                     print("hola soy el task")
-                     commentCount = 1
-                 }
-                 */
             }
         }
         .background(.appBg)
