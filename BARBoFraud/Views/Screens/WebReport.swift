@@ -117,6 +117,7 @@ struct WebReport: View {
             }.frame(maxWidth: .infinity)
             
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

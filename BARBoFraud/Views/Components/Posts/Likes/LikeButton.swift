@@ -61,7 +61,7 @@ struct LikeButton: View {
                     .foregroundColor(isLiked ? .red : .gray)
                     .scaleEffect(isLiked ? 1.2 : 1.0)
             }
-        }.frame(width: 50, alignment: .leading)
+        }.frame(width: 70, alignment: .leading)
     }
 }
 

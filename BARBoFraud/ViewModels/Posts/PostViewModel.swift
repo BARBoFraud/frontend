@@ -13,7 +13,7 @@ final class PostViewModel: ObservableObject {
     
     var postID : Int = 0
     
-    @Published var post: Post = Post(name: nil, lastName: nil, id: 0, category: "", date: "", description: "", image: "", url: "", website: "", socialMedia: "", username: "", email: "'", phoneNumber: "", likeCount: 0, commentCount: 0, userLiked: 0)
+    @Published var post: Post = Post(name: nil, lastName: nil, image: nil, url: "", website: "", application: "", username: "", email: "", phoneNumber: "", id: 1, category: "", date: "", riskLevel: "'", title: "", description: "", likeCount: 0, commentCount: 0, userLiked: 0)
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var image: Image?
@@ -23,7 +23,9 @@ final class PostViewModel: ObservableObject {
         errorMessage = nil
         do {
             post = try await NetworkManager.shared.getPost(id: postID)
-            await loadImage(from: post.image)
+            if (post.image != nil){
+                await loadImage(from: post.image!)
+            }
         } catch {
             errorMessage = "No se pudo cargar el post. \(error.localizedDescription)"
         }

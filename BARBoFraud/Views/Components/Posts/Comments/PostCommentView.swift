@@ -26,7 +26,16 @@ struct PostCommentView: View {
                     .font(.system(size: 22, weight: .bold))
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                //Imagen
+                if let loadedImage = vm.image {
+                    loadedImage
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .clipped()
+                        .cornerRadius(10)
+                } else if vm.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: 200)
+                }
                 
                 Text(vm.post.description)
                     .font(.system(size: 16))
@@ -39,8 +48,10 @@ struct PostCommentView: View {
         .task {
             do{
                 try await vm.getPost(id: postId)
-                (title, actor) = PostUtils.unwrapPost(from: vm.post)
-                await vm.loadImage(from: vm.post.image)
+                actor = PostUtils.getActor(from: vm.post)
+                if (vm.post.image != nil){
+                    await vm.loadImage(from: vm.post.image!)
+                }
             } catch {
                 print(error)
             }

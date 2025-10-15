@@ -22,7 +22,10 @@ struct NewCommentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            TopViewNewComment(comment: comment)
+            TopViewNewComment(
+                comment: comment,
+                isFieldEmpty: !commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            )
             Group{
                 if pvm.isLoading {
                     VStack{

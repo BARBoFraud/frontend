@@ -11,9 +11,9 @@ struct PostDetailView: View {
     @StateObject var vm = PostViewModel()
     
     var postId: Int
-    
-    @State private var title : String = ""
-    @State private var actor : String = ""
+
+    @State private var actor: String = ""
+    @State private var commentCount: Int = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -37,7 +37,7 @@ struct PostDetailView: View {
                 }else{
                     ScrollView{
                         VStack(alignment: .leading, spacing: 20) {
-                            Text(title)
+                            Text(vm.post.title)
                                 .font(.system(size: 20, weight: .semibold))
                             if actor != "" {
                                 Text(actor)
@@ -75,24 +75,31 @@ struct PostDetailView: View {
                         Divider()
                         
                         CommentSection(id: postId)
-                            .padding()
                             .padding(.bottom, 20)
                     }
                 }
             }.task {
                 do{
                     try await vm.getPost(id: postId)
-                    (title, actor) = PostUtils.unwrapPost(from: vm.post)
-                    await vm.loadImage(from: vm.post.image)
+                    actor = PostUtils.getActor(from: vm.post)
+                    print(vm.post.commentCount)
+                    if (vm.post.image != nil){
+                        await vm.loadImage(from: vm.post.image!)
+                    }
                 } catch {
                     print(error)
                 }
+                /*
+                 if (commentCount == 0){
+                     print("hola soy el task")
+                     commentCount = 1
+                 }
+                 */
             }
         }
         .background(.appBg)
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)
-        
     }
 }
 

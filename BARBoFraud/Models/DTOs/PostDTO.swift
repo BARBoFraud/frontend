@@ -8,15 +8,15 @@
 import Foundation
 
 struct Post : Decodable, Identifiable, Hashable {
-    let name, lastName : String?
+    let name, lastName, image, url, website, application, username, email, phoneNumber : String?
     let id : Int
-    let category, date, description, image, url, website, socialMedia, username, email, phoneNumber : String
+    let category, date, riskLevel, title, description : String
     let likeCount, commentCount, userLiked : Int
     
     enum CodingKeys: String, CodingKey {
-        case id, category, name, lastName
+        case id, category, name, lastName, title, riskLevel
         case date = "createdAt"
-        case description, image, url, website, socialMedia, username, email, phoneNumber
+        case description, image, url, website, application, username, email, phoneNumber
         case likeCount = "likesCount"
         case commentCount = "commentsCount"
         case userLiked
