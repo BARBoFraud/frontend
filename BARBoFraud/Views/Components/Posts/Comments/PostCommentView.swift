@@ -49,7 +49,9 @@ struct PostCommentView: View {
             do{
                 try await vm.getPost(id: postId)
                 actor = PostUtils.getActor(from: vm.post)
-                await vm.loadImage(from: vm.post.image)
+                if (vm.post.image != nil){
+                    await vm.loadImage(from: vm.post.image!)
+                }
             } catch {
                 print(error)
             }

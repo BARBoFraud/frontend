@@ -12,25 +12,24 @@ struct PostView: View {
     @StateObject var vm = PostViewModel()
     
     @State private var actor: String = ""
-    @State private var anonymous: Bool = false
     
     public var post: Post
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack{
-                if !anonymous{
+                if (post.name != nil){
                     Text("\(post.name!) \(post.lastName!)")
                         .font(.system(size: 15, weight: .semibold))
                         .padding(.leading, 10)
                 }
                 Spacer()
                 if post.category == "Red Social" || post.category == "Mensaje"{
-                    Text(post.socialMedia)
+                    Text(post.socialMedia!)
                         .foregroundStyle(.white)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(PostUtils.getLabelBackgroundColor(for: post.socialMedia))
+                        .background(PostUtils.getLabelBackgroundColor(for: post.socialMedia!))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }else{
                     Text("\(PostUtils.getCategoryLabel(from: post.category))")
@@ -42,7 +41,10 @@ struct PostView: View {
                 }
             }
             
-            //Text(post.title)
+            Text(post.title)
+                .font(.system(size: 24, weight: .semibold))
+                .frame(maxWidth: .infinity, alignment: .center)
+                      
             
             if post.socialMedia == "Instagram" || post.socialMedia == "Tik Tok"{
                 Text("@\(actor)")
@@ -92,7 +94,9 @@ struct PostView: View {
             router.push(.postDetail(postId: post.id))
         }
         .task{
-            await vm.loadImage(from: post.image)
+            if (post.image != nil) {
+                await vm.loadImage(from: post.image!)
+            }
             actor = PostUtils.getActor(from: post)
         }
     }

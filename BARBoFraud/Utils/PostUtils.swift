@@ -11,21 +11,7 @@ import SwiftUICore
 struct PostUtils{
 
     static func getActor(from post: Post) -> String{
-        print(post.category)
-        switch post.category{
-        case "Página de internet":
-            return post.website
-        case "Red social":
-            return post.username
-        case "Llamada":
-            return post.phoneNumber
-        case "Mensaje":
-            return post.phoneNumber
-        case "Correo Electrónico":
-            return post.email
-        default:
             return ""
-        }
     }
     
     static func getCategoryLabel(from category: String) -> String {
