@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct PostHeader: View {
+struct ViewHeader: View {
+    var title: String
     var body: some View {
         ZStack(alignment: .top){
             Color(.appBg)
@@ -17,7 +18,7 @@ struct PostHeader: View {
                 BackArrowBtn()
                     .frame(width: 40, height: 40)
                 
-                Text("Post")
+                Text(title)
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)
@@ -31,5 +32,5 @@ struct PostHeader: View {
 }
 
 #Preview {
-    PostHeader()
+    ViewHeader(title: "Post")
 }
