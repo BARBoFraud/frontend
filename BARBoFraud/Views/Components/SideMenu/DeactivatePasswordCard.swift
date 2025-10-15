@@ -25,7 +25,7 @@ struct DeactivatePasswordCard: View {
                 isPresented = false
             }
             isLoggedIn = false
-            router.push(.landing)
+            router.reset(to: .landing)
         } catch let err as DeactivateUserError {
         switch err {
             case .invalidPassword:

@@ -90,6 +90,13 @@ struct ArticleDetail: View {
                             .lineSpacing(6)
                             .fixedSize(horizontal: false, vertical: true)
                         
+                        Text(article.content)
+                            .font(.body)
+                            .foregroundColor(Color("Text"))
+                            .multilineTextAlignment(.leading)
+                            .lineSpacing(6)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
                         if let link = article.link {
                             Button(action: {
                                 openURL(link)
@@ -105,7 +112,7 @@ struct ArticleDetail: View {
                             .buttonStyle(PlainButtonStyle())
                         }
 
-                    }
+                    } 
                     .frame(width: 330)
                     .padding()
                     

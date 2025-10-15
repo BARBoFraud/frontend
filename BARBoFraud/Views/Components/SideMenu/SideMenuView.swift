@@ -110,6 +110,7 @@ struct SideMenuView: View {
                             .onTapGesture {
                                 showingDeactivateCard = true
                             }
+                            .navigationBarBackButtonHidden(true)
                         Spacer()
                     }
                     .padding(.bottom, 40)
@@ -141,7 +142,7 @@ struct SideMenuView: View {
             .task {
                 await loadProfile()
             }
-            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
     }
 }
 
