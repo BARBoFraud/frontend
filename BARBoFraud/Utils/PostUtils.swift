@@ -18,7 +18,7 @@ struct PostUtils{
             return post.phoneNumber!
         case "Mensaje":
             return post.phoneNumber!
-        case "Correo Electrónico":
+        case "Correo electrónico":
             return post.email!
         case "Red social":
             return post.username!
@@ -35,8 +35,10 @@ struct PostUtils{
             return "Teléfono"
         case "Mensaje":
             return "Mensaje"
-        case "Correo Electrónico":
+        case "Correo electrónico":
             return "email"
+        case "Red social":
+            return "Aplicación"
         default:
             return "otro"
         }
@@ -46,6 +48,8 @@ struct PostUtils{
         switch cateogry {
         case "Página de internet":
             return Color(.teal)
+        case "Red social":
+            return Color(.cyan)
         case "Llamada":
             return Color(.green)
         case "Whatsapp":
@@ -64,6 +68,19 @@ struct PostUtils{
             return .teal
         case "Facebook":
             return Color(red: 24/255, green: 119/255, blue: 242/255)
+        default:
+            return .gray
+        }
+    }
+    
+    static func getRiskLabelBackgroundColor(for risk: String) -> Color {
+        switch risk {
+        case "Alto":
+            return Color(.red)
+        case "Medio":
+            return Color(.orange)
+        case "Bajo":
+            return Color(.yellow)
         default:
             return .gray
         }
