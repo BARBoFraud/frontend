@@ -38,7 +38,7 @@ final class SearchViewModel : ObservableObject {
         isLoading = false
     }
     
-    func fetch(_ id: Int) async -> SearchPost? {
+    func fetch(_ id: Int) async -> Post? {
         do {
             return try await NetworkManager.shared.fetchSearch(id)
         } catch {

@@ -19,23 +19,23 @@ struct SearchResponse : Decodable, Identifiable {
     let category: String
 }
 
-struct SearchPost : Decodable, Identifiable {
-    let id: Int
-    let name: String?
-    let lastName: String?
-    let category: String
-    let createdAt: String
-    let riskLevel: String
-    let title: String
-    let description: String
-    let image: String?
-    let url: String?
-    let website: String?
-    let application: String?
-    let username: String?
-    let email: String?
-    let phoneNumber: String?
-    let likesCount: Int
-    let commentsCount: Int
-    let userLiked: Int
-}
+//struct SearchPost : Decodable, Identifiable {
+//    let id: Int
+//    let name: String?
+//    let lastName: String?
+//    let category: String
+//    let createdAt: String
+//    let riskLevel: String
+//    let title: String
+//    let description: String
+//    let image: String?
+//    let url: String?
+//    let website: String?
+//    let application: String?
+//    let username: String?
+//    let email: String?
+//    let phoneNumber: String?
+//    let likesCount: Int
+//    let commentsCount: Int
+//    let userLiked: Int
+//}
