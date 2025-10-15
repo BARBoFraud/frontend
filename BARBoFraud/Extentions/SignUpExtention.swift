@@ -43,7 +43,7 @@ extension SignUp {
                 errors.append("El correo no es valido")
             }
             if !password.esPasswordValido{
-                errors.append("La contraseña no cumple con el requerimiento de 3 caracteres")
+                errors.append("La contraseña no cumple con el requerimiento de: al menos 10 caracteres, usar mayúsculas o minúsculas, un número y un caracter especial")
             }
             return errors
             

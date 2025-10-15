@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ArticleDetail: View {
+    @Environment(\.openURL) var openURL
+    
     let article: ArticleDTO
     let articles: [ArticleDTO] = sampleArticles
     
@@ -87,7 +89,30 @@ struct ArticleDetail: View {
                             .multilineTextAlignment(.leading)
                             .lineSpacing(6)
                             .fixedSize(horizontal: false, vertical: true)
-                    }
+                        
+                        Text(article.content)
+                            .font(.body)
+                            .foregroundColor(Color("Text"))
+                            .multilineTextAlignment(.leading)
+                            .lineSpacing(6)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        if let link = article.link {
+                            Button(action: {
+                                openURL(link)
+                            }) {
+                                HStack {
+                                    Image(systemName: "link")
+                                    Text("Leer artículo completo")
+                                        .underline()
+                                }
+                                .font(.subheadline.bold())
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+
+                    } 
                     .frame(width: 330)
                     .padding()
                     

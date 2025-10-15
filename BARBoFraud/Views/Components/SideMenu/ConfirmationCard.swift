@@ -37,7 +37,7 @@ struct ConfirmationCard: View {
     var body: some View {
         if isPresented {
             ZStack {
-                Color.appBg
+                Color.appBg.opacity(0.35)
                     .ignoresSafeArea()
                     .onTapGesture {
                         withAnimation { isPresented = false }

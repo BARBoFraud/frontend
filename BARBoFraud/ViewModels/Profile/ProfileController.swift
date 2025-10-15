@@ -9,8 +9,11 @@
 
 struct ProfileController{
     private let client = ProfileClient()
+    private let authController = AuthenticationController(httpClient: HTTPClient())
     
     func getProfile() async throws -> Profile {
+        _ = try await authController.ensureAccessToken()
+
         let profileResponse = try await client.userProfileNet()
         return profileResponse
     }

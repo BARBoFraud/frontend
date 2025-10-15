@@ -14,6 +14,7 @@ struct SignUp: View {
     
     @State private var acceptedPrivacy = false
     @State private var showResultAlert = false
+    
     private let privacyText = """
         Aviso de privacidad.
         

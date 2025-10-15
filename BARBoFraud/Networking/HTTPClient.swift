@@ -27,7 +27,15 @@ enum DeactivateUserError: Error {
     case invalidJWT
     case userNotFound
     case missingToken
+    case invalidPassword
 }
+
+enum RefreshError: Error {
+    case invalidRefreshToken
+    case userNotFound
+    case serverError(statusCode: Int)
+}
+
 
 struct HTTPClient {
     
@@ -36,7 +44,7 @@ struct HTTPClient {
     func UserRegistration(name:String, lastName1:String, lastName2:String,email:String, password:String) async throws {
         let requestForm = RegistrationFormRequest(name:name, lastName1: lastName1, lastName2: lastName2,email:email, password:password)
         guard let url = URL(string: "\(baseURL)/users/register") else {
-            fatalError("Invalid URL" + "http://localhost:3000/v1/users/register")
+            fatalError("Invalid URL" + "/v1/users/register")
         }
         var httpRequest = URLRequest(url: url)
         httpRequest.httpMethod = "POST"
@@ -63,7 +71,7 @@ struct HTTPClient {
     func UserLogin(email:String, password:String) async throws -> LoginResponse{
         let loginRequest = LoginRequest(email:email, password:password)
         guard let url = URL(string: "\(baseURL)/auth/users/login") else {
-            fatalError("Invalid URL" + "http://localhost:4000/auth/users/login")
+            fatalError("Invalid URL" + "/auth/users/login")
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -90,7 +98,7 @@ struct HTTPClient {
     func UserLogOut(refreshToken: String) async throws {
         let logoutRequest = LogOutRequest(refreshToken: refreshToken)
         guard let url = URL(string: "\(baseURL)/auth/users/logout") else {
-            fatalError("Invalid URL" + "http://10.48.234.109:3000/v1/auth/users/logout")
+            fatalError("Invalid URL" + "/v1/auth/users/logout")
         }
         var httpRequest = URLRequest(url: url)
         httpRequest.httpMethod = "POST"
@@ -112,9 +120,9 @@ struct HTTPClient {
         }
     }
     
-    func DeactivateUser() async throws {
+    func DeactivateUser(password: String) async throws {
         guard let url = URL(string: "\(baseURL)/users/deactivate") else {
-            fatalError("Invalid URL" + "http://10.48.234.109:3000/v1/auth/users/deactivate")
+            fatalError("Invalid URL" + "/v1/auth/users/deactivate")
         }
         
         guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
@@ -126,8 +134,10 @@ struct HTTPClient {
         httpRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         httpRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let (_, response) = try await URLSession.shared.data(for: httpRequest)
+        let body = DeactivateRequest(password: password)
+        httpRequest.httpBody = try JSONEncoder().encode(body)
         
+        let (data, response) = try await URLSession.shared.data(for: httpRequest)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw URLError(.badServerResponse)
         }
@@ -140,9 +150,38 @@ struct HTTPClient {
             throw DeactivateUserError.invalidJWT
         case 404:
             throw DeactivateUserError.userNotFound
+        case 409:
+            throw DeactivateUserError.invalidPassword
         default:
             throw URLError(.badServerResponse)
         }
     }
     
+    func refreshAccessToken(refreshToken: String) async throws -> String {
+        let refreshRequest = RefreshRequest(refreshToken: refreshToken)
+        guard let url = URL(string: "\(baseURL)/auth/users/refresh") else {
+            fatalError("Invalid URL: /auth/users/refresh")
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = try JSONEncoder().encode(refreshRequest)
+
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+
+        switch httpResponse.statusCode {
+        case 201:
+            let refreshResponse = try JSONDecoder().decode(RefreshResponse.self, from: data)
+            return refreshResponse.accessToken
+        case 401:
+            throw RefreshError.invalidRefreshToken
+        case 404:
+            throw RefreshError.userNotFound
+        default:
+            throw RefreshError.serverError(statusCode: httpResponse.statusCode)
+        }
+    }
 }
