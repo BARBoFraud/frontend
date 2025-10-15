@@ -42,17 +42,42 @@ struct SearchResult: View {
                                     .fill(.appBg)
                                     .shadow(color: .black.opacity(0.1), radius: 1, y: 1)
                                 HStack {
-                                    if let website = result.website {
-                                        Text(website)
+                                    Spacer()
+                                    VStack(alignment: .leading) {
+                                        Text(result.title)
+                                            .font(.title2)
+                                        Text(DateUtils.formatDate(from: result.createdAt))
+                                            .font(.footnote)
+                                            .foregroundStyle(.text.opacity(0.4))
                                     }
-                                    if let email = result.email {
-                                        Text(email)
+                                    Spacer()
+                                    VStack(alignment: .trailing) {
+                                        let risk = result.riskLevel.lowercased()
+                                        Text("Riesgo \(risk)")
+                                            .font(.caption)
+                                            .foregroundStyle(.white)
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 4)
+                                            .background(PostUtils.getRiskLabelBackgroundColor(for: result.riskLevel))
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                       
+                                        Text("\(PostUtils.getCategoryLabel(from: result.category))")
+                                            .font(.caption)
+                                            .foregroundStyle(.white)
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 4)
+                                            .background(PostUtils.getLabelBackgroundColor(for: result.category))
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
                                     }
-                                    if let phone = result.phoneNumber {
-                                        Text(phone)
-                                    }
-                                    if let social = result.socialMedia {
-                                        Text(social)
+                                    Spacer()
+                                }
+                                .onTapGesture {
+                                    Task {
+                                        if let post = await vm.fetch(result.id) {
+                                            print(post)
+                                        } else {
+                                            print("Error")
+                                        }
                                     }
                                 }
                                 .padding(.vertical, 10)
