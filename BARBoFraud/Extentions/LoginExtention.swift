@@ -21,14 +21,7 @@ extension LogIn {
             if pass.esVacio{
                 errors.append("La contraseña es requerida")
             }
-            if !email.esCorreoValido{
-                errors.append("El correo no es valido")
-            }
-            if !pass.esPasswordValido{
-                errors.append("La contraseña no cumple con el requerimiento de: al menos 10 caracteres, usar mayúsculas o minúsculas, un número y un caracter especial")
-            }
             return errors
-            
         }
     }
 }
