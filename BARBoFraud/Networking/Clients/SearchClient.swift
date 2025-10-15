@@ -14,12 +14,12 @@ extension NetworkManager {
         return try await request("/reports/search/\(query)", token: token)
     }
     
-    func fetchSearch(_ id: Int) async throws -> SearchPost {
+    func fetchSearch(_ id: Int) async throws -> Post {
         // Get JWT
         guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
             throw NetworkError.noToken
         }
-        let post: SearchPost = try await request("/reports/\(id)/search", token: token)
+        let post: Post = try await request("/reports/\(id)/search", token: token)
         
         return post
     }

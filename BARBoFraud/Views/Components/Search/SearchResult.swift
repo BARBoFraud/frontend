@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SearchResult: View {
+    @EnvironmentObject var router: Router
     @ObservedObject var vm: SearchViewModel
     
     var body: some View {
@@ -72,13 +73,7 @@ struct SearchResult: View {
                                     Spacer()
                                 }
                                 .onTapGesture {
-                                    Task {
-                                        if let post = await vm.fetch(result.id) {
-                                            print(post)
-                                        } else {
-                                            print("Error")
-                                        }
-                                    }
+                                    router.push(.postDetail(postId: result.id))
                                 }
                                 .padding(.vertical, 10)
                             } // ZStack
