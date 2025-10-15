@@ -101,10 +101,6 @@ struct LogIn: View {
                                             await login()
                                         }
                                     }
-                                    Task {
-                                        await login()
-                                    }
-
                                 },
                                 text: "Iniciar Sesión",
                                 fgColor: .text,
