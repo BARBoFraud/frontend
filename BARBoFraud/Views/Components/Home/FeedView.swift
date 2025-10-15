@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FeedView: View {
     @StateObject private var vm = FeedViewModel()
-    
 
     var body: some View {
         Group{

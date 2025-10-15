@@ -13,7 +13,7 @@ final class PostViewModel: ObservableObject {
     
     var postID : Int = 0
     
-    @Published var post: Post = Post(name: nil, lastName: nil, image: nil, url: "", website: "", socialMedia: "", username: "", email: "", phoneNumber: "", id: 1, category: "", date: "", riskLevel: "'", title: "", description: "", likeCount: 0, commentCount: 0, userLiked: 0)
+    @Published var post: Post = Post(name: nil, lastName: nil, image: nil, url: "", website: "", application: "", username: "", email: "", phoneNumber: "", id: 1, category: "", date: "", riskLevel: "'", title: "", description: "", likeCount: 0, commentCount: 0, userLiked: 0)
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var image: Image?

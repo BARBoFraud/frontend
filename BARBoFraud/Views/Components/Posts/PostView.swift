@@ -25,11 +25,11 @@ struct PostView: View {
                 }
                 Spacer()
                 if post.category == "Red Social" || post.category == "Mensaje"{
-                    Text(post.socialMedia!)
+                    Text(post.application!)
                         .foregroundStyle(.white)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(PostUtils.getLabelBackgroundColor(for: post.socialMedia!))
+                        .background(PostUtils.getLabelBackgroundColor(for: post.application!))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }else{
                     Text("\(PostUtils.getCategoryLabel(from: post.category))")
@@ -40,19 +40,17 @@ struct PostView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }
-            
             Text(post.title)
                 .font(.system(size: 24, weight: .semibold))
                 .frame(maxWidth: .infinity, alignment: .center)
                       
-            
-            if post.socialMedia == "Instagram" || post.socialMedia == "Tik Tok"{
+            if post.username == "Instagram" || post.username == "Tik Tok"{
                 Text("@\(actor)")
-                    .font(.system(size: 22, weight: .semibold))
+                    .font(.system(size: 18, weight: .regular))
                     .frame(maxWidth: .infinity, alignment: .center)
             }else{
                 Text(actor)
-                    .font(.system(size: 22, weight: .semibold))
+                    .font(.system(size: 18, weight: .regular))
                     .frame(maxWidth: .infinity, alignment: .center)
             }
             
@@ -85,7 +83,7 @@ struct PostView: View {
             .font(.subheadline)
         }
         .padding()
-        .background(.appBg)
+        .background(.landingBg1)
         .cornerRadius(10)
         .shadow(radius: 2)
         .padding(.horizontal)
