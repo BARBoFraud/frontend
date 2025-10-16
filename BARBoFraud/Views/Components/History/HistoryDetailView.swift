@@ -1,13 +1,13 @@
 //
-//  PostDetailView.swift
+//  HistoryDetailView.swift
 //  BARBoFraud
 //
-//  Created by Diego Herrera on 2025/09/24.
+//  Created by Jorge Cadena on 15/10/25.
 //
 
 import SwiftUI
 
-struct PostDetailView: View {
+struct HistoryDetailView: View {
     @StateObject var vm = PostViewModel()
     
     var postId: Int
@@ -61,21 +61,10 @@ struct PostDetailView: View {
                             Text(DateUtils.formatDate(from: vm.post.date))
                                 .font(.system(size: 12))
                                 .foregroundColor(.gray)
-                            
-                            // Buttons
-                            HStack(spacing: 100) {
-                                CommentButton(initialCount: vm.post.commentCount, id: vm.post.id)
-                                LikeButton(initialCount: vm.post.likeCount, initiallyLiked: vm.post.userLiked == 1, id: vm.post.id)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .font(.subheadline)
                         }
                         .padding()
                         
                         Divider()
-                        
-                        CommentSection(id: postId)
-                            .padding(.bottom, 20)
                     }
                 }
             }.task {
@@ -89,20 +78,15 @@ struct PostDetailView: View {
                 } catch {
                     print(error)
                 }
-                /*
-                 if (commentCount == 0){
-                     print("hola soy el task")
-                     commentCount = 1
-                 }
-                 */
             }
         }
         .background(.appBg)
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea(edges: .bottom)
     }
+
 }
 
 #Preview {
-    RootView()
+    HistoryDetailView(postId: 1)
 }

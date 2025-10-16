@@ -25,9 +25,11 @@ struct RootView: View {
                     case .search: Search()
                     case .emptyView: EmptyView()
                     case .newReport: WebReport()
+                    case .history: History()
                     case .articleDetail(let article): ArticleDetail(article: article)
                     case .postDetail(let id): PostDetailView(postId: id)
                     case .newComment(let id): NewCommentView(postId: id)
+                    case .historyDetail(let id): HistoryDetailView(postId: id)
                     }
                 }
         }
