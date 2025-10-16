@@ -80,7 +80,9 @@ struct SideMenuView: View {
                     
                     
                     Group {
-                        SideMenuItem(icon: "clock.arrow.circlepath", label: "Historial de reportes") {}
+                        SideMenuItem(icon: "clock.arrow.circlepath", label: "Historial de reportes") {
+                            router.push(.history)
+                        }
                         SideMenuItem(icon: "gearshape.fill", label: "Configuraciones") {}
                     }
                     .padding(.horizontal)

@@ -85,4 +85,17 @@ struct PostUtils{
             return .gray
         }
     }
+    
+    static func getStatusLabelBackgroundColor(for status: String) -> Color {
+        switch status {
+        case "Aceptado":
+            return Color(red: 37/255, green: 211/255, blue: 102/255)
+        case "Pendiente":
+            return Color(.yellow)
+        case "Rechazado":
+            return Color(.red)
+        default:
+            return .gray
+        }
+    }
 }
