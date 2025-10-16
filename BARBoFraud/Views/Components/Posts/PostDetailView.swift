@@ -89,12 +89,6 @@ struct PostDetailView: View {
                 } catch {
                     print(error)
                 }
-                /*
-                 if (commentCount == 0){
-                     print("hola soy el task")
-                     commentCount = 1
-                 }
-                 */
             }
         }
         .background(.appBg)
