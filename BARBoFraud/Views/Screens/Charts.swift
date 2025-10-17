@@ -86,9 +86,31 @@ struct ChartsView: View {
                         }
                         
                         VStack{
-                            Text("Número de reportes creados en la última semana")
+                            Spacer()
+                            Text("Reportes creados por día en la última semana")
                                 .font(.title)
-                        }
+                            Spacer()
+                            Text(vm.thisMonth)
+                                .font(.title)
+                            Chart(vm.weeklyChart) { item in
+                                BarMark(
+                                    x: .value("Date", item.date),
+                                    y: .value("Reports", item.num)
+                                )
+                                .foregroundStyle(item.num > 0 ? .blue : .gray.opacity(0.3))
+                            }
+                            .chartYScale(domain: 0...Double(vm.weeklyChart.map { $0.num }.max() ?? 1))
+                            .chartXAxis {
+                                AxisMarks(values: vm.weeklyChart.map { $0.date }) { value in
+                                    AxisGridLine()
+                                    AxisTick()
+                                    AxisValueLabel()
+                                }
+                            }
+                            .frame(height: 400)
+                            .padding()
+                            Spacer()
+                        }.padding()
                     }
                     .background(.appBg)
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))

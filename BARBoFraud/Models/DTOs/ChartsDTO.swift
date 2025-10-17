@@ -12,9 +12,9 @@ typealias PieChartData = [PieChartDataPoint]
 typealias HistogramData = [HistogramDataPoint]
 
 struct BarChartDataPoint: Decodable, Identifiable{
-    var id = UUID()
-    let label: String
-    let value: Double
+    let id = UUID()
+    let date: String
+    let num: Int
 }
 
 struct PieChartDataPoint: Decodable, Identifiable{
@@ -24,7 +24,7 @@ struct PieChartDataPoint: Decodable, Identifiable{
 }
 
 struct HistogramDataPoint: Decodable, Identifiable{
-    var id = UUID()
+    let id = UUID()
     let score: Double
 }
 

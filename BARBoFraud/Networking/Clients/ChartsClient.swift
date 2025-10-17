@@ -23,6 +23,13 @@ extension NetworkManager{
         return try await request("/risk/counts", method: "GET", token: token)
     }
     
+    func fetchWeeklyChart() async throws -> BarChartData{
+        guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
+            throw NetworkError.noToken
+        }
+        return try await request("/reports/weekly", method: "GET", token: token)
+    }
+    
     func fetchSocialMediaChart() async throws -> BarChartData{
         guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
             throw NetworkError.noToken
