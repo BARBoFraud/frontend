@@ -18,9 +18,9 @@ struct BarChartDataPoint: Decodable, Identifiable{
 }
 
 struct PieChartDataPoint: Decodable, Identifiable{
-    var id = UUID()
+    let id = UUID()
     let name: String
-    let count: Double
+    let count: Int
 }
 
 struct HistogramDataPoint: Decodable, Identifiable{

@@ -32,9 +32,7 @@ struct Landing: View {
                     .cornerRadius(15)
                 
                 Spacer()
-                // Buttons Container
                 HStack(spacing: 20) {
-                    // Login button
                     NavigationButton(
                         action: {
                             router.push(.login)
@@ -43,7 +41,6 @@ struct Landing: View {
                         fgColor: .white,
                         bgColor: .blueAccent
                     )
-                    // Signup button
                     NavigationButton(
                         action: {
                             router.push(.signup)

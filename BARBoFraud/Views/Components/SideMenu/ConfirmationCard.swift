@@ -18,7 +18,7 @@ struct ConfirmationCard: View {
     init(
         isPresented: Binding<Bool>,
         title: String,
-        confirmLabel: String = "Si",
+        confirmLabel: String = "Sí",
         cancelLabel: String = "No",
         confirmAction: @escaping () async -> Void
     ) {
@@ -37,12 +37,12 @@ struct ConfirmationCard: View {
     var body: some View {
         if isPresented {
             ZStack {
-                Color.appBg.opacity(0.35)
+                Color.appBg.opacity(1)
                     .ignoresSafeArea()
                     .onTapGesture {
                         withAnimation { isPresented = false }
                     }
-                    .shadow(color: Color.black.opacity(0.35), radius: 6, x: 0, y: 4)
+                    //.shadow(color: Color.black.opacity(1), radius: 1, x: 0, y: 1)
 
                 VStack(spacing: 16) {
                     Text(title)
@@ -65,8 +65,9 @@ struct ConfirmationCard: View {
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color("BtnColor"))
                                 )
-                                .foregroundColor(.white)
+                                .foregroundColor(.black)
                         }
+                        .shadow(radius: 1)
                         .buttonStyle(.plain)
                         
                         Button(action: {
@@ -76,11 +77,9 @@ struct ConfirmationCard: View {
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(
-                                    RoundedRectangle(cornerRadius: 10)
+                                    RoundedRectangle(cornerRadius: 20)
                                         .fill(Color("Tarjeta"))
                                 )
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .foregroundColor(Color("Text"))
                         }
                         .buttonStyle(.plain)
                         
@@ -92,7 +91,7 @@ struct ConfirmationCard: View {
                 .frame(maxWidth: 340)
                 .background(.appBg)
                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .shadow(radius: 20)
+                .shadow(radius: 4)
                 .padding(.horizontal, 20)
                 .transition(.scale.combined(with: .opacity))
             }

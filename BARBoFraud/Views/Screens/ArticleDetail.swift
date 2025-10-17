@@ -15,20 +15,7 @@ struct ArticleDetail: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                BackArrowBtn()
-                    .frame(width: 40, height: 40)
-                
-                Text("Detalle")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 4)
-            .background(Color("AppBg").ignoresSafeArea(edges: .top))
+            ViewHeader(title: "Artículo")
             
             Divider().opacity(0.2)
             
@@ -59,8 +46,7 @@ struct ArticleDetail: View {
                             }
                             .padding([.leading, .bottom], 16)
                         }
-                        .cornerRadius(12)
-                        .shadow(color: Color.black.opacity(0.25), radius: 8, x: 0, y: 6)
+                        .shadow(color: Color.black.opacity(0.25), radius: 3, x: 0, y: 6)
                         .padding(.horizontal)
                     }
                     

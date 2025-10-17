@@ -13,7 +13,7 @@ struct PostDetailView: View {
     var postId: Int
 
     @State private var actor: String = ""
-    @State private var commentCount: Int = 0
+    //@State private var commentCount: Int = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -82,7 +82,6 @@ struct PostDetailView: View {
                 do{
                     try await vm.getPost(id: postId)
                     actor = PostUtils.getActor(from: vm.post)
-                    print(vm.post.commentCount)
                     if (vm.post.image != nil){
                         await vm.loadImage(from: vm.post.image!)
                     }

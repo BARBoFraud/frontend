@@ -44,7 +44,7 @@ struct ReportSelector: View {
                             .padding()
                     } else if let errorMessage = vm.errorMessage {
                         Text("Error: \(errorMessage)")
-                            .foregroundColor(.red)
+                            .foregroundColor(.warningRed)
                             .padding()
                     } else {
                         ForEach(vm.categories, id: \.id){ category in

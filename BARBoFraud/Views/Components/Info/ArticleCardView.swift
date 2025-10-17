@@ -39,19 +39,17 @@ struct ArticleCardView: View {
                         .fontWeight(.semibold)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 20)
-                        .background(Color("BtnColor"))
+                        .background(.appBg)
                         .foregroundColor(Color("Text"))
                         .clipShape(Capsule())
                 }
-                
+                .shadow(color: Color.black.opacity(0.35), radius: 1, x: 0, y: 4)
                 Spacer()
             }
         }
         .padding()
-        .cornerRadius(14)
         .frame(width: 300)
         .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.gray, lineWidth: 1))
-        .shadow(color: Color.black.opacity(0.35), radius: 6, x: 0, y: 4)
     }
 }
 

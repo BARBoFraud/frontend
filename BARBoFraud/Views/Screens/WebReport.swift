@@ -76,7 +76,7 @@ struct WebReport: View {
                 .background(
                     Rectangle()
                         .foregroundColor(.landingBg2)
-                        .cornerRadius(19)
+                        .cornerRadius(20)
                         .frame(width: 350)
                 )
                 Spacer()
