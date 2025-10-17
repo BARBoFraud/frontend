@@ -19,7 +19,7 @@ struct TopViewNewComment: View {
                 .ignoresSafeArea(edges: .top)
                 .shadow(color: Color.black.opacity(0.35), radius: 3, x: 0, y: 4)
             HStack(spacing: 50){
-                NavigationButton(action: {router.pop()}, text: "Cancelar", fgColor: .white, bgColor: .landingBg1)
+                NavigationButton(action: {router.pop()}, text: "Cancelar", fgColor: .black, bgColor: .postBg).shadow(radius: 1)
                 Spacer()
                 NavigationButton(
                     action: {

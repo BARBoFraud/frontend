@@ -26,6 +26,7 @@ struct RootView: View {
                     case .emptyView: EmptyView()
                     case .newReport: WebReport()
                     case .history: History()
+                    case .charts: ChartsView()
                     case .articleDetail(let article): ArticleDetail(article: article)
                     case .postDetail(let id): PostDetailView(postId: id)
                     case .newComment(let id): NewCommentView(postId: id)

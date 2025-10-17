@@ -10,16 +10,16 @@ import Foundation
 @MainActor
 final class ChartsViewModel: ObservableObject {
     
-    @Published var pieCharts: [PieChartData] = []
+    @Published var categoriesChart: PieChartData = []
+    @Published var riskChart: PieChartData = []
     @Published var isLoading = false
     @Published var errorMessage: String?
-    
+
     func fetchCharts() async throws{
         isLoading = true
         do {
-            pieCharts.append(try await NetworkManager.shared.fetchCategoriesChart())
-            pieCharts.append(try await NetworkManager.shared.fetchRiskChart())
-            print(pieCharts)
+            categoriesChart = try await NetworkManager.shared.fetchCategoriesChart()
+            riskChart = try await NetworkManager.shared.fetchRiskChart()
         } catch {
             errorMessage = "No se pudo obtener la información de las gráficas. \(error.localizedDescription)"
         }

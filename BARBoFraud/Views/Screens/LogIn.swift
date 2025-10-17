@@ -33,11 +33,9 @@ struct LogIn: View {
     
     var body: some View {
         ZStack {
-                // Background gradient color
                 LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
-                
-                // Background waves
+            
                 LandingWaves()
 
                 VStack{
@@ -112,10 +110,8 @@ struct LogIn: View {
                     }
                     .frame(maxWidth: 300, maxHeight: 300)
                     .padding(.vertical, 30)
-                    .background(Color("Tarjeta"))
+                    .background(.tarjeta)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    
-                    
                     
                     Spacer()
                     Spacer()
@@ -137,6 +133,9 @@ struct LogIn: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onTapGesture(){
+            errorMessages.removeAll()
+        }
     }
 }
 
@@ -145,5 +144,5 @@ struct LogIn: View {
 
 
 #Preview {
-    RootView()
+    LogIn()
 }

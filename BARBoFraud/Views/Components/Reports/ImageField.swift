@@ -100,7 +100,7 @@ struct ImageField: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 19)
-                .stroke(Color.blue, lineWidth: 3)
+                //.stroke(Color.blue, lineWidth: 3)
                 .frame(width: 300)
         )
         .frame(width: 300)
