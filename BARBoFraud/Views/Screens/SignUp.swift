@@ -27,6 +27,7 @@ struct SignUp: View {
     @State var showAlert: Bool = false
     @State var alertTitle: String = ""
     
+    @FocusState private var isInputFocused: Bool
     func register() async {
         do {
             try await authController.registerUser(
@@ -139,7 +140,7 @@ struct SignUp: View {
                                     .cornerRadius(10)
                                     .autocorrectionDisabled(true)
                                     .textInputAutocapitalization(.never)
-                                // .keyboardType(.emailAddress)
+                                    .keyboardType(.emailAddress)
                                     .padding(.vertical)
                                     .foregroundColor(.black)
                                 
@@ -236,6 +237,14 @@ struct SignUp: View {
             Alert(title: Text("Aviso"), message: Text("Debes aceptar el aviso de privacidad"), dismissButton: .default(Text("OK")))
         }
         .navigationBarBackButtonHidden(true)
+        .onTapGesture {
+            isInputFocused = false
+        }
+        .onAppear {
+            DispatchQueue.main.async {
+                isInputFocused = true
+            }
+        }
     }
 }
 

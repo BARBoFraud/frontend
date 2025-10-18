@@ -1,15 +1,15 @@
 //
-//  Email.swift
+//  Title.swift
 //  BARBoFraud
 //
-//  Created by Daniel Esteban Hernández García on 10/10/25.
+//  Created by Diego Herrera on 2025/10/17.
 //
 
 import SwiftUI
 
-struct Email: View {
+struct Title: View {
     @State private var isExpanded: Bool = true
-    @Binding var email: String
+    @Binding var title: String
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -25,17 +25,17 @@ struct Email: View {
                         .rotationEffect(.degrees(isExpanded ? -90 : 0))
                         .animation(.easeInOut(duration: 0.25), value: isExpanded)
                 }
+                .buttonStyle(.plain)
                 .foregroundColor(.text)
-                
-                Text("Correo electrónico")
+            
+                Text("Título del reporte")
                     .font(.title2)
                     .bold()
                 Spacer()
             }
             
             if isExpanded {
-                TextField("example@gmail", text: $email)
-                    .keyboardType(.emailAddress)
+                TextField("Título", text: $title)
                     .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(0.3))
@@ -55,10 +55,10 @@ struct Email: View {
 
 #Preview {
     struct prev: View {
-        @State var email: String = ""
+        @State var title: String = ""
         
         var body: some View {
-            Email(email: $email)
+            Title(title: $title)
             }
         }
     return prev()

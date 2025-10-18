@@ -18,7 +18,7 @@ struct NewCommentView: View {
     
 
     @State private var commentText = ""
-    @FocusState private var isInputFocused: Bool
+    @FocusState private var isFocused: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -49,7 +49,7 @@ struct NewCommentView: View {
                             PostCommentView(postId: postId)
                             Divider()
                             TextField("Comentario nuevo...", text: $commentText)
-                                .focused($isInputFocused)
+                                .focused($isFocused)
                                 .frame(maxHeight: 40)
                                 .cornerRadius(10)
                                 .keyboardType(.default)
@@ -63,11 +63,11 @@ struct NewCommentView: View {
         .background(.appBg)
         .navigationBarBackButtonHidden(true)
         .onTapGesture {
-            isInputFocused = false
+            isFocused = false
         }
         .onAppear {
             DispatchQueue.main.async {
-                isInputFocused = true
+                isFocused = true
             }
         }
     }

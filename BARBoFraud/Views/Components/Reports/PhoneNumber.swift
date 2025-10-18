@@ -8,32 +8,34 @@
 import SwiftUI
 
 struct PhoneNumber: View {
-    @State private var expanded: Bool = true
+    @State private var isExpanded: Bool = true
     @Binding var phoneNumber: String
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading) {
             HStack {
                 Button(action: {
                     withAnimation{
-                        expanded.toggle()
+                        isExpanded.toggle()
                     }
                 }) {
-                    Image(systemName: expanded ? "chevron.right" : "chevron.down")
-                        .font(.title2)
+                    Image(systemName: "chevron.down")
+                        .resizable()
+                        .frame(width: 20, height: 12)
+                        .rotationEffect(.degrees(isExpanded ? -90 : 0))
+                        .animation(.easeInOut(duration: 0.25), value: isExpanded)
                 }
                 .foregroundColor(.text)
-                Spacer()
+                
                 Text("Número telefónico")
                     .font(.title2)
                     .bold()
-                    .padding(.bottom, 8)
-                    .padding(.horizontal, 20)
                 Spacer()
             }
             
-            if expanded {
+            if isExpanded {
                 TextField("Número de 10 dígitos", text: $phoneNumber)
+                    .keyboardType(.phonePad)
                     .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(0.3))
@@ -44,7 +46,7 @@ struct PhoneNumber: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 19)
-                .stroke(Color.blue, lineWidth: 3)
+                .stroke(Color.accentColor, lineWidth: 1)
                 .frame(width: 300)
         )
         .frame(width: 300)

@@ -7,32 +7,51 @@
 
 import SwiftUI
 
-struct SocialNetwork: View {
-    @State private var expanded: Bool = true
-    @Binding var socialNetwork: String
+enum socialMedia {
+    case facebook
+    case instagram
+    case twitter
+    case tiktok
+    case snapchat
+    case linkedin
+}
+
+enum messagingApps{
+    case Whatsapp
+    case Telegram
+    case SMS
+    case Messenger
+}
+
+
+struct Application: View {
+    @State private var isExpanded: Bool = true
+    @Binding var application: String
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading) {
             HStack {
                 Button(action: {
                     withAnimation{
-                        expanded.toggle()
+                        isExpanded.toggle()
                     }
                 }) {
-                    Image(systemName: expanded ? "chevron.right" : "chevron.down")
-                        .font(.title2)
+                    Image(systemName: "chevron.down")
+                        .resizable()
+                        .frame(width: 20, height: 12)
+                        .rotationEffect(.degrees(isExpanded ? -90 : 0))
+                        .animation(.easeInOut(duration: 0.25), value: isExpanded)
                 }
                 .foregroundColor(.text)
-                Spacer()
-                Text("¿Cuál red social?")
+                
+                Text("Red social")
                     .font(.title2)
                     .bold()
-                    .padding(.bottom, 8)
-                    .padding(.horizontal, 20)
                 Spacer()
             }
             
-            if expanded {
-                TextField("Red social", text: $socialNetwork)
+            if isExpanded {
+                TextField("Red social", text: $application)
                     .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(0.3))
@@ -43,7 +62,7 @@ struct SocialNetwork: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 19)
-                .stroke(Color.blue, lineWidth: 3)
+                .stroke(Color.accentColor, lineWidth: 1)
                 .frame(width: 300)
         )
         .frame(width: 300)
@@ -52,10 +71,10 @@ struct SocialNetwork: View {
 
 #Preview {
     struct prev: View {
-        @State var socialNetwork: String = ""
+        @State var application: String = ""
         
         var body: some View {
-            SocialNetwork(socialNetwork: $socialNetwork)
+            Application(application: $application)
         }
     }
     return prev()
