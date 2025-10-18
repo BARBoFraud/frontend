@@ -16,7 +16,7 @@ struct LogIn: View {
     @State var loginForm = LoginForm()
     @State var errorMessages: [String] = []
     
-    
+    @FocusState private var isFocused: Bool
     private func login() async {
         do {
             try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
@@ -58,11 +58,13 @@ struct LogIn: View {
                     VStack{
                         Section{
                             Text("Correo electrónico")
+                                .focused($isFocused)
                                 .foregroundColor(Color("Text"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title3.bold())
                             
                             TextField("Correo", text: $loginForm.email)
+                                .keyboardType(.emailAddress)
                                 .padding(.vertical, 6)
                                 .padding(.leading, 10)
                                 .background(.white)
@@ -80,6 +82,7 @@ struct LogIn: View {
                                 .font(.title3.bold())
                             
                             SecureField("Contraseña", text: $loginForm.pass)
+                                .focused($isFocused)
                                 .padding(.vertical, 6)
                                 .padding(.leading, 10)
                                 .background(.white)
@@ -135,6 +138,12 @@ struct LogIn: View {
         .navigationBarBackButtonHidden(true)
         .onTapGesture(){
             errorMessages.removeAll()
+            isFocused = false
+        }
+        .onAppear {
+            DispatchQueue.main.async {
+                isFocused = true
+            }
         }
     }
 }

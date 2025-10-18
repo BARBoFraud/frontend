@@ -37,12 +37,11 @@ struct ConfirmationCard: View {
     var body: some View {
         if isPresented {
             ZStack {
-                Color.appBg.opacity(1)
+                Color.black.opacity(0.35)
                     .ignoresSafeArea()
                     .onTapGesture {
                         withAnimation { isPresented = false }
                     }
-                    //.shadow(color: Color.black.opacity(1), radius: 1, x: 0, y: 1)
 
                 VStack(spacing: 16) {
                     Text(title)

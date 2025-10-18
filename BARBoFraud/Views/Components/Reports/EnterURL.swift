@@ -8,33 +8,35 @@
 import SwiftUI
 
 struct EnterURL: View {
-    @State private var expanded: Bool = true
+    @State private var isExpanded: Bool = false
     @Binding var url: String
-    @Binding var nextStep: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading) {
             HStack {
                 Button(action: {
                     withAnimation{
-                        expanded.toggle()
+                        isExpanded.toggle()
                     }
                 }) {
-                    Image(systemName: expanded ? "chevron.right" : "chevron.down")
-                        .font(.title2)
+                    Image(systemName: "chevron.down")
+                        .resizable()
+                        .frame(width: 20, height: 12)
+                        .rotationEffect(.degrees(isExpanded ? 0 : -90))
+                        .animation(.easeInOut(duration: 0.25), value: isExpanded)
                 }
+                .buttonStyle(.plain)
                 .foregroundColor(.text)
-                Spacer()
+            
                 Text("URL de la página")
                     .font(.title2)
                     .bold()
-                    .padding(.bottom, 8)
-                    .padding(.horizontal, 20)
                 Spacer()
             }
             
-            if expanded {
+            if isExpanded {
                 TextField("URL", text: $url)
+                    .keyboardType(.URL)
                     .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(0.3))
@@ -45,7 +47,7 @@ struct EnterURL: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 19)
-                .stroke(Color.blue, lineWidth: 3)
+                .stroke(Color.accentColor, lineWidth: 1)
                 .frame(width: 300)
         )
         .frame(width: 300)
@@ -55,10 +57,9 @@ struct EnterURL: View {
 #Preview {
     struct prev: View {
         @State var url: String = ""
-        @State var nextStep: Bool = false
         
         var body: some View {
-            EnterURL(url: $url, nextStep: $nextStep)
+            EnterURL(url: $url)
             }
         }
     return prev()

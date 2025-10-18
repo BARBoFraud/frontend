@@ -8,31 +8,31 @@
 import SwiftUI
 
 struct PageName: View {
-    @State private var expanded: Bool = true
+    @State private var isExpanded: Bool = false
     @Binding var pageName: String
-    @Binding var nextStep: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading) {
             HStack {
                 Button(action: {
                     withAnimation{
-                        expanded.toggle()
+                        isExpanded.toggle()
                     }
                 }) {
-                    Image(systemName: expanded ? "chevron.right" : "chevron.down")
-                        .font(.title2)
+                    Image(systemName: "chevron.down")
+                        .resizable()
+                        .frame(width: 20, height: 12)
+                        .rotationEffect(.degrees(isExpanded ? -90 : 0))
+                        .animation(.easeInOut(duration: 0.25), value: isExpanded)
                 }
                 .foregroundColor(.text)
-                Spacer()
+                
                 Text("Nombre página")
                     .font(.title2)
                     .bold()
-                    .padding(.bottom, 8)
-                    .padding(.horizontal, 20)
                 Spacer()
             }
-            if expanded {
+            if isExpanded {
                 TextField("Nombre", text: $pageName)
                     .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
@@ -44,7 +44,7 @@ struct PageName: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 19)
-                .stroke(Color.blue, lineWidth: 3)
+                .stroke(Color.accentColor, lineWidth: 1)
                 .frame(width: 300)
         )
         .frame(width: 300)
@@ -54,10 +54,9 @@ struct PageName: View {
 #Preview {
     struct prev: View {
         @State var pageName: String = ""
-        @State var nextStep: Bool = false
         
         var body: some View {
-            PageName(pageName: $pageName, nextStep: $nextStep)
+            PageName(pageName: $pageName)
             }
         }
     return prev()

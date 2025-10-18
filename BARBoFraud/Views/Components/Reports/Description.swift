@@ -8,32 +8,32 @@
 import SwiftUI
 
 struct Description: View {
-    @State private var expanded: Bool = true
+    @State private var isExpanded: Bool = true
     @Binding var description: String
-    @Binding var nextStep: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading) {
             HStack {
                 Button(action: {
                     withAnimation{
-                        expanded.toggle()
+                        isExpanded.toggle()
                     }
                 }) {
-                    Image(systemName: expanded ? "chevron.right" : "chevron.down")
-                        .font(.title2)
+                    Image(systemName: "chevron.down")
+                        .resizable()
+                        .frame(width: 20, height: 12)
+                        .rotationEffect(.degrees(isExpanded ? -90 : 0))
+                        .animation(.easeInOut(duration: 0.25), value: isExpanded)
                 }
                 .foregroundColor(.text)
-                Spacer()
+                
                 Text("Descripción estafa")
                     .font(.title2)
                     .bold()
-                    .padding(.bottom, 8)
-                    .padding(.horizontal, 20)
                 Spacer()
             }
             
-            if expanded {
+            if isExpanded {
                 TextField("Desciproción del fraude", text: $description)
                     .font(.system(size: 20, weight: .medium))
                     .padding(.horizontal, 12)
@@ -45,7 +45,7 @@ struct Description: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 19)
-                .stroke(Color.blue, lineWidth: 3)
+                .stroke(Color.accentColor, lineWidth: 1)
                 .frame(width: 300)
         )
         .frame(width: 300)
@@ -55,10 +55,9 @@ struct Description: View {
 #Preview {
     struct prev: View {
         @State var description: String = ""
-        @State var nextStep: Bool = false
         
         var body: some View {
-            Description(description: $description, nextStep: $nextStep)
+            Description(description: $description)
             }
         }
     return prev()
