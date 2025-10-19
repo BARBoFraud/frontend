@@ -49,4 +49,11 @@ extension NetworkManager{
         }
         return try await request("/reports/\(reportID)/search", token: token)
     }
+    
+    func getHistoryPost(id reportID: Int) async throws -> HistoryPostResponse {
+        guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
+            throw NetworkError.noToken
+        }
+        return try await request("/reports/\(reportID)/history", token: token)
+    }
 }

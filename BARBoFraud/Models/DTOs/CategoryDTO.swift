@@ -11,3 +11,7 @@ struct IDCategoryRequest: Decodable {
     var id: Int
     var name: String
 }
+
+struct CategoryIdResponse: Decodable {
+    let id: Int
+}

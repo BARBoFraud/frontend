@@ -93,4 +93,18 @@ final class NetworkManager {
             body: Optional<Data>.none
         )
     }
+    
+    func request<Body: Encodable>(
+        _ endpoint: String,
+        method: String = "GET",
+        token: String? = nil,
+        body: Body? = nil
+    ) async throws {
+        let _: EmptyResponse = try await request(
+            endpoint,
+            method: method,
+            token: token,
+            body: body
+        )
+    }
 }

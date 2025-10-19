@@ -13,7 +13,24 @@ struct PostUtils{
     static func getActor(from post: Post) -> String{
         switch post.category{
         case "Página de internet":
-            return "\(post.website!) : \(post.url!)"
+            return "\(post.website!): \(post.url!)"
+        case "Llamada":
+            return post.phoneNumber!
+        case "Mensaje":
+            return post.phoneNumber!
+        case "Correo electrónico":
+            return post.email!
+        case "Red social":
+            return post.username!
+        default:
+            return "otro"
+        }
+    }
+    
+    static func getActorHistory(from post: HistoryPostResponse) -> String {
+        switch post.category{
+        case "Página de internet":
+            return post.url!
         case "Llamada":
             return post.phoneNumber!
         case "Mensaje":

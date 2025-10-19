@@ -14,3 +14,9 @@ struct HistoryResponse: Decodable, Identifiable {
     let category: String
     let status: String
 }
+
+struct HistoryPostResponse: Decodable, Identifiable {
+    let id: Int
+    let title, description, createdAt, category, status: String
+    let url, website, application, phoneNumber, username, email, image: String?
+}

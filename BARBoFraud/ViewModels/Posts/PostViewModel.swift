@@ -14,6 +14,7 @@ final class PostViewModel: ObservableObject {
     var postID : Int = 0
     
     @Published var post: Post = Post(name: nil, lastName: nil, image: nil, url: "", website: "", application: "", username: "", email: "", phoneNumber: "", id: 1, category: "", date: "", riskLevel: "'", title: "", description: "", likeCount: 0, commentCount: 0, userLiked: 0)
+    @Published var historyPost: HistoryPostResponse = HistoryPostResponse(id: 1, title: "", description: "", createdAt: "", category: "", status: "", url: nil, website: nil, application: nil, phoneNumber: nil, username: nil, email: nil, image: nil)
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var image: Image?
@@ -25,6 +26,20 @@ final class PostViewModel: ObservableObject {
             post = try await NetworkManager.shared.getPost(id: postID)
             if (post.image != nil){
                 await loadImage(from: post.image!)
+            }
+        } catch {
+            errorMessage = "No se pudo cargar el post. \(error.localizedDescription)"
+        }
+        isLoading = false
+    }
+    
+    func getHistoryPost(id postID: Int) async throws {
+        isLoading = true
+        errorMessage = nil
+        do {
+            historyPost = try await NetworkManager.shared.getHistoryPost(id: postID)
+            if (historyPost.image != nil){
+                await loadImage(from: historyPost.image!)
             }
         } catch {
             errorMessage = "No se pudo cargar el post. \(error.localizedDescription)"
