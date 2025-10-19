@@ -13,7 +13,6 @@ struct PostDetailView: View {
     var postId: Int
 
     @State private var actor: String = ""
-    @State private var commentCount: Int = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -37,13 +36,33 @@ struct PostDetailView: View {
                 }else{
                     ScrollView{
                         VStack(alignment: .leading, spacing: 20) {
+                            HStack{
+                                if (vm.post.name != nil){
+                                    Text("\(vm.post.name!) \(vm.post.lastName!)")
+                                        .font(.system(size: 15, weight: .semibold))
+                                }
+                                Spacer()
+                                if vm.post.category == "Red social" || vm.post.category == "Mensaje"{
+                                    Text(vm.post.application!)
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 4)
+                                        .background(PostUtils.getLabelBackgroundColor(for: vm.post.application!))
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }else{
+                                    Text("\(PostUtils.getCategoryLabel(from: vm.post.category))")
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 4)
+                                        .background(PostUtils.getLabelBackgroundColor(for: vm.post.category))
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
+                            }
                             Text(vm.post.title)
                                 .font(.system(size: 20, weight: .semibold))
-                            if actor != "" {
-                                Text(actor)
-                                    .font(.system(size: 18, weight: .bold))
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                            }
+                            Text(actor)
+                                .font(.system(size: 18, weight: .bold))
+                                .frame(maxWidth: .infinity, alignment: .center)
                             
                             if let loadedImage = vm.image {
                                 loadedImage
@@ -62,7 +81,6 @@ struct PostDetailView: View {
                                 .font(.system(size: 12))
                                 .foregroundColor(.gray)
                             
-                            // Buttons
                             HStack(spacing: 100) {
                                 CommentButton(initialCount: vm.post.commentCount, id: vm.post.id)
                                 LikeButton(initialCount: vm.post.likeCount, initiallyLiked: vm.post.userLiked == 1, id: vm.post.id)
@@ -82,7 +100,6 @@ struct PostDetailView: View {
                 do{
                     try await vm.getPost(id: postId)
                     actor = PostUtils.getActor(from: vm.post)
-                    print(vm.post.commentCount)
                     if (vm.post.image != nil){
                         await vm.loadImage(from: vm.post.image!)
                     }

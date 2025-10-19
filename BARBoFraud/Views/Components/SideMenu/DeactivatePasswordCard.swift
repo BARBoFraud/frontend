@@ -63,15 +63,7 @@ struct DeactivatePasswordCard: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color(UIColor.systemGray6))
                         )
-                        .padding(.horizontal)
-
-                    if let error = errorMessage {
-                        Text(error)
-                            .font(.caption)
-                            .foregroundColor(.red)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                    }
+                        .shadow(radius: 1)
 
                     HStack(spacing: 12) {
                         Button(action: {
@@ -107,19 +99,33 @@ struct DeactivatePasswordCard: View {
                         .buttonStyle(PlainButtonStyle())
                         .background(
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(isProcessing || password.isEmpty ? Color(UIColor.systemGray4) : Color.red)
+                                .fill(isProcessing || password.isEmpty ? Color(UIColor.systemGray4) : .warningRed)
                         )
                         .foregroundColor(.white)
                     }
                     .padding(.horizontal)
+                    
+                    if let error = errorMessage {
+                        Text(error)
+                            .font(.caption)
+                            .foregroundColor(.warningRed)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }else{
+                        Text("")
+                            .font(.caption)
+                            .foregroundColor(.warningRed)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
 
                     Spacer().frame(height: 8)
                 }
                 .padding(20)
                 .frame(maxWidth: 360)
-                .background(.ultraThinMaterial)
-                .cornerRadius(14)
-                .shadow(radius: 20)
+                .background(.postBg)
+                .cornerRadius(20)
+                .shadow(radius: 4)
                 .padding(.horizontal, 20)
                 .transition(.scale.combined(with: .opacity))
             }

@@ -7,7 +7,6 @@
 
 extension NetworkManager{
     func getFeed() async throws -> Feed {
-        
         guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
             throw NetworkError.noToken
         }

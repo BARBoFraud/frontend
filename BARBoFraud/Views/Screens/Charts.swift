@@ -8,12 +8,15 @@
 import SwiftUI
 import Charts
 
-struct Charts: View {
+struct ChartsView: View {
     @EnvironmentObject var router: Router
     @StateObject var vm = ChartsViewModel()
-
+    
+    private var titulosGraficas = ["Número de reportes por categoría", "Reportes por riesgo"]
+    private var colorMap: [String: Color]  = ["Correo electrónico": .blue, "Llamada": .cyan, "Mensaje": .black, "Página de internet": .green, "Red social": .brown]
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(){
             ViewHeader(title: "Charts")
             Group{
                 if vm.isLoading {
@@ -31,46 +34,126 @@ struct Charts: View {
                         Spacer()
                     }
                 }else{
-                    ScrollView{
-                        VStack(spacing: 40) {
-                            ForEach(vm.pieCharts.indices, id: \.self) { index in
-                                let data: PieChartData = vm.pieCharts[index]
-                                Text("Pie Chart")
-                                    .font(.headline)
-                                Chart(data) { (item: PieChartDataPoint) in
+                    TabView {
+                        VStack{
+                            Text("Reportes por categoría")
+                                .font(.title)
+                                Chart(vm.categoriesChart) { item in
                                     SectorMark(
                                         angle: .value("Value", item.count),
-                                        innerRadius: .ratio(0),
-                                        angularInset: 20
+                                        innerRadius: .ratio(0.0),
+                                        angularInset: 0.1
                                     )
                                     .foregroundStyle(by: .value("Category", item.name))
                                     .annotation(position: .overlay) {
-                                        Text(item.name)
-                                            .font(.caption)
-                                            .foregroundColor(.white)
+                                        if item.count != 0 {
+                                            VStack {
+                                                Text("\(item.name) \(item.count)")
+                                                    .font(.subheadline)
+                                                    .foregroundStyle(.white)
+                                            }
+                                        }
                                     }
                                 }
-                                .frame(height: 250)
+                                .chartLegend(.hidden)
+                                .frame(height: 500)
                                 .padding()
-                            }
-                            }
                         }
-                        .padding()
+                        
+                        VStack{
+                            Text("Reportes por riesgo")
+                                .font(.title)
+                            Chart(vm.riskChart) { item in
+                                SectorMark(
+                                    angle: .value("Value", item.count),
+                                    innerRadius: .ratio(0),
+                                    angularInset: 0.1
+                                )
+                                .foregroundStyle(by: .value("Category", item.name))
+                                .annotation(position: .overlay) {
+                                    if item.count != 0 {
+                                        VStack {
+                                            Text("\(item.name) \(item.count)")
+                                                .font(.subheadline)
+                                                .foregroundStyle(.white)
+                                        }
+                                    }
+                                }
+                            }
+                            .chartLegend(.hidden)
+                            .frame(height: 500)
+                            .padding()
+                        }
+                        
+                        VStack{
+                            Spacer()
+                            Text("Reportes creados por día en la última semana")
+                                .font(.title)
+                            Spacer()
+                            Text(vm.thisMonth)
+                                .font(.title)
+                            Chart(vm.weeklyChart) { item in
+                                BarMark(
+                                    x: .value("Date", item.date),
+                                    y: .value("Reports", item.num)
+                                )
+                                .foregroundStyle(item.num > 0 ? .blue : .gray.opacity(0.3))
+                            }
+                            .chartYScale(domain: 0...Double(vm.weeklyChart.map { $0.num }.max() ?? 1))
+                            .chartXAxis {
+                                AxisMarks(values: vm.weeklyChart.map { $0.date }) { value in
+                                    AxisGridLine()
+                                    AxisTick()
+                                    AxisValueLabel()
+                                }
+                            }
+                            .frame(height: 400)
+                            .padding()
+                            Spacer()
+                        }.padding()
                     }
+                    .background(.appBg)
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                    .frame(maxHeight: .infinity)
                 }
             }
-            .task {
-                do{
-                    try await vm.fetchCharts()
-                    print("charts: \(vm.pieCharts)")
-                } catch {
-                    print(error)
+        }
+        .task {
+            do{
+                try await vm.fetchCharts()
+            } catch {
+                print(error)
             }
         }.navigationBarBackButtonHidden(true)
     }
 }
 
 
+
 #Preview {
-    Charts()
+    ChartsView()
 }
+
+/**
+ Chart(data) { item in
+     SectorMark(
+         angle: .value("Value", item.count),
+         innerRadius: .ratio(0),
+         angularInset: 0
+     )
+     .foregroundStyle(by: .value("Category", item.name)
+     .annotation(position: .overlay) {
+         if(item.count != 0){
+             VStack{
+                 Text("\(item.count)")
+                     .font(.subheadline)
+                     .foregroundStyle(.white)
+             }
+         }
+     }
+ }
+ .frame(height: 250)
+ .padding()
+ 
+ 
+ **/

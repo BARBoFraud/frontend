@@ -16,7 +16,7 @@ struct LogIn: View {
     @State var loginForm = LoginForm()
     @State var errorMessages: [String] = []
     
-    
+    @FocusState private var isFocused: Bool
     private func login() async {
         do {
             try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
@@ -33,11 +33,9 @@ struct LogIn: View {
     
     var body: some View {
         ZStack {
-                // Background gradient color
                 LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
-                
-                // Background waves
+            
                 LandingWaves()
 
                 VStack{
@@ -60,11 +58,13 @@ struct LogIn: View {
                     VStack{
                         Section{
                             Text("Correo electrónico")
+                                .focused($isFocused)
                                 .foregroundColor(Color("Text"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title3.bold())
                             
                             TextField("Correo", text: $loginForm.email)
+                                .keyboardType(.emailAddress)
                                 .padding(.vertical, 6)
                                 .padding(.leading, 10)
                                 .background(.white)
@@ -82,6 +82,7 @@ struct LogIn: View {
                                 .font(.title3.bold())
                             
                             SecureField("Contraseña", text: $loginForm.pass)
+                                .focused($isFocused)
                                 .padding(.vertical, 6)
                                 .padding(.leading, 10)
                                 .background(.white)
@@ -112,10 +113,8 @@ struct LogIn: View {
                     }
                     .frame(maxWidth: 300, maxHeight: 300)
                     .padding(.vertical, 30)
-                    .background(Color("Tarjeta"))
+                    .background(.tarjeta)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    
-                    
                     
                     Spacer()
                     Spacer()
@@ -137,6 +136,15 @@ struct LogIn: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onTapGesture(){
+            errorMessages.removeAll()
+            isFocused = false
+        }
+        .onAppear {
+            DispatchQueue.main.async {
+                isFocused = true
+            }
+        }
     }
 }
 
@@ -145,5 +153,5 @@ struct LogIn: View {
 
 
 #Preview {
-    RootView()
+    LogIn()
 }

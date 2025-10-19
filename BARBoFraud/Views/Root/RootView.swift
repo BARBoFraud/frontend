@@ -24,8 +24,9 @@ struct RootView: View {
                     case .home: Home()
                     case .search: Search()
                     case .emptyView: EmptyView()
-                    case .newReport: WebReport()
+                    case .newReport: NewReport()
                     case .history: History()
+                    case .charts: ChartsView()
                     case .articleDetail(let article): ArticleDetail(article: article)
                     case .postDetail(let id): PostDetailView(postId: id)
                     case .newComment(let id): NewCommentView(postId: id)
@@ -33,6 +34,6 @@ struct RootView: View {
                     }
                 }
         }
-        .environmentObject(router) // Make router an environment object
+        .environmentObject(router)
     }
 }

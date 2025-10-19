@@ -84,6 +84,7 @@ struct SideMenuView: View {
                             router.push(.history)
                         }
                         SideMenuItem(icon: "gearshape.fill", label: "Configuraciones") {}
+                        SideMenuItem(icon: "chart.pie.fill", label: "Estadísticas") {router.push(.charts)}
                     }
                     .padding(.horizontal)
                     
@@ -107,7 +108,7 @@ struct SideMenuView: View {
                     HStack{
                         Spacer()
                         Text("Desactivar cuenta")
-                            .foregroundColor(.red)
+                            .foregroundColor(.warningRed)
                             .font(.headline.bold())
                             .onTapGesture {
                                 showingDeactivateCard = true

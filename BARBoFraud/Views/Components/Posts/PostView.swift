@@ -83,11 +83,11 @@ struct PostView: View {
             .font(.subheadline)
         }
         .padding()
-        .background(.landingBg1)
+        .background(.postBg)
         .cornerRadius(10)
         .shadow(radius: 2)
         .padding(.horizontal)
-        .contentShape(Rectangle()) // Makes entire card tappable
+        .contentShape(Rectangle())
         .onTapGesture {
             router.push(.postDetail(postId: post.id))
         }

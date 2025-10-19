@@ -20,7 +20,6 @@ struct FeedView: View {
                         .padding()
                     Spacer()
                 }
-                
             }else if let error = vm.errorMessage{
                 VStack{
                     Spacer()

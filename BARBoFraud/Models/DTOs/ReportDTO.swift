@@ -9,10 +9,11 @@ import Foundation
 
 struct ReportRequest: Codable {
     var categoryId: Int
+    var title: String
     var description: String
     var url: String? = nil
     var website: String? = nil
-    var socialMedia: String? = nil
+    var application: String? = nil
     var phoneNumber: String? = nil
     var username: String? = nil
     var email: String? = nil

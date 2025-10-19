@@ -93,7 +93,7 @@ struct PostUtils{
     static func getRiskLabelBackgroundColor(for risk: String) -> Color {
         switch risk {
         case "Alto":
-            return Color(.red)
+            return Color(.warningRed)
         case "Medio":
             return Color(.orange)
         case "Bajo":
