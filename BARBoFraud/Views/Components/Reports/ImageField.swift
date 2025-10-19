@@ -30,7 +30,7 @@ struct ImageField: View {
                     Image(systemName: "chevron.down")
                         .resizable()
                         .frame(width: 20, height: 12)
-                        .rotationEffect(.degrees(isExpanded ? -90 : 0))
+                        .rotationEffect(.degrees(isExpanded ? 0 : -90))
                         .animation(.easeInOut(duration: 0.25), value: isExpanded)
                 }
                 .foregroundColor(.text)
@@ -91,9 +91,8 @@ struct ImageField: View {
         .background(
             RoundedRectangle(cornerRadius: 19)
                 .stroke(Color.accentColor, lineWidth: 1)
-                .frame(width: 300)
+                .fill(.appBg)
         )
-        .frame(width: 300)
     }
 }
 

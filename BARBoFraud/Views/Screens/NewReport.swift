@@ -10,10 +10,10 @@ import SwiftUI
 struct NewReport: View {
     @State private var showNextCom: Bool = false
     @State var webURL: String = ""
-    @State var Report = ReportForm()
     @State var selectedImage: UIImage?
+    @State var imageSelected: Bool = false
     @State private var uploadStatus: String?
-    @State private var selectedCategoryID: Int? = nil
+    @State var Report = ReportForm()
     
     @EnvironmentObject var router: Router
     @StateObject private var vm = ReportsController()
@@ -40,71 +40,85 @@ struct NewReport: View {
                         .foregroundColor(.text)
                         .padding(.bottom, 10)
                     VStack {
-                        ReportSelector(selectedType: $Report.ReportType, selectedCategoryID: $selectedCategoryID)
-                        
-                        if(Report.ReportType == "Página de internet"){
-                            Title(title: $Report.Title)
-                            EnterURL(url: $Report.WebUrl)
-                            PageName(pageName: $Report.WebPageName)
-                            Description(description: $Report.Description)
-                            ImageField(imageKey: $Report.ImageRoute, onImageSelected: { image in
+                        ReportType(selectedCategoryID: $Report.reportCategoryID)
+                        switch (Report.reportCategoryID){
+                        case 5:
+                            ReportTextField(text: $Report.title, label: "Título", placeholder: "Título del reporte")
+                            ReportTextField(text: $Report.email, label: "Correo electrónico", placeholder: "Dirección de correo electrónico", keyboardType: .emailAddress)
+                            ReportTextField(text: $Report.description, label: "Descripción", placeholder: "Descripción de lo sucedido", fieldType: .multiLine)
+                            ImageField(imageKey: $Report.imageRoute, onImageSelected: { image in
                                 selectedImage = image
+                                imageSelected = true
                             })
-                        }
-                        if(Report.ReportType == "Red social"){
-                            Title(title: $Report.Title)
-                            Application(application: $Report.application)
-                            UserName(userName: $Report.userName)
-                            Description(description: $Report.Description)
-                            ImageField(imageKey: $Report.ImageRoute, onImageSelected: { image in
+                        case 4:
+                            ReportTextField(text: $Report.title, label: "Título", placeholder: "Título del reporte")
+                                .onAppear(){
+                                    imageSelected = true
+                                }
+                            ReportTextField(text: $Report.phone, label: "Número telefónico", placeholder: "Número telefónico a reportar", keyboardType: .phonePad)
+                            ReportTextField(text: $Report.description, label: "Descripción", placeholder: "Descripción de lo sucedido", fieldType: .multiLine)
+                        case 3:
+                            ReportTextField(text: $Report.title, label: "Título", placeholder: "Título del reporte")
+                            ReportTextField(text: $Report.phone, label: "Número telefónico", placeholder: "Número telefónico a reportar", keyboardType: .phonePad)
+                            ApplicationField(application: $Report.application,  title: "Medio de contacto", appType: .messageApp)
+                            ReportTextField(text: $Report.description, label: "Descripción", placeholder: "Descripción de lo sucedido", fieldType: .multiLine)
+                            ImageField(imageKey: $Report.imageRoute, onImageSelected: { image in
                                 selectedImage = image
+                                imageSelected = true
                             })
-                        }
-                        if(Report.ReportType == "Mensaje"){
-                            Title(title: $Report.Title)
-                            PhoneNumber(phoneNumber: $Report.Phone)
-                            Application(application: $Report.application)
-                            Description(description: $Report.Description)
-                        }
-                        if(Report.ReportType == "Llamada"){
-                            Title(title: $Report.Title)
-                            PhoneNumber(phoneNumber: $Report.Phone)
-                            Description(description: $Report.Description)
-                        }
-                        if(Report.ReportType == "Correo electrónico"){
-                            Title(title: $Report.Title)
-                            Email(email: $Report.Email)
-                            Description(description: $Report.Description)
-                            ImageField(imageKey: $Report.ImageRoute, onImageSelected: { image in
+                        case 1:
+                            ReportTextField(text: $Report.title, label: "Título", placeholder: "Título del reporte")
+                            ReportTextField(text: $Report.webUrl, label: "URL", placeholder: "Dirección URL del sitio web")
+                            ReportTextField(text: $Report.pageName, label: "Nombre del sitio", placeholder: "Nombre del sitio web")
+                            ReportTextField(text: $Report.description, label: "Descripción", placeholder: "Descripción de lo sucedido", fieldType: .multiLine)
+                            ImageField(imageKey: $Report.imageRoute, onImageSelected: { image in
                                 selectedImage = image
+                                imageSelected = true
                             })
+                        case 2:
+                            ReportTextField(text: $Report.title, label: "Título", placeholder: "Título del reporte")
+                            ApplicationField(application: $Report.application, title: "Red social", appType: .socialMedia)
+                            ReportTextField(text: $Report.username, label: "Nombre de usuario", placeholder: "Nombre de usuario")
+                            ReportTextField(text: $Report.description, label: "Descripción", placeholder: "Descripción de lo sucedido", fieldType: .multiLine)
+                            ImageField(imageKey: $Report.imageRoute, onImageSelected: { image in
+                                selectedImage = image
+                                imageSelected = true
+                            })
+                        default:
+                            EmptyView()
                         }
-                    }
+                    }.padding()
                     Spacer()
                     
-                    Toggle("Anonimo", isOn: $Report.anonymous)
-                        .padding()
+                    HStack{
+                        Button(action: {
+                            withAnimation {
+                                Report.anonymous.toggle()
+                            }
+                        }) {
+                            Image(systemName: Report.anonymous ? "checkmark.square.fill" : "square")
+                                .font(.title2)
+                        }
+                        .buttonStyle(.plain)
+                        Text("Realizar el reporte de manera anónima")
+                    }.padding()
                     
                     Button {
                         Task{
-                            print("Botón")
                             do{
                                 if let image = selectedImage {
                                     await vm.uploadImage(image)
                                 }
-                                guard let categoryId = selectedCategoryID else {
-                                    return
-                                }
                                 await vm.newReport(
-                                    categoryId: categoryId,
-                                    title: Report.Title,
-                                    description: Report.Description,
-                                    url: Report.WebUrl.isEmpty ? nil : Report.WebUrl,
-                                    website: Report.WebPageName.isEmpty ? nil : Report.WebPageName,
+                                    categoryID: Report.reportCategoryID,
+                                    title: Report.title,
+                                    description: Report.description,
+                                    url: Report.webUrl.isEmpty ? nil : Report.webUrl,
+                                    website: Report.pageName.isEmpty ? nil : Report.pageName,
                                     application: Report.application.isEmpty ? nil : Report.application,
-                                    phoneNumber: Report.Phone.isEmpty ? nil : Report.Phone,
-                                    userName: Report.userName.isEmpty ? nil : Report.userName,
-                                    email: Report.Email.isEmpty ? nil : Report.Email,
+                                    phoneNumber: Report.phone.isEmpty ? nil : Report.phone,
+                                    userName: Report.username.isEmpty ? nil : Report.username,
+                                    email: Report.email.isEmpty ? nil : Report.email,
                                     anonymous: Report.anonymous)
                                 router.push(.home)
                             }
@@ -112,17 +126,17 @@ struct NewReport: View {
                     } label: {
                         Label("Enviar reporte", systemImage: "paperplane.fill")
                     }
-                    .disabled(!(Report.isComplete && selectedImage != nil))
-                    .opacity(Report.isComplete && selectedImage != nil ? 1 : 0.4)
+                    .disabled(!(Report.isComplete && imageSelected))
+                    .opacity(Report.isComplete && imageSelected ? 1 : 0.4)
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Report.isComplete && selectedImage != nil ? .blueAccent : .gray)
+                    .background(Report.isComplete && imageSelected ? .blueAccent : .gray)
                     .cornerRadius(20)
                     .padding(.horizontal)
                     .shadow(radius: 1, y: 3)
-                    }
+                }.padding(.top, 55)
                 }
             }
             .padding()
@@ -141,52 +155,52 @@ struct NewReport: View {
 
 extension NewReport {
     struct ReportForm{
-        var ReportType: String = ""
-        var WebUrl: String = ""
-        var Title: String = ""
-        var WebPageName: String = ""
+        var reportCategoryID: Int = 0
+        var webUrl: String = ""
+        var title: String = ""
+        var pageName: String = ""
         var application: String = ""
-        var userName: String = ""
-        var Email: String = ""
-        var Phone: String = ""
-        var Description: String = ""
-        var ImageRoute: String = ""
+        var username: String = ""
+        var email: String = ""
+        var phone: String = ""
+        var description: String = ""
+        var imageRoute: String = ""
         var anonymous: Bool = false
         
         var isComplete: Bool {
-                    switch ReportType {
-                    case "Página de internet":
-                        return !WebUrl.isEmpty &&
-                               !WebPageName.isEmpty &&
-                               !Description.isEmpty &&
-                               !Title.isEmpty
-                        
-                    case "Red social":
-                        return !application.isEmpty &&
-                               !Description.isEmpty &&
-                               !userName.isEmpty &&
-                        !Title.isEmpty
-                        
-                    case "Mensaje":
-                        return !Phone.isEmpty &&
-                               !Description.isEmpty &&
-                        !application.isEmpty &&
-                        !Title.isEmpty
-                        
-                    case "Llamada":
-                        return !Phone.isEmpty &&
-                               !Description.isEmpty &&
-                               !Title.isEmpty
-                        
-                    case "Correo electrónico":
-                        return !Email.isEmpty &&
-                               !Description.isEmpty &&
-                               !Title.isEmpty
-                        
-                    default:
-                        return false
-                    }
-                }
+            switch reportCategoryID {
+            case 1:
+                return !webUrl.isEmpty &&
+                       !pageName.isEmpty &&
+                       !description.isEmpty &&
+                       !title.isEmpty
+                
+            case 2:
+                return !application.isEmpty &&
+                       !description.isEmpty &&
+                       !username.isEmpty &&
+                       !title.isEmpty
+                
+            case 3:
+                return !phone.isEmpty &&
+                       !description.isEmpty &&
+                       !application.isEmpty &&
+                       !title.isEmpty
+                
+            case 4:
+                return !phone.isEmpty &&
+                       !description.isEmpty &&
+                       !title.isEmpty
+                
+            case 5:
+                return !email.isEmpty &&
+                       !description.isEmpty &&
+                       !title.isEmpty
+                
+            default:
+                return false
+            }
+        }
     }
 }
 
