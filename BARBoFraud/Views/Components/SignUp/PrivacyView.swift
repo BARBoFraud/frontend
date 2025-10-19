@@ -23,7 +23,7 @@ struct PrivacyView: View {
                 Image(systemName: accepted ? "checkmark.square.fill" : "square")
                     .font(.title2)
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.plain)
             
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 4) {

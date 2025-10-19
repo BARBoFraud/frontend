@@ -53,11 +53,9 @@ struct SignUp: View {
 
     var body: some View {
         ZStack {
-            // Background gradient color
             LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             
-            // Background waves
             ReverseLandingWaves()
             LandingWaves()
             

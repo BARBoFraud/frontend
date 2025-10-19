@@ -9,11 +9,11 @@ import UIKit
 
 
 extension NetworkManager {
-    func publishReport(categoryId: Int, title: String, description: String, url: String?, website: String?, application: String?, phoneNumber: String?, userName: String?, email: String?, anonymous: Bool, imageId: String) async throws -> EmptyResponse {
+    func publishReport(categoryID: Int, title: String, description: String, url: String?, website: String?, application: String?, phoneNumber: String?, userName: String?, email: String?, anonymous: Bool, imageId: String) async throws -> EmptyResponse {
         guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
                     throw NetworkError.noToken
                 }
-        let body = ReportRequest(categoryId: categoryId, title: title, description: description, url: url, website: website, application: application, phoneNumber: phoneNumber, username: userName, email: email, anonymous: false, imageId: imageId)
+        let body = ReportRequest(categoryId: categoryID, title: title, description: description, url: url, website: website, application: application, phoneNumber: phoneNumber, username: userName, email: email, anonymous: false, imageId: imageId)
         
         return try await request("/reports/create", method:"POST", token:token, body: body)
     }
