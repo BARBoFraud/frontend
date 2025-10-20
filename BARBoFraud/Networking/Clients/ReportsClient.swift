@@ -13,7 +13,7 @@ extension NetworkManager {
         guard let token = TokenStorage.get(identifier: "accessToken"), !token.isEmpty else {
                     throw NetworkError.noToken
                 }
-        let body = ReportRequest(categoryId: categoryID, title: title, description: description, url: url, website: website, application: application, phoneNumber: phoneNumber, username: userName, email: email, anonymous: false, imageId: imageId)
+        let body = ReportRequest(categoryId: categoryID, title: title, description: description, url: url, website: website, application: application, phoneNumber: phoneNumber, username: userName, email: email, anonymous: anonymous, imageId: imageId)
         
         return try await request("/reports/create", method:"POST", token:token, body: body)
     }

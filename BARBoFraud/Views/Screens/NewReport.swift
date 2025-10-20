@@ -94,6 +94,7 @@ struct NewReport: View {
                         Button(action: {
                             withAnimation {
                                 Report.anonymous.toggle()
+                                print(Report.anonymous)
                             }
                         }) {
                             Image(systemName: Report.anonymous ? "checkmark.square.fill" : "square")
