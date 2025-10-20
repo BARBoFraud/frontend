@@ -19,7 +19,7 @@ struct LogIn: View {
     @FocusState private var isFocused: Bool
     private func login() async {
         do {
-            try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
+            let _ = try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
             isLoggedIn = true
             router.reset(to: .home)
             
@@ -63,6 +63,7 @@ struct LogIn: View {
                                 .font(.title3.bold())
                             
                             TextField("Correo", text: $loginForm.email)
+                                .textInputAutocapitalization(.never)
                                 .keyboardType(.emailAddress)
                                 .padding(.vertical, 6)
                                 .padding(.leading, 10)
