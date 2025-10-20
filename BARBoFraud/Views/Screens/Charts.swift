@@ -12,8 +12,27 @@ struct ChartsView: View {
     @EnvironmentObject var router: Router
     @StateObject var vm = ChartsViewModel()
     
-    private var titulosGraficas = ["Número de reportes por categoría", "Reportes por riesgo"]
-    private var colorMap: [String: Color]  = ["Correo electrónico": .blue, "Llamada": .cyan, "Mensaje": .black, "Página de internet": .green, "Red social": .brown]
+    let categoryColors: [String: Color] = [
+        "Red social": .red,
+        "Correo electrónico": .orange,
+        "Llamada": .blue,
+        "Mensaje": .green,
+        "Página de internet": .pink
+    ]
+    
+    let categoryName: [String: String] = [
+        "Red social": "Red social",
+        "Correo electrónico": "Email",
+        "Llamada": "Llamada",
+        "Mensaje": "Mensaje",
+        "Página de internet": "Web"
+    ]
+    
+    let riskColors: [String: Color] = [
+        "Alto": .warningRed,
+        "Medio": Color(red: 255/255, green: 87/255, blue: 34/255),
+        "Bajo": Color(red: 255/255, green: 193/255, blue: 7/255)
+    ]
     
     var body: some View {
         VStack(){
@@ -41,16 +60,17 @@ struct ChartsView: View {
                                 Chart(vm.categoriesChart) { item in
                                     SectorMark(
                                         angle: .value("Value", item.count),
-                                        innerRadius: .ratio(0.0),
-                                        angularInset: 0.1
+                                        innerRadius: .ratio(0.2),
+                                        angularInset: 0
                                     )
-                                    .foregroundStyle(by: .value("Category", item.name))
+                                    .foregroundStyle(categoryColors[item.name, default: .gray])
                                     .annotation(position: .overlay) {
                                         if item.count != 0 {
                                             VStack {
-                                                Text("\(item.name) \(item.count)")
+                                                Text("\(categoryName[item.name, default: "Other"]): \(item.count)")
                                                     .font(.subheadline)
-                                                    .foregroundStyle(.white)
+                                                    .fontWeight(.bold)
+                                                    .shadow(color: .black.opacity(0.4), radius: 1, x: 0, y: 1)
                                             }
                                         }
                                     }
@@ -66,16 +86,17 @@ struct ChartsView: View {
                             Chart(vm.riskChart) { item in
                                 SectorMark(
                                     angle: .value("Value", item.count),
-                                    innerRadius: .ratio(0),
-                                    angularInset: 0.1
+                                    innerRadius: .ratio(0.3),
+                                    angularInset: 0
                                 )
-                                .foregroundStyle(by: .value("Category", item.name))
+                                .foregroundStyle(riskColors[item.name, default: .gray])
                                 .annotation(position: .overlay) {
                                     if item.count != 0 {
                                         VStack {
-                                            Text("\(item.name) \(item.count)")
+                                            Text("\(item.name): \(item.count)")
                                                 .font(.subheadline)
-                                                .foregroundStyle(.white)
+                                                .fontWeight(.bold)
+                                                .shadow(color: .black.opacity(0.4), radius: 1, x: 0, y: 1)
                                         }
                                     }
                                 }
@@ -97,7 +118,7 @@ struct ChartsView: View {
                                     x: .value("Date", item.date),
                                     y: .value("Reports", item.num)
                                 )
-                                .foregroundStyle(item.num > 0 ? .blue : .gray.opacity(0.3))
+                                .foregroundStyle(item.num > 0 ? .blueAccent : .gray.opacity(0.3))
                             }
                             .chartYScale(domain: 0...Double(vm.weeklyChart.map { $0.num }.max() ?? 1))
                             .chartXAxis {
@@ -112,19 +133,26 @@ struct ChartsView: View {
                             Spacer()
                         }.padding()
                     }
-                    .background(.appBg)
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                    .overlay(alignment: .bottom) {
+                                RoundedRectangle(cornerRadius: 10)
+                            .fill(.blueAccent.opacity(0.4))
+                                    .frame(width: 60, height: 20)
+                                    .padding(.bottom, 15)
+                            }
                     .frame(maxHeight: .infinity)
                 }
             }
-        }
-        .task {
-            do{
-                try await vm.fetchCharts()
-            } catch {
-                print(error)
+            .task {
+                do{
+                    try await vm.fetchCharts()
+                } catch {
+                    print(error)
+                }
             }
-        }.navigationBarBackButtonHidden(true)
+        }
+        .background(.appBg)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -133,27 +161,3 @@ struct ChartsView: View {
 #Preview {
     ChartsView()
 }
-
-/**
- Chart(data) { item in
-     SectorMark(
-         angle: .value("Value", item.count),
-         innerRadius: .ratio(0),
-         angularInset: 0
-     )
-     .foregroundStyle(by: .value("Category", item.name)
-     .annotation(position: .overlay) {
-         if(item.count != 0){
-             VStack{
-                 Text("\(item.count)")
-                     .font(.subheadline)
-                     .foregroundStyle(.white)
-             }
-         }
-     }
- }
- .frame(height: 250)
- .padding()
- 
- 
- **/
