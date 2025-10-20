@@ -36,7 +36,7 @@ struct ChartsView: View {
     
     var body: some View {
         VStack(){
-            ViewHeader(title: "Charts")
+            ViewHeader(title: "Estadísticas")
             Group{
                 if vm.isLoading {
                     VStack{
