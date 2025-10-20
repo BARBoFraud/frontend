@@ -15,3 +15,7 @@ struct Profile: Decodable {
         case id, email, name, lastName1, lastName2
     }
 }
+
+struct UpdateProfile: Encodable {
+    let name, lastName1, lastName2, email: String
+}
