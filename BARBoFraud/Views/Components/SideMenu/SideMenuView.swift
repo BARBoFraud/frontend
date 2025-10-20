@@ -16,6 +16,11 @@ struct SideMenuView: View {
     @State private var lastName1: String = ""
     @State private var email: String = ""
     
+    @StateObject private var vm = ProfileViewModel()
+    
+    @State private var isEditing = false
+    @State private var showEmptyFieldsAlert = false
+    
     @State private var showingLogoutCard = false
     @Environment(\.authController) var authController
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = true
@@ -29,16 +34,14 @@ struct SideMenuView: View {
     @EnvironmentObject var router: Router
     
     private func loadProfile() async {
-        do {
-            let response = try await ProfileController().getProfile()
-            
-            name = response.name
-            lastName2 = response.lastName2
-            lastName1 = response.lastName1
-            email = response.email
-        } catch {
-            print("Error al cargar el perfil: \(error)")
+        guard let response = await vm.getProfile() else {
+            print("Error al cargar el perfil:")
+            return
         }
+        name = response.name
+        lastName2 = response.lastName2
+        lastName1 = response.lastName1
+        email = response.email
     }
     
     private func callPolice() async {
@@ -58,21 +61,89 @@ struct SideMenuView: View {
                     Spacer().frame(height: 30)
                     VStack(alignment: .leading, spacing: 2) {
                         HStack {
-                            Text(name)
-                                .font(.title2)
-                                .foregroundColor(.text)
-                            Text("\(lastName1) \(lastName2)")
-                                .font(.title2)
-                                .foregroundColor(.text.opacity(0.7))
+                            if isEditing {
+                                VStack {
+                                    TextField("Nombre", text: $name)
+                                        .font(.title2)
+                                        .foregroundColor(.text)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .textInputAutocapitalization(.never)
+                                    TextField("Apellido 1", text: $lastName1)
+                                        .font(.title2)
+                                        .foregroundColor(.text)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .textInputAutocapitalization(.never)
+//                                    TextField("Apellido 2", text: $lastName2)
+//                                        .font(.title2)
+//                                        .foregroundColor(.text)
+//                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                        .textInputAutocapitalization(.never)
+                                }
+                            } else {
+                                Text(name)
+                                    .font(.title2)
+                                    .foregroundColor(.text)
+                                Text(lastName1)
+                                    .font(.title2)
+                                    .foregroundColor(.text.opacity(0.7))
+//                                Text(lastName2)
+//                                    .font(.title2)
+//                                    .foregroundColor(.text.opacity(0.7))
+                            }
+                            Spacer()
+                            // Edit icon
+                            Image(systemName: isEditing ? "checkmark.circle.fill" : "square.and.pencil.circle.fill")
+                                .resizable()
+                                .frame(width: 35, height: 35)
+                                .foregroundStyle(isEditing ? .green : .blueAccent)
+                                .onTapGesture {
+                                    withAnimation(.smooth.speed(5)) {
+                                        if isEditing {
+                                            // Check if there are empty fields
+                                            let emptyFields = name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+                                            lastName1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+                                            lastName2.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                                            
+                                            if emptyFields {
+                                                showEmptyFieldsAlert = true
+                                                return
+                                            } // if emptyFields
+                                            
+                                            Task {
+                                                let updatedProfile = UpdateProfile(
+                                                    name: name,
+                                                    lastName1: lastName1,
+                                                    lastName2: lastName2,
+                                                    email: email
+                                                )
+                                                
+                                                await vm.updateProfile(updatedProfile)
+                                            }
+                                        } // if isEditing
+                                        
+                                        isEditing.toggle()
+                                    }
+                                }
                         }
                         
-                        Text(verbatim: "\(email)")
-                            .foregroundColor(.text.opacity(0.5))
-                            .font(.title3)
-                        
+                        // User email field
+                        if isEditing {
+                            TextField("Correo electrónico", text: $email)
+                                .foregroundColor(.text)
+                                .font(.title3)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .textInputAutocapitalization(.never)
+                        } else {
+                            Text(verbatim: "\(email)")
+                                .foregroundColor(.text.opacity(0.5))
+                                .font(.title3)
+                        }
                     }
                     .padding(.top, 40)
                     .padding(.horizontal)
+                    .alert("Campos vacíos", isPresented: $showEmptyFieldsAlert) {
+                        Button("Ok", role: .cancel) {}
+                    }
                     
                     Rectangle()
                         .fill(.black.opacity(0.7))

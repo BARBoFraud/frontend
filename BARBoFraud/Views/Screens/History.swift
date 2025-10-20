@@ -35,11 +35,15 @@ struct History: View {
                             LazyVStack(spacing: 0) {
                                 ForEach(vm.results) { result in
                                     Divider()
+                                    // ZStack to hold the bg and information
                                     ZStack {
+                                        // Rectangle bg
                                         Rectangle()
                                             .fill(.appBg)
                                             .shadow(color: .black.opacity(0.1), radius: 1, y: 1)
+                                        // HStack to hold card sections
                                         HStack(spacing: 15) {
+                                            // Title and Creation date
                                             VStack(alignment: .leading) {
                                                 Text(result.title)
                                                     .font(.title2)
@@ -49,6 +53,7 @@ struct History: View {
                                             }
                                             .padding([.leading, .trailing], 10)
                                             Spacer()
+                                            // Report status and category
                                             VStack(alignment: .trailing) {
                                                 Text("\(result.status)")
                                                     .font(.caption)
@@ -90,6 +95,6 @@ struct History: View {
 } // History
 
 #Preview {
-//    History()
-    RootView()
+    History()
+//    RootView()
 }
