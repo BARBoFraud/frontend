@@ -105,6 +105,10 @@ struct HistoryDetailView: View {
                                                     break
                                                 }
                                                 
+                                                // Parse the image id
+                                                let reversedTrimmed = imageId!.reversed().prefix {$0 != "/"}
+                                                let trimmedImageId = String(reversedTrimmed.reversed())
+                                                
                                                 let postUpdate = PostUpdate(
                                                     categoryId: categoryId,
                                                     title: title,
@@ -115,7 +119,7 @@ struct HistoryDetailView: View {
                                                     phoneNumber: phoneNumber,
                                                     username: username,
                                                     email: email,
-                                                    imageId: imageId,
+                                                    imageId: trimmedImageId,
                                                     anonymous: anonymous
                                                 )
                                                 
