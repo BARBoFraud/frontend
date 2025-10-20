@@ -68,6 +68,7 @@ struct ChartsView: View {
                                         if item.count != 0 {
                                             VStack {
                                                 Text("\(categoryName[item.name, default: "Other"]): \(item.count)")
+                                                    .foregroundStyle(.white)
                                                     .font(.subheadline)
                                                     .fontWeight(.bold)
                                                     .shadow(color: .black.opacity(0.4), radius: 1, x: 0, y: 1)
@@ -94,6 +95,7 @@ struct ChartsView: View {
                                     if item.count != 0 {
                                         VStack {
                                             Text("\(item.name): \(item.count)")
+                                                .foregroundStyle(.white)
                                                 .font(.subheadline)
                                                 .fontWeight(.bold)
                                                 .shadow(color: .black.opacity(0.4), radius: 1, x: 0, y: 1)
