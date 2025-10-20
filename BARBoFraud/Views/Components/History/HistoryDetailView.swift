@@ -123,8 +123,19 @@ struct HistoryDetailView: View {
                                                     anonymous: anonymous
                                                 )
                                                 
-                                                Task {
-                                                    await historyVm.updatePost(post: postUpdate, id: postId)
+                                                // Call the update endpoint if there are any changes
+                                                if (
+                                                    title != postVm.historyPost.title ||
+                                                    description != postVm.historyPost.description ||
+                                                    url != postVm.historyPost.url ||
+                                                    website != postVm.historyPost.website ||
+                                                    application != postVm.historyPost.application ||
+                                                    phoneNumber != postVm.historyPost.phoneNumber ||
+                                                    username != postVm.historyPost.username
+                                                ) {
+                                                    Task {
+                                                        await historyVm.updatePost(post: postUpdate, id: postId)
+                                                    }
                                                 }
                                             }
                                             isEditing.toggle()
