@@ -15,9 +15,9 @@ struct ChartsView: View {
     let categoryColors: [String: Color] = [
         "Red social": .red,
         "Correo electrónico": .orange,
-        "Llamada": .blue,
+        "Llamada": .pink,
         "Mensaje": .green,
-        "Página de internet": .pink
+        "Página de internet": .blue
     ]
     
     let categoryName: [String: String] = [

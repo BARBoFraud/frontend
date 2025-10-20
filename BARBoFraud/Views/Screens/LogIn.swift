@@ -58,7 +58,6 @@ struct LogIn: View {
                     VStack{
                         Section{
                             Text("Correo electrónico")
-                                .focused($isFocused)
                                 .foregroundColor(Color("Text"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title3.bold())
@@ -71,7 +70,7 @@ struct LogIn: View {
                                 .cornerRadius(10)
                                 .padding(.vertical)
                                 .autocorrectionDisabled(true)
-                                .textInputAutocapitalization(.never)
+                                .textInputAutocapitalization(.none)
                                 .keyboardType(.emailAddress)
                                 .foregroundColor(.black)
                             
@@ -82,14 +81,13 @@ struct LogIn: View {
                                 .font(.title3.bold())
                             
                             SecureField("Contraseña", text: $loginForm.pass)
-                                .focused($isFocused)
                                 .padding(.vertical, 6)
                                 .padding(.leading, 10)
                                 .background(.white)
                                 .cornerRadius(10)
                                 .padding(.vertical)
                                 .autocorrectionDisabled(true)
-                                .textInputAutocapitalization(.never)
+                                .textInputAutocapitalization(.none)
                                 .foregroundColor(.black)
                             
                             Spacer().frame(height: 8)

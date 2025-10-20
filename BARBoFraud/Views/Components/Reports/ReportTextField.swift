@@ -20,6 +20,7 @@ struct ReportTextField: View {
     var placeholder: String = ""
     var keyboardType: UIKeyboardType = .default
     var fieldType: FieldType = .singleLine
+    var autoCap: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -47,6 +48,7 @@ struct ReportTextField: View {
             if isExpanded {
                 if fieldType == .singleLine {
                     TextField(placeholder, text: $text)
+                        .autocapitalization(autoCap ? .sentences : .none)
                         .keyboardType(keyboardType)
                         .font(.system(size: 20, weight: .medium))
                         .padding(.horizontal, 12)
@@ -57,6 +59,7 @@ struct ReportTextField: View {
                     ZStack(alignment: .topLeading){
                         if text.isEmpty {
                             Text(placeholder)
+                                .autocapitalization(autoCap ? .sentences : .none)
                                 .font(.system(size: 20, weight: .medium))
                                 .foregroundStyle(.gray.opacity(0.5))
                                 .padding(.horizontal, 8)

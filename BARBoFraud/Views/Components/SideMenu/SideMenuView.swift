@@ -73,11 +73,6 @@ struct SideMenuView: View {
                                         .foregroundColor(.text)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .textInputAutocapitalization(.never)
-//                                    TextField("Apellido 2", text: $lastName2)
-//                                        .font(.title2)
-//                                        .foregroundColor(.text)
-//                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-//                                        .textInputAutocapitalization(.never)
                                 }
                             } else {
                                 Text(name)
@@ -86,12 +81,8 @@ struct SideMenuView: View {
                                 Text(lastName1)
                                     .font(.title2)
                                     .foregroundColor(.text.opacity(0.7))
-//                                Text(lastName2)
-//                                    .font(.title2)
-//                                    .foregroundColor(.text.opacity(0.7))
                             }
                             Spacer()
-                            // Edit icon
                             Image(systemName: isEditing ? "checkmark.circle.fill" : "square.and.pencil.circle.fill")
                                 .resizable()
                                 .frame(width: 35, height: 35)
@@ -99,7 +90,6 @@ struct SideMenuView: View {
                                 .onTapGesture {
                                     withAnimation(.smooth.speed(5)) {
                                         if isEditing {
-                                            // Check if there are empty fields
                                             let emptyFields = name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
                                             lastName1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
                                             lastName2.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -107,7 +97,7 @@ struct SideMenuView: View {
                                             if emptyFields {
                                                 showEmptyFieldsAlert = true
                                                 return
-                                            } // if emptyFields
+                                            }
                                             
                                             Task {
                                                 let updatedProfile = UpdateProfile(
@@ -119,14 +109,11 @@ struct SideMenuView: View {
                                                 
                                                 await vm.updateProfile(updatedProfile)
                                             }
-                                        } // if isEditing
-                                        
+                                        }
                                         isEditing.toggle()
                                     }
                                 }
                         }
-                        
-                        // User email field
                         if isEditing {
                             TextField("Correo electrónico", text: $email)
                                 .foregroundColor(.text)
@@ -189,8 +176,9 @@ struct SideMenuView: View {
                     }
                     .padding(.bottom, 40)
                 }
-                .frame(width: 300, height: UIScreen.main.bounds.height, alignment: .leading)
+                .frame(width: 300, alignment: .leading)
                 .background(.appBg)
+                .ignoresSafeArea(.keyboard)
                 .edgesIgnoringSafeArea(.top)
                 
                 if showingLogoutCard {
