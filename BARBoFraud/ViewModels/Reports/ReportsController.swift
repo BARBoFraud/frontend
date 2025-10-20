@@ -25,8 +25,6 @@ final class ReportsController: ObservableObject {
     
     func newReport(categoryID: Int, title: String, description: String, url: String?, website: String?, application: String?, phoneNumber: String?, userName: String?, email: String?, anonymous: Bool) async {
         isLoading = true
-        
-        
         do{
             let _ = try await NetworkManager.shared.publishReport(categoryID: categoryID, title: title, description: description, url: url, website: website, application: application, phoneNumber: phoneNumber, userName: userName, email: email, anonymous: false, imageId: fileKey)
         }catch {
