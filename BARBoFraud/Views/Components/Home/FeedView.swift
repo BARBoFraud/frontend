@@ -48,11 +48,10 @@ struct FeedView: View {
                         do{
                             try await vm.fetch()
                         } catch { print(error)}
-                    }
-                    NewReportButton()
+                    }   
                 }
-                
             }
+            NewReportButton()
         }.task {
             do{
                 try await vm.fetch()
