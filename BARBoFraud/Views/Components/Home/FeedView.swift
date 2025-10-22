@@ -12,28 +12,28 @@ struct FeedView: View {
 
     var body: some View {
         Group{
-            if vm.isLoading {
-                VStack{
-                    Spacer()
-                    ProgressView("Cargando")
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .padding()
-                    Spacer()
-                }
-            }else if let error = vm.errorMessage{
-                VStack{
-                    Spacer()
-                    Text(error).padding()
-                    Spacer()
-                }
-            }else if vm.posts.isEmpty{
-                VStack{
-                    Spacer()
-                    Text("Aún No hay posts")
-                    Spacer()
-                }
-            }else{
-                ZStack{
+            ZStack{
+                if vm.isLoading {
+                    VStack{
+                        Spacer()
+                        ProgressView("Cargando")
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding()
+                        Spacer()
+                    }
+                }else if let error = vm.errorMessage{
+                    VStack{
+                        Spacer()
+                        Text(error).padding()
+                        Spacer()
+                    }
+                }else if vm.posts.isEmpty{
+                    VStack{
+                        Spacer()
+                        Text("Aún No hay posts")
+                        Spacer()
+                    }
+                }else{
                     ScrollView {
                         LazyVStack(spacing: 16) {
                             ForEach(vm.posts) { post in
@@ -48,10 +48,10 @@ struct FeedView: View {
                         do{
                             try await vm.fetch()
                         } catch { print(error)}
-                    }   
+                    }
                 }
+                NewReportButton()
             }
-            NewReportButton()
         }.task {
             do{
                 try await vm.fetch()
