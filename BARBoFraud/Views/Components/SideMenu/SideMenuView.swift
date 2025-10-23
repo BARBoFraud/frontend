@@ -176,7 +176,7 @@ struct SideMenuView: View {
                     }
                     .padding(.bottom, 40)
                 }
-                .frame(width: 300, alignment: .leading)
+                .frame(width: 300, alignment: .leading) 
                 .background(.appBg)
                 .ignoresSafeArea(.keyboard)
                 .edgesIgnoringSafeArea(.top)
