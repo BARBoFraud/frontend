@@ -141,7 +141,7 @@ struct SideMenuView: View {
                         SideMenuItem(icon: "clock.arrow.circlepath", label: "Historial de reportes") {
                             router.push(.history)
                         }
-                        SideMenuItem(icon: "gearshape.fill", label: "Configuraciones") {}
+                        SideMenuItem(icon: "gearshape.fill", label: "Configuraciones") {router.push(.settings)}
                         SideMenuItem(icon: "chart.pie.fill", label: "Estadísticas") {router.push(.charts)}
                     }
                     .padding(.horizontal)

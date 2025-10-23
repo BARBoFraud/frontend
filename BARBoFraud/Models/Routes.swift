@@ -16,6 +16,7 @@ enum Route: Hashable, Equatable {
     case newReport
     case history
     case charts
+    case settings
     case articleDetail(article: ArticleDTO)
     case postDetail(postId: Int)
     case newComment(postId: Int)
