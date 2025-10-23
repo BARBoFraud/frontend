@@ -30,8 +30,8 @@ struct ChartsView: View {
     
     let riskColors: [String: Color] = [
         "Alto": .warningRed,
-        "Medio": Color(red: 255/255, green: 87/255, blue: 34/255),
-        "Bajo": Color(red: 255/255, green: 193/255, blue: 7/255)
+        "Medio": Color(red: 1, green: 87/255, blue: 34/255),
+        "Bajo": Color(red: 1, green: 193/255, blue: 7/255)
     ]
     
     var body: some View {
@@ -42,6 +42,7 @@ struct ChartsView: View {
                     VStack{
                         Spacer()
                         ProgressView("Cargando")
+                            .frame(alignment: .center)
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
                         Spacer()

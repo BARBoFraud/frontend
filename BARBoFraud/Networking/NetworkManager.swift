@@ -23,9 +23,6 @@ final class NetworkManager {
         body: Body? = nil
     ) async throws -> Response {
         // Full URL
-//        guard let url = URL(string: "http://localhost:4000/v1" + endpoint) else {
-//            throw NetworkError.invalidURL
-//        }
         guard let url = URL(string: baseUrl + endpoint) else {
             throw NetworkError.invalidURL
         }

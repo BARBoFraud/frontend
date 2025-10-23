@@ -17,6 +17,7 @@ struct FeedView: View {
                     VStack{
                         Spacer()
                         ProgressView("Cargando")
+                            .frame(alignment: .center)
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
                         Spacer()
@@ -24,13 +25,17 @@ struct FeedView: View {
                 }else if let error = vm.errorMessage{
                     VStack{
                         Spacer()
-                        Text(error).padding()
+                        Text(error)
+                            .padding()
+                            .frame(alignment: .center)
                         Spacer()
                     }
                 }else if vm.posts.isEmpty{
                     VStack{
                         Spacer()
                         Text("Aún No hay posts")
+                            .frame(alignment: .center)
+                            .padding()
                         Spacer()
                     }
                 }else{
