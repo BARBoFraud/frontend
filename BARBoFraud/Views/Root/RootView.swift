@@ -10,7 +10,8 @@ import SwiftUI
 struct RootView: View {
     // Create router for programmatic navigation
     @StateObject var router = Router()
-    
+    @StateObject private var darkModeManager = DarkModeManager()
+
     var body: some View {
         // Check router path to change screens
         NavigationStack(path: $router.path) {
@@ -27,6 +28,7 @@ struct RootView: View {
                     case .newReport: NewReport()
                     case .history: History()
                     case .charts: ChartsView()
+                    case .settings: Settings()
                     case .articleDetail(let article): ArticleDetail(article: article)
                     case .postDetail(let id): PostDetailView(postId: id)
                     case .newComment(let id): NewCommentView(postId: id)
@@ -35,5 +37,7 @@ struct RootView: View {
                 }
         }
         .environmentObject(router)
+        .environmentObject(darkModeManager)
+        .preferredColorScheme(darkModeManager.isDarkMode ? .dark : .light)
     }
 }
