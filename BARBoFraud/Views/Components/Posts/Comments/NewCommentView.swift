@@ -31,6 +31,7 @@ struct NewCommentView: View {
                     VStack{
                         Spacer()
                         ProgressView("Cargando Post")
+                            .frame(alignment: .center)
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
                         Spacer()
@@ -39,7 +40,9 @@ struct NewCommentView: View {
                 }else if let error = pvm.errorMessage{
                     VStack{
                         Spacer()
-                        Text(error).padding()
+                        Text(error)
+                            .padding()
+                            .frame(alignment: .center)
                         Spacer()
                     }
                 }else{

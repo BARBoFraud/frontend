@@ -15,18 +15,23 @@ struct ReportType: View {
     
     var body: some View {
         ZStack {
-            VStack(alignment: .center) {
+            VStack{
                 Text("Tipo de fraude")
                     .font(.title2)
                     .bold()
                     .padding(.bottom, 8)
                 
                 if vm.isLoading {
-                    Spacer()
-                    ProgressView("Cargando categorías...").padding()
-                    Spacer()
+                    VStack{
+                        Spacer()
+                        ProgressView("Cargando categorías...")
+                            .frame(alignment: .center)
+                            .padding()
+                        Spacer()
+                    }
                 } else if let errorMessage = vm.errorMessage {
                     Text("Error: \(errorMessage)")
+                        .frame(alignment: .center)
                         .foregroundColor(.warningRed)
                         .padding()
                 } else {

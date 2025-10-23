@@ -20,14 +20,17 @@ struct History: View {
                         VStack{
                             Spacer()
                             ProgressView("Cargando Post")
+                                .frame(alignment: .center)
                                 .progressViewStyle(CircularProgressViewStyle())
                                 .padding()
                             Spacer()
                         }
                     } else if vm.results.isEmpty {
-                        VStack {
+                        VStack{
                             Spacer()
-                            Text("No results found")
+                            Text("Aún no tienes reportes.\nAgrega uno tocando el botón + desde la pantalla de home")
+                                .frame(alignment: .center)
+                                .padding()
                             Spacer()
                         }
                     } else {

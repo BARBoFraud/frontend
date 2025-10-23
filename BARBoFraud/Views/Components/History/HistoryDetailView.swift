@@ -45,6 +45,7 @@ struct HistoryDetailView: View {
                     VStack{
                         Spacer()
                         ProgressView("Cargando Post")
+                            .frame(alignment: .center)
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
                         Spacer()
@@ -71,7 +72,6 @@ struct HistoryDetailView: View {
                                         .font(.system(size: 20, weight: .semibold))
                                 }
                                 Spacer()
-                                // Edit icon
                                 Image(systemName: isEditing ? "checkmark.circle.fill" : "square.and.pencil.circle.fill")
                                     .resizable()
                                     .frame(width: 35, height: 35)
@@ -79,7 +79,6 @@ struct HistoryDetailView: View {
                                     .onTapGesture {
                                         withAnimation(.smooth.speed(5)) {
                                             if isEditing {
-                                                // Check if there are empty characters
                                                 let emptyFields = title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
                                                 actor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
                                                 description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
