@@ -16,7 +16,7 @@ struct LogIn: View {
     @State var loginForm = LoginForm()
     @State var errorMessages: [String] = []
     
-    @FocusState private var isFocused: Bool
+    @FocusState private var focusedField: Field?
     private func login() async {
         do {
             let _ = try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
@@ -33,10 +33,14 @@ struct LogIn: View {
     
     var body: some View {
         ZStack {
-                LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
-            
-                LandingWaves()
+                ZStack {
+                    LinearGradient(colors: [Color.landingBg2, Color.landingBg1],
+                                   startPoint: .top, endPoint: .bottom)
+                    ReverseLandingWaves()
+                    LandingWaves()
+                }
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
 
                 VStack{
                     HStack {
@@ -63,6 +67,7 @@ struct LogIn: View {
                                 .font(.title3.bold())
                             
                             TextField("Correo", text: $loginForm.email)
+                                .focused($focusedField, equals: .email)
                                 .textInputAutocapitalization(.never)
                                 .keyboardType(.emailAddress)
                                 .padding(.vertical, 6)
@@ -74,6 +79,9 @@ struct LogIn: View {
                                 .textInputAutocapitalization(.none)
                                 .keyboardType(.emailAddress)
                                 .foregroundColor(.black)
+                                .onSubmit {
+                                    focusedField = .password
+                                }
                             
                              
                             Text("Contraseña")
@@ -82,6 +90,7 @@ struct LogIn: View {
                                 .font(.title3.bold())
                             
                             SecureField("Contraseña", text: $loginForm.pass)
+                                .focused($focusedField, equals: .password)
                                 .padding(.vertical, 6)
                                 .padding(.leading, 10)
                                 .background(.white)
@@ -90,15 +99,25 @@ struct LogIn: View {
                                 .autocorrectionDisabled(true)
                                 .textInputAutocapitalization(.none)
                                 .foregroundColor(.black)
+                                .onSubmit {
+                                    Task{
+                                        do{
+                                            try await tryLogin()
+                                        }catch{
+                                            print(error)
+                                        }
+                                    }
+                                }
                             
                             Spacer().frame(height: 8)
                             
                             NavigationButton(
                                 action: {
-                                    errorMessages = loginForm.validate()
-                                    if errorMessages.isEmpty {
-                                        Task {
-                                            await login()
+                                    Task{
+                                        do{
+                                            try await tryLogin()
+                                        }catch{
+                                            print(error)
                                         }
                                     }
                                 },
@@ -114,13 +133,12 @@ struct LogIn: View {
                     .padding(.vertical, 30)
                     .background(.tarjeta)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    
                     Spacer()
                     Spacer()
                     Spacer()
                     Spacer()
                     Spacer()
-                }
+                }.ignoresSafeArea(.keyboard, edges: .bottom)
 
             
             if !errorMessages.isEmpty {
@@ -135,13 +153,18 @@ struct LogIn: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .onTapGesture(){
-            errorMessages.removeAll()
-            isFocused = false
-        }
         .onAppear {
             DispatchQueue.main.async {
-                isFocused = true
+                focusedField = .email
+            }
+        }
+    }
+    
+    func tryLogin() async throws {
+        errorMessages = loginForm.validate()
+        if errorMessages.isEmpty {
+            Task {
+                await login()
             }
         }
     }

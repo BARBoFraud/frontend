@@ -8,27 +8,23 @@
 import SwiftUI
 
 struct Landing: View {
-    // Call router for programmatic navigation
     @EnvironmentObject var router: Router
     
     var body: some View {
         ZStack {
-            // Background gradient color
-            LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
+            LinearGradient(colors: [.landingBg2,.landingBg1], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             
-            // Background waves
             LandingWaves()
             
             VStack {
                 Spacer()
-                // "oFraud" container
                 Text("oFraud")
                     .font(.largeTitle.bold())
                     .foregroundColor(.text)
                     .padding(30)
                     .frame(width: 300)
-                    .background(Color("BgText"))
+                    .background(.landingBg1)
                     .cornerRadius(15)
                 
                 Spacer()
@@ -47,7 +43,7 @@ struct Landing: View {
                         },
                         text: "Registrarse",
                         fgColor: .text,
-                        bgColor: .bgText
+                        bgColor: .landingBg1
                     )
                 }
                 .padding(.horizontal, 30)

@@ -7,19 +7,23 @@
 
 import SwiftUI
 
+enum Field: Hashable{
+    case name
+    case first_surname
+    case second_surname
+    case email
+    case password
+    case verify_password
+}
+
 struct SignUp: View {
-    // Call router for programmatic navigation
     @EnvironmentObject var router: Router
     @Environment(\.authController) var authController
     
     @State private var acceptedPrivacy = false
     @State private var showResultAlert = false
     
-    private let privacyText = """
-        Aviso de privacidad.
-        
-        KKJBEWFEDIFHCDJFHYRJHJVGCDGDVGVYTYFEHFIH9HIU
-        """
+    private let privacyText = ""
     
     @State var registrationForm = UserRegistrationForm()
     @State var errorMessages: [String] = []
@@ -27,7 +31,7 @@ struct SignUp: View {
     @State var showAlert: Bool = false
     @State var alertTitle: String = ""
     
-    @FocusState private var isInputFocused: Bool
+    @FocusState private var focusedField: Field?
     func register() async {
         do {
             try await authController.registerUser(
@@ -53,13 +57,16 @@ struct SignUp: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Color.landingBg2, Color.landingBg1], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
+            ZStack {
+                LinearGradient(colors: [Color.landingBg2, Color.landingBg1],
+                               startPoint: .top, endPoint: .bottom)
+                ReverseLandingWaves()
+                LandingWaves()
+            }
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
             
-            ReverseLandingWaves()
-            LandingWaves()
-            
-                ScrollView(.vertical) {
+            ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         HStack {
                             Spacer()
@@ -72,7 +79,7 @@ struct SignUp: View {
                         Spacer().frame(height: 30)
                         
                         Text("Crea tu cuenta")
-                            .foregroundColor(Color("Text"))
+                            .foregroundColor(.text)
                             .font(.largeTitle)
                             .bold()
                         
@@ -81,33 +88,40 @@ struct SignUp: View {
                         VStack {
                             Group {
                                 Text("Nombre")
-                                    .foregroundColor(Color("Text"))
+                                    .foregroundColor(.text)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.title3)
                                     .bold()
                                 
                                 TextField("Nombre", text: $registrationForm.name)
+                                    .focused($focusedField, equals: .name)
                                     .padding(.vertical, 6)
                                     .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
-                                    .foregroundColor(.black)
-                                
+                                    .foregroundColor(.text)
+                                    .onSubmit {
+                                        focusedField = .first_surname
+                                    }
                                 
                                 Text("Apellido Paterno")
-                                    .foregroundColor(Color("Text"))
+                                    .foregroundColor(.text)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.title3)
                                     .bold()
                                 
                                 TextField("Apellido Paterno", text: $registrationForm.lastName1)
+                                    .focused($focusedField, equals: .first_surname)
                                     .padding(.vertical, 6)
                                     .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
                                     .foregroundColor(.black)
+                                    .onSubmit {
+                                        focusedField = .second_surname
+                                    }
                                 
                                 Text("Apellido Materno")
                                     .foregroundColor(Color("Text"))
@@ -116,22 +130,25 @@ struct SignUp: View {
                                     .bold()
                                 
                                 TextField("Apellido Materno", text: $registrationForm.lastName2)
+                                    .focused($focusedField, equals: .second_surname)
                                     .padding(.vertical, 6)
                                     .padding(.leading, 10)
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
                                     .foregroundColor(.black)
-                            }
-                            
-                            Group {
+                                    .onSubmit {
+                                        focusedField = .email
+                                    }
+
                                 Text("Correo electrónico")
-                                    .foregroundColor(Color("Text"))
+                                    .foregroundColor(.text)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.title3)
                                     .bold()
                                 
                                 TextField("Correo", text: $registrationForm.email)
+                                    .focused($focusedField, equals: .email)
                                     .padding(.vertical, 6)
                                     .padding(.leading, 10)
                                     .background(.white)
@@ -141,14 +158,18 @@ struct SignUp: View {
                                     .keyboardType(.emailAddress)
                                     .padding(.vertical)
                                     .foregroundColor(.black)
+                                    .onSubmit {
+                                        focusedField = .password
+                                    }
                                 
                                 Text("Contraseña")
-                                    .foregroundColor(Color("Text"))
+                                    .foregroundColor(.text)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.title3)
                                     .bold()
                                 
                                 SecureField("Contraseña", text: $registrationForm.password)
+                                    .focused($focusedField, equals: .password)
                                     .padding(.vertical, 6)
                                     .padding(.leading, 10)
                                     .background(.white)
@@ -156,6 +177,10 @@ struct SignUp: View {
                                     .padding(.vertical)
                                     .autocorrectionDisabled(true)
                                     .foregroundColor(.black)
+                                    .textContentType(.none)
+                                    .onSubmit {
+                                        focusedField = .verify_password
+                                    }
                                 
                                 Text("Verificar Contraseña")
                                     .foregroundColor(Color("Text"))
@@ -164,6 +189,7 @@ struct SignUp: View {
                                     .bold()
                                 
                                 SecureField("Verificar Contraseña", text: $registrationForm.passwordConfirmation)
+                                    .focused($focusedField, equals: .verify_password)
                                     .padding(.vertical, 6)
                                     .padding(.leading, 10)
                                     .background(.white)
@@ -171,12 +197,14 @@ struct SignUp: View {
                                     .padding(.vertical)
                                     .autocorrectionDisabled(true)
                                     .foregroundColor(.black)
+                                    .textContentType(.none)
                             }
                             
                             Spacer().frame(height: 10)
                             
                             Group {
-                                PrivacyView(accepted: $acceptedPrivacy, privacyText: privacyText)
+                                PrivacyView(accepted: $acceptedPrivacy)
+                                    .padding(.bottom, 20)
                                 
                                 NavigationButton(
                                     action: {
@@ -187,13 +215,12 @@ struct SignUp: View {
                                             } else {
                                                 Task {
                                                     await register()
-                                                    print("signed up")
                                                 }
                                             }
                                         }
                                     },
                                     text: "Crear cuenta",
-                                    fgColor: .white,
+                                    fgColor: .text,
                                     bgColor: .blueAccent
                                 )
                                 Spacer().frame(height: 15)
@@ -203,7 +230,7 @@ struct SignUp: View {
                                         router.reset(to: .login)
                                     },
                                     text: "¿Ya tienes cuenta?",
-                                    fgColor: .blueAccent,
+                                    fgColor: .text,
                                     bgColor: .tarjeta
                                 )
                             }
@@ -213,11 +240,12 @@ struct SignUp: View {
                         .padding(.vertical, 30)
                         .background(Color("Tarjeta"))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
-                        
                         Spacer().frame(height: 40)
                     }
-                    .frame(maxWidth: .infinity)
                     .padding(.bottom, 30)
+            }.ignoresSafeArea(.keyboard, edges: .bottom)
+                .onAppear(){
+                    focusedField = .name
                 }
             
             if !errorMessages.isEmpty {
@@ -235,14 +263,6 @@ struct SignUp: View {
             Alert(title: Text("Aviso"), message: Text("Debes aceptar el aviso de privacidad"), dismissButton: .default(Text("OK")))
         }
         .navigationBarBackButtonHidden(true)
-        .onTapGesture {
-            isInputFocused = false
-        }
-        .onAppear {
-            DispatchQueue.main.async {
-                isInputFocused = true
-            }
-        }
     }
 }
 

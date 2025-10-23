@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PrivacyView: View {
     @Binding var accepted: Bool
-    let privacyText: String
+    @State var privacyNotice: String = ""
     
     @State private var showingPrivacySheet = false
     
@@ -48,10 +48,14 @@ struct PrivacyView: View {
             
             Spacer()
         }
+        .onAppear(){
+            getPrivacyNotice()
+        }
         .sheet(isPresented: $showingPrivacySheet) {
             NavigationView {
                 ScrollView {
-                    Text(privacyText)
+                    Text(privacyNotice)
+                        .font(.subheadline)
                         .padding()
                         .multilineTextAlignment(.leading)
                 }
@@ -68,6 +72,12 @@ struct PrivacyView: View {
         }
         .padding(.vertical, 4)
     }
+    
+    func getPrivacyNotice(){
+        if let path = Bundle.main.path(forResource: "Aviso", ofType: "txt") {
+            privacyNotice = (try? String(contentsOfFile: path, encoding: .utf8)) ?? "No se pudo cargar el aviso de privacidad."
+        }
+    }
 }
 
 
@@ -75,6 +85,6 @@ struct PrivacyView: View {
 
 
 #Preview {
-    PrivacyView(accepted: .constant(false), privacyText: "Privacy Text")
+    PrivacyView(accepted: .constant(false))
         .padding()
 }
