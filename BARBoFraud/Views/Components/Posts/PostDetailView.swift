@@ -22,6 +22,7 @@ struct PostDetailView: View {
                     VStack{
                         Spacer()
                         ProgressView("Cargando Post")
+                            .frame(maxWidth: .infinity, alignment: .center)
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
                         Spacer()
@@ -30,7 +31,9 @@ struct PostDetailView: View {
                 }else if let error = vm.errorMessage{
                     VStack{
                         Spacer()
-                        Text(error).padding()
+                        Text(error)
+                            .frame(alignment: .center)
+                            .padding()
                         Spacer()
                     }
                 }else{

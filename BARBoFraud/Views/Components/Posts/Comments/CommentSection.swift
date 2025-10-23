@@ -17,7 +17,8 @@ struct CommentSection: View {
             if vm.isLoading {
                 VStack{
                     Spacer()
-                    ProgressView("Cargando")
+                    ProgressView("Cargando comentarios")
+                        .frame(alignment: .center)
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
                     Spacer()
@@ -32,6 +33,8 @@ struct CommentSection: View {
                 VStack{
                     Spacer()
                     Text("Aún no hay comentarios")
+                        .frame(alignment: .center)
+                        .padding()
                     Spacer()
                 }
             }else{
