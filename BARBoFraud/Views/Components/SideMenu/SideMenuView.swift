@@ -49,12 +49,6 @@ struct SideMenuView: View {
         openUrl(url)
     }
     
-    private func logOutBtnTapped() async throws {
-        try await authController.logout()
-        isLoggedIn = false
-        router.clear()
-    }
-    
     var body: some View {
             ZStack {
                 VStack(alignment: .leading, spacing: 20) {
@@ -183,11 +177,19 @@ struct SideMenuView: View {
                 
                 if showingLogoutCard {
                     ConfirmationCard(isPresented: $showingLogoutCard, title: "¿Seguro que deseas cerrar sesión?", confirmAction: {
-                        do {
-                            try await logOutBtnTapped()
-                        } catch {
-                            print("Error al cerrar sesion: \(error)")
+                        let logOutBody = LogOutRequest(
+                            refreshToken: TokenStorage.get(identifier: "refreshToken")!
+                        )
+                        let response = await authController.logout(body: logOutBody)
+                        
+                        if (!response) {
+                            print("Error al cerrar sesión")
+                            return
                         }
+                        
+                        // Go to the landing screen
+                        isLoggedIn = false
+                        router.clear()
                     })
                 }
                 

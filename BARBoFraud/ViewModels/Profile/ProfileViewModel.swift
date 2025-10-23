@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 final class ProfileViewModel: ObservableObject {
-    private let authController = AuthenticationController(httpClient: HTTPClient())
+    private let authController = AuthenticationController()
     
     func getProfile() async -> Profile? {
         do {

@@ -9,7 +9,6 @@ import Foundation
 // Core Network Manager logic
 final class NetworkManager {
     static let shared = NetworkManager()
-    private init() {}
     
     // API base URL
     private let baseUrl = AppConfig.apiBaseUrl
@@ -24,10 +23,13 @@ final class NetworkManager {
         body: Body? = nil
     ) async throws -> Response {
         // Full URL
-        guard let url = URL(string: "http://localhost:4000/v1" + endpoint) else {
+//        guard let url = URL(string: "http://localhost:4000/v1" + endpoint) else {
+//            throw NetworkError.invalidURL
+//        }
+        guard let url = URL(string: baseUrl + endpoint) else {
             throw NetworkError.invalidURL
         }
-        
+
         var request = URLRequest(url: url)
         request.cachePolicy = .reloadIgnoringLocalCacheData
         request.httpMethod = method
@@ -57,11 +59,22 @@ final class NetworkManager {
                 break
             case 401:
                 throw NetworkError.unauthorized
+            case 404:
+                throw NetworkError.notFound
+            case 409:
+                throw NetworkError.invalidToken
             default:
                 throw NetworkError.requestFailed(httpResponse.statusCode)
             }
             
             // Decode the response
+            if data.isEmpty { // Validate if the response returned data
+                if Response.self == EmptyResponse.self {
+                    return EmptyResponse() as! Response
+                } else {
+                    throw NetworkError.noData
+                }
+            }
             do {
                 return try JSONDecoder().decode(Response.self, from: data)
             } catch {

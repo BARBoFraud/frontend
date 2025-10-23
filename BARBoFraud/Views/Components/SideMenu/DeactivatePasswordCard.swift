@@ -19,25 +19,23 @@ struct DeactivatePasswordCard: View {
     @EnvironmentObject var router: Router
     
     private func confirmAction() async {
-        do {
-            try await authController.deactivateUser(password: password)
-            withAnimation {
-                isPresented = false
-            }
-            isLoggedIn = false
-            router.reset(to: .landing)
-        } catch let err as DeactivateUserError {
-        switch err {
-            case .invalidPassword:
-                errorMessage = "La contraseña es incorrecta."
-            default:
-                errorMessage = "Ocurrió un error. Intenta más tarde."
-            }
+        // Request body
+        let deactivateUserBody = DeactivateRequest(
+            password: password
+        )
+        
+        // API call
+        let isUserDeactivated = await authController.deactivateUser(body: deactivateUserBody)
+        
+        // Check if the user was correctly deactivated
+        if (!isUserDeactivated) {
+            errorMessage = "Error al intentar desactivar la cuenta, verifica la contraseña."
+            return
         }
-        catch {
-            errorMessage = "Ocurrió un error. Intenta más tarde."
-            print("Error al desactivar la cuenta: \(error)")
-        }
+        
+        // Go to landing screen
+        isLoggedIn = false
+        router.clear()
     }
 
     var body: some View {

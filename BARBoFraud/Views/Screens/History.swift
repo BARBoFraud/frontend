@@ -25,9 +25,13 @@ struct History: View {
                             Spacer()
                         }
                     } else if vm.results.isEmpty {
-                        VStack {
+                        HStack {
                             Spacer()
-                            Text("No results found")
+                            VStack {
+                                Spacer()
+                                Text("No has realizado ningún reporte.")
+                                Spacer()
+                            }
                             Spacer()
                         }
                     } else {

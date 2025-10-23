@@ -9,5 +9,5 @@ import Foundation
 import SwiftUICore
 
 extension EnvironmentValues {
-    @Entry var authController = AuthenticationController(httpClient: HTTPClient())
+    @Entry var authController = AuthenticationController()
 }

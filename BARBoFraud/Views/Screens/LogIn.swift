@@ -18,16 +18,24 @@ struct LogIn: View {
     
     @FocusState private var isFocused: Bool
     private func login() async {
-        do {
-            let _ = try await authController.loginUser(email: loginForm.email, password: loginForm.pass)
-            isLoggedIn = true
-            router.reset(to: .home)
-            
-        } catch LoginError.invalidCredentials {
-            errorMessages.append("Credenciales inválidas. Inténtalo de nuevo.")
-        } catch {
-            print("Error al intentar registrarse: \(error)")
+        // Create the body of the request
+        let loginBody = LoginRequest(
+            email: loginForm.email,
+            password: loginForm.pass
+        )
+        
+        // Make the call to the API
+        let response = await authController.loginUser(body: loginBody)
+        
+        // Validate the response
+        if (!response) {
+            errorMessages.append("Credenciales inválidas. Inténtalo de nuevo")
+            return
         }
+        
+        // Make the login
+        isLoggedIn = true
+        router.reset(to: .home)
     }
     
     
