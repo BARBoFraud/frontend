@@ -40,21 +40,24 @@ struct SignUp: View {
             email: registrationForm.email,
             password: registrationForm.password
         )
-        do {
-            try await authController.registerUser(body: registrationFormDto)
-            
+        
+        let result = await authController.registerUser(body: registrationFormDto)
+        switch result {
+        case .success():
             showAlert = true
             alertTitle = "Se ha creado su cuenta exitosamente"
             router.reset(to: .login)
-            
-        } catch NetworkError.invalidToken {
-            errorMessages.append("El correo ya está registrado")
-        } catch {
-            errorMessages.append("No se ha podido realizar su cuenta")
-            print("Error al intentar registrarse: \(error)")
+        case .failure(let error):
+            switch error {
+            case .network(let netErr):
+                errorMessages.append("Error de red: \(netErr.errorDescription ?? "Unknown network errors")")
+            case .register(let regErr):
+                errorMessages.append("Error de registro: \(regErr.errorDescription ?? "Unknown register error")")
+            case .unknown(let err):
+                errorMessages.append("Error desconocido: \(err.localizedDescription)")
+            }
         }
     }
-
 
     var body: some View {
         ZStack {
@@ -101,7 +104,7 @@ struct SignUp: View {
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
-                                    .foregroundColor(.text)
+                                    .foregroundColor(.black)
                                     .onSubmit {
                                         focusedField = .first_surname
                                     }

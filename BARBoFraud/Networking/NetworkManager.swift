@@ -59,7 +59,7 @@ final class NetworkManager {
             case 404:
                 throw NetworkError.notFound
             case 409:
-                throw NetworkError.invalidToken
+                throw RegisterError.UserAlreadyRegistered
             default:
                 throw NetworkError.requestFailed(httpResponse.statusCode)
             }

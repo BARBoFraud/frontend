@@ -9,8 +9,17 @@ import Foundation
 
 struct AuthenticationController{
     // Function to register a new user
-    func registerUser(body: RegistrationFormRequest) async throws {
-        try await NetworkManager.shared.UserRegistration(body: body)
+    func registerUser(body: RegistrationFormRequest) async -> Result<Void, AuthenticationError> {
+        do {
+            try await NetworkManager.shared.UserRegistration(body: body)
+            return .success(())
+        } catch let error as NetworkError {
+            return .failure(AuthenticationError.network(error))
+        } catch let error as RegisterError {
+            return .failure(AuthenticationError.register(error))
+        } catch {
+            return .failure(AuthenticationError.unknown(error))
+        }
     }
     
     // Function to call the login of a user

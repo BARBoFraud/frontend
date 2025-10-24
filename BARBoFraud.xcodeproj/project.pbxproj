@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		7185730A2EA9CA1000E1CDEF /* PBXContainerItemProxy */ = {
+		7185734B2EAB067B00E1CDEF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 71F6E8B22E73960F000B9B50 /* Project object */;
 			proxyType = 1;
@@ -17,7 +17,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		718573062EA9CA1000E1CDEF /* BARBoFraudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BARBoFraudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		718573472EAB067B00E1CDEF /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		71F6E8BA2E73960F000B9B50 /* BARBoFraud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BARBoFraud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -32,9 +32,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		718573072EA9CA1000E1CDEF /* BARBoFraudTests */ = {
+		718573482EAB067B00E1CDEF /* Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = BARBoFraudTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		71F6E8BC2E73960F000B9B50 /* BARBoFraud */ = {
@@ -48,7 +48,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		718573032EA9CA1000E1CDEF /* Frameworks */ = {
+		718573442EAB067B00E1CDEF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -69,7 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				71F6E8BC2E73960F000B9B50 /* BARBoFraud */,
-				718573072EA9CA1000E1CDEF /* BARBoFraudTests */,
+				718573482EAB067B00E1CDEF /* Tests */,
 				71F6E8BB2E73960F000B9B50 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				71F6E8BA2E73960F000B9B50 /* BARBoFraud.app */,
-				718573062EA9CA1000E1CDEF /* BARBoFraudTests.xctest */,
+				718573472EAB067B00E1CDEF /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,27 +86,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		718573052EA9CA1000E1CDEF /* BARBoFraudTests */ = {
+		718573462EAB067B00E1CDEF /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7185730C2EA9CA1000E1CDEF /* Build configuration list for PBXNativeTarget "BARBoFraudTests" */;
+			buildConfigurationList = 7185734D2EAB067B00E1CDEF /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
-				718573022EA9CA1000E1CDEF /* Sources */,
-				718573032EA9CA1000E1CDEF /* Frameworks */,
-				718573042EA9CA1000E1CDEF /* Resources */,
+				718573432EAB067B00E1CDEF /* Sources */,
+				718573442EAB067B00E1CDEF /* Frameworks */,
+				718573452EAB067B00E1CDEF /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7185730B2EA9CA1000E1CDEF /* PBXTargetDependency */,
+				7185734C2EAB067B00E1CDEF /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				718573072EA9CA1000E1CDEF /* BARBoFraudTests */,
+				718573482EAB067B00E1CDEF /* Tests */,
 			);
-			name = BARBoFraudTests;
+			name = Tests;
 			packageProductDependencies = (
 			);
-			productName = BARBoFraudTests;
-			productReference = 718573062EA9CA1000E1CDEF /* BARBoFraudTests.xctest */;
+			productName = Tests;
+			productReference = 718573472EAB067B00E1CDEF /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		71F6E8B92E73960F000B9B50 /* BARBoFraud */ = {
@@ -141,7 +141,7 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
-					718573052EA9CA1000E1CDEF = {
+					718573462EAB067B00E1CDEF = {
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 71F6E8B92E73960F000B9B50;
 					};
@@ -165,13 +165,13 @@
 			projectRoot = "";
 			targets = (
 				71F6E8B92E73960F000B9B50 /* BARBoFraud */,
-				718573052EA9CA1000E1CDEF /* BARBoFraudTests */,
+				718573462EAB067B00E1CDEF /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		718573042EA9CA1000E1CDEF /* Resources */ = {
+		718573452EAB067B00E1CDEF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -188,7 +188,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		718573022EA9CA1000E1CDEF /* Sources */ = {
+		718573432EAB067B00E1CDEF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -205,15 +205,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7185730B2EA9CA1000E1CDEF /* PBXTargetDependency */ = {
+		7185734C2EAB067B00E1CDEF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 71F6E8B92E73960F000B9B50 /* BARBoFraud */;
-			targetProxy = 7185730A2EA9CA1000E1CDEF /* PBXContainerItemProxy */;
+			targetProxy = 7185734B2EAB067B00E1CDEF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		7185730D2EA9CA1000E1CDEF /* Debug */ = {
+		7185734E2EAB067B00E1CDEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -221,7 +221,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.barbo.BARBoFraudTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barbo.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -230,7 +230,7 @@
 			};
 			name = Debug;
 		};
-		7185730E2EA9CA1000E1CDEF /* Release */ = {
+		7185734F2EAB067B00E1CDEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -238,7 +238,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.barbo.BARBoFraudTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barbo.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -427,11 +427,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7185730C2EA9CA1000E1CDEF /* Build configuration list for PBXNativeTarget "BARBoFraudTests" */ = {
+		7185734D2EAB067B00E1CDEF /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7185730D2EA9CA1000E1CDEF /* Debug */,
-				7185730E2EA9CA1000E1CDEF /* Release */,
+				7185734E2EAB067B00E1CDEF /* Debug */,
+				7185734F2EAB067B00E1CDEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
