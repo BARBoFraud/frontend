@@ -13,7 +13,7 @@ final class ProfileViewModel: ObservableObject {
     
     func getProfile() async -> Profile? {
         do {
-            _ = try await authController.ensureAccessToken()
+            _ = await authController.ensureAccessToken()
             let profileResponse = try await NetworkManager.shared.userProfileNet()
             return profileResponse
         } catch {
