@@ -8,49 +8,73 @@
 import Foundation
 
 struct AuthenticationController{
-    let httpClient:HTTPClient
-    func registerUser(name:String, lastName1: String, lastName2: String, email:String, password:String) async throws {
-        try await httpClient.UserRegistration(name: name, lastName1: lastName1, lastName2: lastName2, email: email, password: password)
-    }
-    func loginUser(email:String, password:String) async throws ->  Bool{
-        let loginResponse = try await httpClient.UserLogin(email: email, password: password)
-        TokenStorage.set(identifier: "accessToken", value: loginResponse.accessToken)
-        TokenStorage.set(identifier: "refreshToken", value: loginResponse.refreshToken)
-        return loginResponse.accessToken != nil
+    // Function to register a new user
+    func registerUser(body: RegistrationFormRequest) async throws {
+        try await NetworkManager.shared.UserRegistration(body: body)
     }
     
-    func logout() async throws {
-        try await httpClient.UserLogOut(refreshToken: TokenStorage.get(identifier: "refreshToken")!)
-        print("Logout exitoso")
-        TokenStorage.delete(identifier: "accessToken")
-        TokenStorage.delete(identifier: "refreshToken")
+    // Function to call the login of a user
+    func loginUser(body: LoginRequest) async -> Bool {
+        do {
+            let loginResponse = try await NetworkManager.shared.UserLogin(body: body)
+            TokenStorage.set(identifier: "accessToken", value: loginResponse.accessToken)
+            TokenStorage.set(identifier: "refreshToken", value: loginResponse.refreshToken)
+            return true
+        } catch {
+            print("Error al hacer login: \(error.localizedDescription)")
+            return false
+        }
     }
     
-    func deactivateUser(password: String) async throws {
-        _ = try await ensureAccessToken()
+    // Function to call the logout of a user
+    func logout(body: LogOutRequest) async -> Bool {
+        do {
+            let _ = try await NetworkManager.shared.UserLogOut(body: body)
+            TokenStorage.delete(identifier: "accessToken")
+            TokenStorage.delete(identifier: "refreshToken")
+            return true
+        } catch {
+            print("Error while logging out: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    // Function to deactivate the user account
+    func deactivateUser(body: DeactivateRequest) async -> Bool {
+        do {
+            // API call to ensure the acces token
+            let _ = await ensureAccessToken()
+            // API call to deactivate user
+            let _ = try await NetworkManager.shared.DeactivateUser(body: body)
+            
+            // Delete the tokens from the app storage
+            TokenStorage.delete(identifier: "accessToken")
+            TokenStorage.delete(identifier: "refreshToken")
+            
+            return true
+        } catch {
+            print("Error while deactivating user: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    // Function to refresh the access
+    func refreshAccessToken() async -> String {
+        do {
+            let response = try await NetworkManager.shared.RefreshAccessToken()
+            return response.accessToken
+        } catch {
+            print("Error while refreshing access token: \(error.localizedDescription)")
+            return ""
+        }
+    }
 
-        try await httpClient.DeactivateUser(password: password)
-        print( "Usuario desactivado")
-        TokenStorage.delete(identifier: "accessToken")
-        TokenStorage.delete(identifier: "refreshToken")
-    }
-    
-    func refreshAccessToken() async throws -> String {
-           guard let refreshToken = TokenStorage.get(identifier: "refreshToken"),
-                 !refreshToken.isEmpty else {
-               throw RefreshError.invalidRefreshToken
-           }
-
-           let newAccessToken = try await httpClient.refreshAccessToken(refreshToken: refreshToken)
-           TokenStorage.set(identifier: "accessToken", value: newAccessToken)
-           return newAccessToken
+    // Function to ensure the access token
+    func ensureAccessToken() async -> String {
+       if let access = TokenStorage.get(identifier: "accessToken"), !access.isEmpty {
+           return access
+       } else {
+           return await refreshAccessToken()
        }
-
-       func ensureAccessToken() async throws -> String {
-           if let access = TokenStorage.get(identifier: "accessToken"), !access.isEmpty {
-               return access
-           } else {
-               return try await refreshAccessToken()
-           }
-       }
+   }
 }

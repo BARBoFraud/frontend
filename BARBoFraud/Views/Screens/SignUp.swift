@@ -33,20 +33,21 @@ struct SignUp: View {
     
     @FocusState private var focusedField: Field?
     func register() async {
+        let registrationFormDto = RegistrationFormRequest(
+            name: registrationForm.name,
+            lastName1: registrationForm.lastName1,
+            lastName2: registrationForm.lastName2,
+            email: registrationForm.email,
+            password: registrationForm.password
+        )
         do {
-            try await authController.registerUser(
-                name: registrationForm.name,
-                lastName1: registrationForm.lastName1,
-                lastName2: registrationForm.lastName2,
-                email: registrationForm.email,
-                password: registrationForm.password
-            )
+            try await authController.registerUser(body: registrationFormDto)
             
             showAlert = true
             alertTitle = "Se ha creado su cuenta exitosamente"
             router.reset(to: .login)
             
-        } catch RegistrationError.emailExists {
+        } catch NetworkError.invalidToken {
             errorMessages.append("El correo ya está registrado")
         } catch {
             errorMessages.append("No se ha podido realizar su cuenta")
