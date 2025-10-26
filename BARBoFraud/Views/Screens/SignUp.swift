@@ -92,7 +92,7 @@ struct SignUp: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.title3)
                                     .bold()
-                                
+
                                 TextField("Nombre", text: $registrationForm.name)
                                     .focused($focusedField, equals: .name)
                                     .padding(.vertical, 6)
@@ -100,7 +100,7 @@ struct SignUp: View {
                                     .background(.white)
                                     .cornerRadius(10)
                                     .padding(.vertical)
-                                    .foregroundColor(.text)
+                                    .foregroundColor(.black)
                                     .onSubmit {
                                         focusedField = .first_surname
                                     }
