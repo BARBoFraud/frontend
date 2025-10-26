@@ -96,7 +96,7 @@ struct SignUp: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .font(.title3)
                                     .bold()
-                                
+
                                 TextField("Nombre", text: $registrationForm.name)
                                     .focused($focusedField, equals: .name)
                                     .padding(.vertical, 6)
