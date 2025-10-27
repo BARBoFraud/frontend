@@ -21,6 +21,9 @@ struct ArticleDTO: Identifiable, Equatable, Hashable {
     let link: URL?
 }
 
+let autores = ["Laura Martínez"]
+
+let articleURL = AppConfig.articleURLs
 
 let sampleArticles: [ArticleDTO] = [
     ArticleDTO(
@@ -46,9 +49,9 @@ let sampleArticles: [ArticleDTO] = [
         Brinda esa originalidad de visión e iniciativa con el fin de hacer más llevadero su proceso de aprendizaje de una manera divertido para los alumnos como por ejempló en la producción de videos, presentaciones, animaciones u otro tipo de trabajos artísticos que se puedan crear a través de los dispositivos móviles.
         """,
         imageName: "art1",
-        author: "Laura Martinez",
+        author: autores[0],
         date: "diciembre 21, 2022",
-        link: URL(string: "https://redporlaciberseguridad.org/importancia-de-la-eduacion-tecnologica/a")
+        link: URL(string: articleURL[0])
     ),
     ArticleDTO(
         title: "¿A cuánto se venden los datos personales en internet?",
@@ -101,9 +104,9 @@ let sampleArticles: [ArticleDTO] = [
         Amazon: 23.53% de datos personales recabados.
         """,
         imageName: "art2",
-        author: "Laura Martinez",
+        author: autores[0],
         date: "junio 22, 2023",
-        link: URL(string: "https://redporlaciberseguridad.org/a-cuanto-se-venden-los-datos-personales-en-internet/")
+        link: URL(string: articleURL[1])
     ),
 ArticleDTO(
         title: "¿Cómo lidiar ante una extorsión online?",
@@ -132,9 +135,9 @@ ArticleDTO(
         Este tipo de malware impide que un usuario acceda a su sistema operativo o algún(os) archivo personal, para después solicitar un rescate para acceder de nuevo a ellos.
         """,
         imageName: "art3",
-        author: "Laura Martinez",
+        author: autores[0],
         date: "junio 23, 2023",
-        link: URL(string: "https://redporlaciberseguridad.org/como-lidiar-ante-una-extorsion-online/")
+        link: URL(string: articleURL[2])
     )
 
 ]

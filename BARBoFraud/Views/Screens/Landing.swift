@@ -20,12 +20,12 @@ struct Landing: View {
             VStack {
                 Spacer()
                 Text("oFraud")
-                    .font(.largeTitle.bold())
-                    .foregroundColor(.text)
+                    .font(.system(size: 75, weight: .semibold))
+                    .foregroundColor(.white)
                     .padding(30)
                     .frame(width: 300)
-                    .background(.landingBg1)
-                    .cornerRadius(15)
+                    .background(.blueAccent)
+                    .cornerRadius(20)
                 
                 Spacer()
                 HStack(spacing: 20) {
